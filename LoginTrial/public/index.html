@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Couch411 | Login</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+  </script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js">
+  </script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+  <script src="js/core.js"></script>
+</head>
+<body ng-app="createLogin" ng-controller="mainController">
+<div class="text-center"> 
+	<h2 class="text-danger" > 
+	Couch411 
+	</h3>
+</div>
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-8">
+      <input type="email" class="form-control" id="inputEmail3" placeholder="Email"
+      ng-model="formData.email">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+    <div class="col-sm-8">
+      <input type="password" class="form-control" id="inputPassword3" placeholder="Password" 
+      ng-model="formData.password">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputConfPassword3" class="col-sm-2 control-label">Confirm Password</label>
+    <div class="col-sm-8">
+      <input type="password" class="form-control" id="inputConfPassword3" placeholder="Repeated Password" ng-model="formData.confPassword">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Remember me
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-danger" ng-click="makeLogin()">Create Login</button>
+    </div>
+  </div>
+</form>
+</body>
+</html>
