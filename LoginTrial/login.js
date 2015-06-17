@@ -33,7 +33,12 @@ app.post('/addUser', function(req, res) {
 		console.log(result);
 		});
 
-	var makelog=N1qlQuery.fromString("INSERT INTO loginData (KEY, VALUE) VALUES (UUID(),{\"email\": \"" + req.body.email+ "\", \"password\": \""+req.body.password+"\"})");
+	if (!!req.body.skype) {
+		var makelog=N1qlQuery.fromString("INSERT INTO loginData (KEY, VALUE) VALUES (UUID(),{\"email\": \"" + req.body.email+ "\", \"password\": \""+req.body.password+"\", \"skype\": \"" + req.body.skype + "\"})");
+	}
+	else {
+		var makelog=N1qlQuery.fromString("INSERT INTO loginData (KEY, VALUE) VALUES (UUID(),{\"email\": \"" + req.body.email+ "\", \"password\": \""+req.body.password+"\"})");
+	}
 	console.log(makelog);
 	bucket.query(makelog, function(err, result) {
 		if (err) {

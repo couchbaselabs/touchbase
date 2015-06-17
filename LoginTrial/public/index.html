@@ -18,26 +18,32 @@
 	Couch411 
 	</h2>
 </div>
-<form class="form-horizontal">
+<form class="form-horizontal" name="registerForm">
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
     <div class="col-sm-8">
       <input type="email" class="form-control" id="inputEmail3" 
       placeholder="hello@couchbase.com"
-      ng-model="formData.email">
+      ng-model="formData.email" required>
     </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
     <div class="col-sm-8">
       <input type="password" class="form-control" id="inputPassword3" placeholder="Password" 
-      ng-model="formData.password">
+      ng-model="formData.password" required>
     </div>
   </div>
   <div class="form-group">
     <label for="inputConfPassword3" class="col-sm-2 control-label">Confirm Password</label>
     <div class="col-sm-8">
-      <input type="password" class="form-control" id="inputConfPassword3" placeholder="Repeated Password" ng-model="formData.confPassword">
+      <input type="password" class="form-control" id="inputConfPassword3" placeholder="Repeated Password" ng-model="formData.confPassword" ng-blur="checkRegister()" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputSkype3" class="col-sm-2 control-label">Skype</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="inputSkype3" placeholder="couchbase_123" ng-model="formData.skype">
     </div>
   </div>
   <div class="form-group">
@@ -51,7 +57,14 @@
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-danger" ng-click="makeLogin(formData)">Create Login</button>
+      <button type="submit" class="btn btn-danger" ng-click="makeLogin(formData)" ng-disabled="registerForm.$invalid || checkRegisterBool()">Create Login</button>
+    </div>
+  </div>
+  <div class="panel panel-danger">
+  <!-- Default panel contents -->
+    <div class="panel-heading"><strong>{{errorAlert}}</strong></div>
+    <div class="panel-body">
+      <p>{{errorMessage}}</p>
     </div>
   </div>
   <span>{{formData}}</span>

@@ -18,4 +18,17 @@ createLogin.controller("mainController", function ($scope, $http) {
 				console.log('Error: ' + data);
 			});
 	};
+
+	$scope.checkRegister =function() {
+		if ($scope.formData.password != $scope.formData.confPassword) {
+			$scope.errorMessage="Your entry for the 'Confirm Password' field does not match your entry for 'Password'. Please try again.";
+			$scope.errorAlert="ERROR"; 
+		}
+	};
+
+	$scope.checkRegisterBool =function() {
+		if ($scope.formData.password != $scope.formData.confPassword) {
+			return true;
+		}
+	};
 });
