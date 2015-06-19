@@ -49,6 +49,25 @@ app.post('/addUser', function(req, res) {
 		});
 });
 
+app.get('/checkLogin', function(req, res) {
+	var checkEmailAddress=N1qlQuery.fromString("SELECT COUNT(*) AS numEmails FROM loginData WHERE email=\"" + req.query.email + "\" AND `password`=\""+req.query.password + "\"");
+	console.log(checkEmailAddress);
+	bucket.query(checkEmailAddress, function (err, result) {
+		if (err) {
+			console.log(err);
+		}
+		/*else {
+			if (result.numEmails==0) {
+				res.send("The username and password combination you entered does not exist.");
+			}
+			if (result.numEmails>0) {
+				res.send("The")
+			}
+		} */
+		res.json(result);
+	});
+});
+
 app.use(express.static(__dirname + '/public'));
 //Store all HTML files in public folder.
 
