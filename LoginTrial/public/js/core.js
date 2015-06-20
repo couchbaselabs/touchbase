@@ -4,6 +4,7 @@ createLogin.controller("mainController", function ($scope, $http) {
 	$scope.formData={};
 	$scope.loginData={};
 	$scope.yes={};
+	$scope.hobbiesPull={};
 
 	$scope.makeLogin = function(userInfo) {
 		console.log($scope);
@@ -36,22 +37,75 @@ createLogin.controller("mainController", function ($scope, $http) {
 		if ($scope.formData.password != $scope.formData.confPassword) {
 			return true;
 		}
+		/*
+		else {
+			var patt = /couchbase.com/g;
+			var result = patt.test($scope.formData.email);
+			if(result) {
+				$http({method: "GET", url: "/emailAvailable", params: $scope.formData})
+					.success(function(data) {
+						console.log("data from Login request: " + data[0].numEmails);
+						if(data[0].numEmails == 0) {
+							return false;
+							// in the future this would ask for another login and not enable the user to enter the site with a button
+						}
+						else if (data[0].numEmails == 1) {
+							return true;
+							// in the future this would allow user to click button that allows them into the site
+						}
+					})
+					.error (function(data) {
+						console.log("no good for Register Request");
+					});
+			}
+			else {
+				return true;
+			}
+		}
+		*/
 	};
 
 	$scope.checkLogin = function() {
-		$http({method: "GET", url: "/checkLogin", params: {"email": "hello@couchbase.com", "password": "hi"}})
+		$http({method: "GET", url: "/checkLogin", params: $scope.loginData})
 			.success(function(data) {
 				console.log("data from Login request: " + data[0].numEmails);
 				if(data[0].numEmails == 0) {
 					$scope.yes="This username and password combination does not exist, please try again or register yourself a new account!";
+					// in the future this would ask for another login and not enable the user to enter the site with a button
 				}
 				else if (data[0].numEmails == 1) {
 					$scope.yes="SUCCESS WE'RE IN";
+					// in the future this would allow user to click button that allows them into the site
 				}
 			})
 			.error (function(data) {
 				console.log("no good for Login Request");
 			});
+	};
+
+	$scope.emailAvailable = function() {
+		var patt = /couchbase.com/g;
+		var result = patt.test($scope.formData.email);
+		if(result) {
+			$http({method: "GET", url: "/emailAvailable", params: $scope.formData})
+				.success(function(data) {
+					console.log("data from Login request: " + data[0].numEmails);
+					if(data[0].numEmails == 0) {
+						$scope.yesRegister="This email is available!";
+						// in the future this would ask for another login and not enable the user to enter the site with a button
+					}
+					else if (data[0].numEmails == 1) {
+						$scope.yesRegister="Sorry, this email is taken. You have either created an account (Go to Login), or this is an invalid couchbase.com email address.";
+						// in the future this would allow user to click button that allows them into the site
+					}
+				})
+				.error (function(data) {
+					console.log("no good for Register Request");
+				});
+		}
+		else {
+			$scope.yesRegister="Only couchbase.com emails are allowed, please use one."
+		}
 	};
 
 	$scope.arrayExpertise = function(randyString) {
@@ -63,7 +117,7 @@ createLogin.controller("mainController", function ($scope, $http) {
 		}
 		console.log(resultArray);
 		$scope.formData.expertiseArray = resultArray;
-	}
+	};
 
 	$scope.arrayHobbies = function(randyString) {
 		var tempArray=randyString.split(",");
@@ -74,7 +128,7 @@ createLogin.controller("mainController", function ($scope, $http) {
 		}
 		console.log(resultArray);
 		$scope.formData.hobbyArray = resultArray;
-	}
+	};
 
 	$scope.convertPicToBin = function() {
 		var f = document.getElementById('file').files[0],
@@ -84,7 +138,19 @@ createLogin.controller("mainController", function ($scope, $http) {
     	//send you binary data via $http or $resource or do anything else with it
   		}		
  		 r.readAsBinaryString(f);
-	}
+	};
+
+	$scope.getHobbies = function() {
+		$http({method: "GET", url: "/getHobbies", params: $scope.searchData})		
+			.success(function(response) {
+				console.log("shits");
+				console.log(response);
+				$scope.hobbiesPull = response[0].loginData.hobbyArray;
+			})
+			.error(function(data) {
+				console.log("error with hobbyPull");
+			});
+	};
 	
 });
 

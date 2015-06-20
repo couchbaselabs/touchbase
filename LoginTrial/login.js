@@ -33,12 +33,14 @@ app.post('/addUser', function(req, res) {
 		console.log(result);
 		});
 
-	if (!!req.body.skype) {
+	/*if (!!req.body.skype) {
 		var makelog=N1qlQuery.fromString("INSERT INTO loginData (KEY, VALUE) VALUES (UUID(),{\"email\": \"" + req.body.email+ "\", \"password\": \""+req.body.password+"\", \"skype\": \"" + req.body.skype + "\"})");
 	}
 	else {
 		var makelog=N1qlQuery.fromString("INSERT INTO loginData (KEY, VALUE) VALUES (UUID(),{\"email\": \"" + req.body.email+ "\", \"password\": \""+req.body.password+"\"})");
 	}
+	*/
+	var makelog=N1qlQuery.fromString("INSERT INTO loginData (KEY, VALUE) VALUES (UUID()," + JSON.stringify(req.body) + ")");
 	console.log(makelog);
 	bucket.query(makelog, function(err, result) {
 		if (err) {
@@ -64,6 +66,36 @@ app.get('/checkLogin', function(req, res) {
 				res.send("The")
 			}
 		} */
+		res.json(result);
+	});
+});
+
+app.get('/emailAvailable', function(req, res) {
+	var checkEmailAddress=N1qlQuery.fromString("SELECT COUNT(*) AS numEmails FROM loginData WHERE email=\"" + req.query.email + "\"");
+	console.log(checkEmailAddress);
+	bucket.query(checkEmailAddress, function (err, result) {
+		if (err) {
+			console.log(err);
+		}
+		/*else {
+			if (result.numEmails==0) {
+				res.send("The username and password combination you entered does not exist.");
+			}
+			if (result.numEmails>0) {
+				res.send("The")
+			}
+		} */
+		res.json(result);
+	});
+});
+
+app.get('/getHobbies', function(req, res) {
+	var hobbyQuery = N1qlQuery.fromString("SELECT * FROM loginData WHERE email=\"" + req.query.email + "\"");
+	console.log(hobbyQuery);
+	bucket.query(hobbyQuery, function (err, result) {
+		if (err) {
+			console.log(err);
+		}
 		res.json(result);
 	});
 });

@@ -20,22 +20,20 @@
 </div>
 <form class="form-horizontal" name="registerForm">
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">Email *</label>
     <div class="col-sm-8">
-      <input type="email" class="form-control" id="inputEmail3" 
-      placeholder="hello@couchbase.com"
-      ng-model="formData.email" required>
+      <input type="email" class="form-control" id="inputEmail3" placeholder="Must be a valid couchbase.com email address (i.e. hello@couchbase.com)" ng-model="formData.email" ng-blur="emailAvailable()" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+    <label for="inputPassword3" class="col-sm-2 control-label">Password *</label>
     <div class="col-sm-8">
       <input type="password" class="form-control" id="inputPassword3" placeholder="Password" 
       ng-model="formData.password" required>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputConfPassword3" class="col-sm-2 control-label">Confirm Password</label>
+    <label for="inputConfPassword3" class="col-sm-2 control-label">Confirm Password *</label>
     <div class="col-sm-8">
       <input type="password" class="form-control" id="inputConfPassword3" placeholder="Repeated Password" ng-model="formData.confPassword" ng-blur="checkRegister()" required>
     </div>
@@ -49,7 +47,7 @@
   <div class="form-group">
     <label for="inputPfPic3" class="col-sm-2 control-label">Profile Picture</label>
     <div class="col-sm-8">
-        <input id="pfpicture" type="file" accept="image/*" ng-model="nonBinPic" ng-blur="convertPicToBin()">
+        <input id="pfpicture" type="file" accept="image/*" ng-model="nonBinPic">
     </div>
   </div>
   <div class="form-group">
@@ -128,7 +126,7 @@
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-danger" ng-click="makeLogin(formData)" ng-disabled="registerForm.$invalid || checkRegisterBool()">Create Login</button>
+      <button type="submit" class="btn btn-danger" ng-click="makeLogin(formData)" ng-disabled="registerForm.$invalid || checkRegisterBool()">Create User Profile</button>
     </div>
   </div>
   </form>
@@ -142,6 +140,7 @@
     </div>
   </div>
   <span>{{formData}}</span>
+  <span>{{yesRegister}}</span>
   <div class="text-center">
     <h3 class="text-default">Login to Couch411</h3>
   </div>
@@ -168,5 +167,25 @@
   </div>
   <span>{{loginData}}</span>
   <span>{{yes}}</span>
+
+
+
+  <div class ="text-center">
+    <h3 class="text-default">Search</h3>
+  </div>
+  <form class="form-horizontal" name="searchBar">
+    <div class="form-group">
+      <label for="inputEmailSearch" class="col-sm-2 control-label">Email Search</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="inputEmailSearch" placeholder="pranav@couchbase.com" ng-model="searchData.email" required>
+      </div>
+    </div>
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-success" ng-click="getHobbies()" ng-disabled="searchBar.$invalid">Search</button>
+    </div>
+  </div>
+  </form>
+  <span>{{hobbiesPull}}</span>
 </body>
 </html>
