@@ -5,9 +5,10 @@ createLogin.controller("mainController", function ($scope, $http) {
 	$scope.loginData={};
 	$scope.yes={};
 	$scope.hobbiesPull={};
+	$scope.image={};
 
 	$scope.makeLogin = function(userInfo) {
-		console.log($scope);
+		console.log(userInfo);
 		$http({method: "POST", url: "/addUser", data: userInfo})
 			.success(function(data) {
 				console.log($scope.formData);
@@ -229,13 +230,19 @@ createLogin.controller("mainController", function ($scope, $http) {
 		        FR.onload = function(e) {
 		             el("img").src = e.target.result;
 		             el("base").innerHTML = e.target.result;
+		             b64String = e.target.result;
+		             console.log ("INSIDE:  " + b64String);
+		             console.log(typeof(b64String));
 		        };       
 		        FR.readAsDataURL( this.files[0] );
 		    }
 		}
-
 		readImage();
 		el("asd").addEventListener("change", readImage, false);
+		console.log(window.b64String);
+		b64 = window.b64String.replace("data:image/png;base64,", "");
+		console.log(b64);
+		return b64;
 	};
 
 	/*$scope.getBase64Image= function () {
@@ -255,6 +262,53 @@ createLogin.controller("mainController", function ($scope, $http) {
 
 	$scope.encryptPass = function() {
 		$scope.formData.securePass = forge.md.sha1.create().update($scope.formData.password).digest().toHex();
+	};
+
+	$scope.b64toBlob = function(b64Data, contentType, sliceSize) {
+		    contentType = contentType || '';
+		    sliceSize = sliceSize || 512;
+
+		    var byteCharacters = atob(b64Data);
+		    var byteArrays = [];
+
+		    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+		        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+		        var byteNumbers = new Array(slice.length);
+		        for (var i = 0; i < slice.length; i++) {
+		            byteNumbers[i] = slice.charCodeAt(i);
+		        }
+
+		        var byteArray = new Uint8Array(byteNumbers);
+
+		        byteArrays.push(byteArray);
+		    }
+
+		    var blob = new Blob(byteArrays, {type: contentType});
+		    return blob;
+	};
+
+	$scope.convertImgToStore = function() {
+		var b64String = $scope.getBase64Image();
+		var contentType = "image/png";
+		var blob = $scope.b64toBlob(b64String, contentType);
+		var temp = blob.toString();
+		$scope.image.blob = temp;
+		var blobUrl = URL.createObjectURL(blob);
+		console.log(blobUrl);
+		$http({method: "POST", url: "/postImage", data: $scope.image})
+			.success(function(response) {
+				console.log("WOOT POSTED, check CouchDB");
+			})
+			.error(function(response) {
+				console.log("shit");
+			});
+	};
+
+	$scope.generateUUID = function () {
+		var temp = uuid.v4();
+		$scope.formData.uuid=temp;
+		$scope.image.uuid=temp;
 	};
 
 

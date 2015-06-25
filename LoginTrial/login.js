@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 var port 		= process.env.PORT || 8080;
 var cluster 	= new couchbase.Cluster('http://localhost:8091');	// could later add this to a config folder OR file
 var bucket		= cluster.openBucket('loginData');
+var imageBucket	= cluster.openBucket('userImages');
 bucket.enableN1ql("http://localhost:8093");
 
 //user operations ============================
@@ -32,7 +33,7 @@ app.post('/addUser', function(req, res) {
 		}
 		console.log(result);
 		});
-	var makelog=N1qlQuery.fromString("INSERT INTO loginData (KEY, VALUE) VALUES (UUID()," + JSON.stringify(req.body) + ")");
+	var makelog=N1qlQuery.fromString("INSERT INTO loginData (KEY, VALUE) VALUES (\"" + req.body.uuid + "\"," + JSON.stringify(req.body) + ")");
 	console.log(makelog);
 	bucket.query(makelog, function(err, result) {
 		if (err) {
@@ -41,6 +42,17 @@ app.post('/addUser', function(req, res) {
 		}
 		res.json(result);
 		});
+});
+
+app.post('/postImage', function (req, res) {
+	console.log("in Node postImage");
+	imageBucket.insert(req.body.uuid, req.body.blob, function (err, res) {
+		if (err) {
+		    console.log('operation failed', err);
+		    return;
+  		}
+  		console.log('success');
+	});
 });
 
 app.get('/checkLogin', function(req, res) {
@@ -113,6 +125,7 @@ app.get('/getHobbies', function(req, res) {
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/node_modules/node-forge'));
+app.use(express.static(__dirname + '/node_modules/node-uuid'));
 //Store all HTML files in public folder.
 
 // start app =================================
