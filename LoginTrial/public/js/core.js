@@ -8,7 +8,11 @@ createLogin.controller("mainController", function ($scope, $http) {
 	$scope.image={};
 
 	$scope.makeLogin = function(userInfo) {
-		console.log(userInfo);
+		var d = new Date();
+	    var n = d.toUTCString();
+	    userInfo.registerTime = n;
+	    userInfo.loginTimes = [n];
+		console.log("inMakeLogin, no Post yet: " + userInfo);
 		$http({method: "POST", url: "/addUser", data: userInfo})
 			.success(function(data) {
 				console.log($scope.formData);
@@ -29,7 +33,7 @@ createLogin.controller("mainController", function ($scope, $http) {
 		    // at least one number, one lowercase and one uppercase letter
 		    // at least six characters
 		    var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-		    return re.test($scope.formData.password);
+		    return re.test($scope.password);
 		} 
 		if (!checkPassword())
 		{
@@ -43,7 +47,7 @@ createLogin.controller("mainController", function ($scope, $http) {
 	};
 
 	$scope.checkRegisterConfPass =function() {
-		if ($scope.formData.password != $scope.formData.confPassword) {
+		if ($scope.password != $scope.confPassword) {
 			$scope.errorMessage="Your entry for the 'Confirm Password' field does not match your entry for 'Password'. Please try again.";
 			$scope.errorAlert="ERROR"; 
 			$("#errorDiv").removeClass('hidden');
@@ -58,7 +62,7 @@ createLogin.controller("mainController", function ($scope, $http) {
 		    // at least one number, one lowercase and one uppercase letter
 		    // at least six characters
 		    var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-		    return re.test($scope.formData.password);
+		    return re.test($scope.password);
 		} 
 		function checkEmailAvail () {
 			var patt = /couchbase.com/g;
@@ -84,7 +88,7 @@ createLogin.controller("mainController", function ($scope, $http) {
 				return true;
 			}
 		}
-		if ($scope.formData.password != $scope.formData.confPassword) {
+		if ($scope.password != $scope.confPassword) {
 			return true;
 		}
 		else if (!checkPassword()) {
@@ -98,14 +102,17 @@ createLogin.controller("mainController", function ($scope, $http) {
 		}
 	};
 
-	$scope.passSecure = function () {
-		$scope.formData.securePassword=forge.md.sha1.create().update($scope.formData.password).digest().toHex();
-	}
+	$scope.encryptPass = function() {
+		$scope.formData.securePassword = forge.md.sha1.create().update($scope.password).digest().toHex();
+	};
 
 	$scope.checkLogin = function() {
+		$scope.loginData.securePassword=forge.md.sha1.create().update($scope.loginPass).digest().toHex();
+		var d = new Date();
+	    var n = d.toUTCString();
+		$scope.loginData.currentTime = n;
 		$http({method: "GET", url: "/checkLogin", params: $scope.loginData})
 			.success(function(data) {
-				$scope.loginData={};
 				console.log("data from Login request: " + data[0].numEmails);
 				if(data[0].numEmails == 0) {
 					$scope.yes="This username and password combination does not exist, please try again or register yourself a new account!";
@@ -113,8 +120,18 @@ createLogin.controller("mainController", function ($scope, $http) {
 				}
 				else if (data[0].numEmails == 1) {
 					$scope.yes="SUCCESS WE'RE IN";
+					$http({method: "POST", url: "/addLoginTime", data: $scope.loginData})
+						.success (function(result) {
+							console.log("time added to loginTime array");
+						})
+						.error (function(result) {
+							console.log("time NOT added to loginTime array");
+						});
 					// in the future this would allow user to click button that allows them into the site
+					// insert timelog here!
 				}
+				$scope.loginData={};
+				$scope.loginPass="";
 			})
 			.error (function(data) {
 				console.log("no good for Login Request");
@@ -240,8 +257,9 @@ createLogin.controller("mainController", function ($scope, $http) {
 		readImage();
 		el("asd").addEventListener("change", readImage, false);
 		console.log(window.b64String);
-		b64 = window.b64String.replace("data:image/png;base64,", "");
-		console.log(b64);
+		var temp = window.b64String;
+		var b64 = temp.replace("data:image/png;base64,","");		// make sure to acct for all file formats!!!!
+		console.log(b64);											// make sure to acct for all possible ways in which image could be input (shouldnt be added without UUID)
 		return b64;
 	};
 
@@ -259,10 +277,6 @@ createLogin.controller("mainController", function ($scope, $http) {
 	    var dataURL = canvas.toDataURL("image/png");    
 	    $scope.formData.picURL = dataURL;
 	}; */
-
-	$scope.encryptPass = function() {
-		$scope.formData.securePass = forge.md.sha1.create().update($scope.formData.password).digest().toHex();
-	};
 
 	$scope.b64toBlob = function(b64Data, contentType, sliceSize) {
 		    contentType = contentType || '';
@@ -310,7 +324,6 @@ createLogin.controller("mainController", function ($scope, $http) {
 		$scope.formData.uuid=temp;
 		$scope.image.uuid=temp;
 	};
-
 
 	/* $scope.checkSearch =function(searchString) {
 		// to split as 1 text field, or make it multiple things you could populate

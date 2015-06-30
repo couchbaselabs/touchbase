@@ -46,7 +46,7 @@ app.post('/addUser', function(req, res) {
 
 app.post('/postImage', function (req, res) {
 	console.log("in Node postImage");
-	imageBucket.insert(req.body.uuid, req.body.blob, function (err, res) {
+	imageBucket.insert((req.body.uuid + "_pic"), req.body.blob, function (err, res) {
 		if (err) {
 		    console.log('operation failed', err);
 		    return;
@@ -56,7 +56,7 @@ app.post('/postImage', function (req, res) {
 });
 
 app.get('/checkLogin', function(req, res) {
-	var checkEmailAddress=N1qlQuery.fromString("SELECT COUNT(*) AS numEmails FROM loginData WHERE email=\"" + req.query.email + "\" AND `password`=\""+req.query.password + "\"");
+	var checkEmailAddress=N1qlQuery.fromString("SELECT COUNT(*) AS numEmails FROM loginData WHERE email=\"" + req.query.email + "\" AND `securePassword`=\""+req.query.securePassword + "\"");
 	console.log(checkEmailAddress);
 	bucket.query(checkEmailAddress, function (err, result) {
 		if (err) {
@@ -70,6 +70,17 @@ app.get('/checkLogin', function(req, res) {
 				res.send("The")
 			}
 		} */
+		res.json(result);
+	});
+});
+
+app.post('/addLoginTime', function(req, res) {
+	var addTime = N1qlQuery.fromString("UPDATE loginData SET loginTimes=ARRAY_PREPEND(\"" + req.body.currentTime + "\", loginTimes) WHERE email=\"" + req.body.email + "\"");
+	console.log(addTime);
+	bucket.query(addTime, function(err, result) {
+		if(err) {
+			console.log(err);
+		}
 		res.json(result);
 	});
 });
