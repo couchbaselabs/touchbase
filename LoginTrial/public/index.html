@@ -85,6 +85,7 @@
       </select>
     </div>
   </div>
+  <!--
   <div class="form-group">
     <label for="inputBaseLocation3" class="col-sm-2 control-label">Current Status</label>
     <div class="col-sm-8">
@@ -97,6 +98,19 @@
         <option>Sick</option>
         <option>Vacation</option>
         <option>Away</option>
+      </select>
+    </div>
+  </div>
+  -->
+  <div class="form-group">
+    <label for="inputDivision3" class="col-sm-2 control-label">Division *</label>
+    <div class="col-sm-8">
+      <select class="form-control" type="text" placeholder="Please Select Your Division" ng-model="formData.division" required>
+        <option>Engineering</option>
+        <option>Marketing</option>
+        <option>Sales</option>
+        <option>Support</option>
+        <option>Other Staff</option>
       </select>
     </div>
   </div>
@@ -189,10 +203,29 @@
     </div>
     <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-success" ng-click="getHobbies()" ng-disabled="searchBar.$invalid">Search</button>
+      <button type="submit" class="btn btn-success" ng-click="getHobbies()" ng-disabled="searchBar.$invalid">Get Hobbies</button>
     </div>
   </div>
   </form>
   <span>{{hobbiesPull}}</span>
+
+  <div class ="text-center">
+    <h3 class="text-default">Advanced Search</h3>
+  </div>
+  <form class="form-horizontal" name="searchBarImage">
+    <div class="form-group">
+      <label for="inputEmailSearchImage" class="col-sm-2 control-label">Email Search</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="inputEmailSearchImage" placeholder="pranav@couchbase.com" ng-model="searchImage.email" required>
+      </div>
+    </div>
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-success" ng-click="getPic()" ng-disabled="searchBarImage.$invalid">Get Image</button>
+    </div>
+  </div>
+  </form>
+  <!--<span><image src = {{dopeness}}/></span>-->
+  <canvas id="userImageOutput"></canvas>
 </body>
 </html>

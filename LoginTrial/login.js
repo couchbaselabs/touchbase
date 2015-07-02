@@ -10,9 +10,9 @@ var methodOverride 	= require('method-override');
 var morgan 			= require('morgan');
 //var forge 			= require("node-forge");
 
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({extended:true, limit: '3mb'}));
+app.use(bodyParser.json({limit: '3mb'}));
+{limit: '3mb'}
 //config =====================================
 var port 		= process.env.PORT || 8080;
 var cluster 	= new couchbase.Cluster('http://localhost:8091');	// could later add this to a config folder OR file
@@ -46,12 +46,24 @@ app.post('/addUser', function(req, res) {
 
 app.post('/postImage', function (req, res) {
 	console.log("in Node postImage");
-	imageBucket.insert((req.body.uuid + "_pic"), req.body.blob, function (err, res) {
+	imageBucket.insert((req.body.uuid + "_pic"), req.body.base64, function (err, res) {
 		if (err) {
 		    console.log('operation failed', err);
 		    return;
   		}
   		console.log('success');
+	});
+});
+
+app.get('/getPic', function(req, res) {
+	console.log("getting Node Image");
+	imageBucket.get((req.query.metaID + "_pic"), function (err, result) {
+		if(err) {
+			console.log('image retrieval failed in Node', err);
+			return;
+		}
+		res.send(result.value);
+		console.log('image retrieved successfully in Node!');
 	});
 });
 
@@ -123,7 +135,7 @@ app.get('/emailAvailaboolean', function(req, res) {
 	});
 });
 
-app.get('/getHobbies', function(req, res) {
+app.get('/getUserInfo', function(req, res) {
 	var hobbyQuery = N1qlQuery.fromString("SELECT * FROM loginData WHERE email=\"" + req.query.email + "\"");
 	console.log(hobbyQuery);
 	bucket.query(hobbyQuery, function (err, result) {
@@ -133,6 +145,7 @@ app.get('/getHobbies', function(req, res) {
 		res.json(result);
 	});
 });
+
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/node_modules/node-forge'));

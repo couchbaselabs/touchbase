@@ -225,15 +225,45 @@ createLogin.controller("mainController", function ($scope, $http) {
 	};
 
 	$scope.getHobbies = function() {
-		$http({method: "GET", url: "/getHobbies", params: $scope.searchData})		
+		$http({method: "GET", url: "/getUserInfo", params: $scope.searchData})		
 			.success(function(response) {
 				$scope.hobbiesPull={};
-				console.log("shits");
 				console.log(response);
 				$scope.hobbiesPull = response[0].loginData.hobbyArray;
 			})
 			.error(function(data) {
 				console.log("error with hobbyPull");
+			});
+	};
+
+	$scope.getPic = function() {
+		$http({method: "GET", url: "/getUserInfo", params: $scope.searchImage})		
+			.success(function(response) {
+				$scope.imageData={};
+				$scope.searchImage = {};
+				console.log("successfully retrieved META id");
+				$scope.searchImage.metaID = response[0].loginData.uuid;
+				console.log($scope.searchImage.metaID);
+				$http({method: "GET", url: "/getPic", params: $scope.searchImage})
+					.success(function(response) {
+						console.log(response);
+						var canvas = document.getElementById("userImageOutput");
+						var ctx = canvas.getContext("2d");
+						ctx.canvas.width  = window.innerWidth;
+		  				ctx.canvas.height = window.innerHeight;
+						var image = new Image();
+						image.onload = function() {
+		   			 		ctx.drawImage(image, 100, 0);
+						};
+						image.src = response;
+					})
+					.error(function(response) {
+						console.log("ERROR: " + response);
+					});
+				console.log("woot");
+			})
+			.error(function(response) {
+				console.log("failure in retrieving META");
 			});
 	};
 
@@ -257,8 +287,8 @@ createLogin.controller("mainController", function ($scope, $http) {
 		readImage();
 		el("asd").addEventListener("change", readImage, false);
 		console.log(window.b64String);
-		var temp = window.b64String;
-		var b64 = temp.replace("data:image/png;base64,","");		// make sure to acct for all file formats!!!!
+		var temp = window.b64String;								// make sure to acct for all file formats!!!!
+		var b64 = temp;
 		console.log(b64);											// make sure to acct for all possible ways in which image could be input (shouldnt be added without UUID)
 		return b64;
 	};
@@ -305,11 +335,12 @@ createLogin.controller("mainController", function ($scope, $http) {
 	$scope.convertImgToStore = function() {
 		var b64String = $scope.getBase64Image();
 		var contentType = "image/png";
-		var blob = $scope.b64toBlob(b64String, contentType);
-		var temp = blob.toString();
-		$scope.image.blob = temp;
-		var blobUrl = URL.createObjectURL(blob);
-		console.log(blobUrl);
+		$scope.image.base64 = b64String
+		//var blob = $scope.b64toBlob(b64String, contentType);
+		//var temp = blob.toString();
+		//$scope.image.blob = temp;
+		//var blobUrl = URL.createObjectURL(blob);
+		//console.log(blobUrl);
 		$http({method: "POST", url: "/postImage", data: $scope.image})
 			.success(function(response) {
 				console.log("WOOT POSTED, check CouchDB");
