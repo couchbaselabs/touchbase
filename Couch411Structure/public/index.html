@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Couch411 | Login</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/forge.min.js"></script>
+  <script src="uuid.js"></script>
+  <!--<script src="ng-flow-standalone.js"></script>
+  <script src="ng-img-crop.js"></script>
+  <link rel="stylesheet" type="text/css" href="ng-img-crop.css"/>-->
+</head>
+<body ng-app="createLogin" ng-controller="mainController">
+<div class="text-center"> 
+	<h2 class="text-danger"> Couch411 </h2>
+  <h3 class="text-default">Register for Couch411</h3>
+</div>
+<form class="form-horizontal" name="registerForm">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Email *</label>
+    <div class="col-sm-8">
+      <input type="email" class="form-control" id="inputEmail3" placeholder="Must be a valid couchbase.com email address (i.e. hello@couchbase.com)" ng-model="formData.email" ng-blur="emailAvailable()" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">Password *</label>
+    <div class="col-sm-8">
+      <input type="password" class="form-control" id="inputPassword3" placeholder="Password MUST contain 1 lower case character, 1 upper case character, 1 number and > 6 total characters" ng-model="password" ng-blur="checkRegisterPass(); encryptPass()" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputConfPassword3" class="col-sm-2 control-label">Confirm Password *</label>
+    <div class="col-sm-8">
+      <input type="password" class="form-control" id="inputConfPassword3" placeholder="Repeated Password" ng-model="confPassword" ng-blur="checkRegisterConfPass()" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputName3" class="col-sm-2 control-label">Name *</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="inputName3" placeholder="Couch Base" ng-model="formData.name" ng-blur="generateUUID()" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputSkype3" class="col-sm-2 control-label">Skype</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="inputSkype3" placeholder="couchbase_123" ng-model="formData.skype">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPfPic3" class="col-sm-2 control-label">Profile Picture</label>
+    <div class="col-sm-8">
+        <input id="asd" type="file" accept="image/*" ng-blur="convertImgToStore()">
+    </div>
+  </div>
+  <img id="img" src="" />
+  <div id="base"></div>
+  <div class="form-group">
+    <label for="inputExpertise3" class="col-sm-2 control-label">Expertise</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="inputExpertise3" placeholder="Please Input a Comma-Separated List, Ex: (GoLang, Excel, N1QL, Indexing Architecture)" ng-model="expertiseString"
+      ng-blur="arrayExpertise(expertiseString)">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputHobbies3" class="col-sm-2 control-label">Hobbies/Interests</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="inputHobbies3" placeholder="Please Input a Comma-Separated List, Ex: (Golf, Horse-riding, Reading, Coffee, etc.)" ng-model="hobbyString"
+      ng-blur="arrayHobbies(hobbyString)">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputBaseOffice3" class="col-sm-2 control-label">Base Office</label>
+    <div class="col-sm-8">
+      <select class="form-control" type="text" placeholder="Please Select a Base Office" ng-model="formData.baseOffice">
+        <option>Mountain View</option>
+        <option>San Francisco</option>
+        <option>Bangalore</option>
+        <option>Manchester</option>
+        <option>Remote</option>
+      </select>
+    </div>
+  </div>
+  <!--
+  <div class="form-group">
+    <label for="inputBaseLocation3" class="col-sm-2 control-label">Current Status</label>
+    <div class="col-sm-8">
+      <select class="form-control" type="text" placeholder="Please Select Your Curren Location/Status" ng-model="formData.status">
+        <option>Mountain View Office</option>
+        <option>San Francisco Office</option>
+        <option>Bangalore Office</option>
+        <option>Manchester Office</option>
+        <option>Remote - Working</option>
+        <option>Sick</option>
+        <option>Vacation</option>
+        <option>Away</option>
+      </select>
+    </div>
+  </div>
+  -->
+  <div class="form-group">
+    <label for="inputDivision3" class="col-sm-2 control-label">Division *</label>
+    <div class="col-sm-8">
+      <select class="form-control" type="text" placeholder="Please Select Your Division" ng-model="formData.division" required>
+        <option>Engineering</option>
+        <option>Marketing</option>
+        <option>Sales</option>
+        <option>Support</option>
+        <option>Other Staff</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- EXAMPLE TO USE FLOW TO UPLOAD PHOTOS
+  <div>
+    <div class="thumbnail" ng-hide="$flow.files.length">
+      <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" />
+    </div>
+    <div class="thumbnail" ng-show="$flow.files.length">
+      <img flow-img="$flow.files[0]" />
+    </div>
+    <div>
+      <a href="#" class="btn" ng-hide="$flow.files.length" flow-btn flow-attrs="{accept:'image/*'}">Select image</a>
+      <a href="#" class="btn" ng-show="$flow.files.length" flow-btn flow-attrs="{accept:'image/*'}">Change</a>
+      <a href="#" class="btn btn-danger" ng-show="$flow.files.length"
+         ng-click="$flow.cancel()">
+        Remove
+      </a>
+    </div>
+    <p>
+      Only PNG,GIF,JPG files allowed.
+    </p>
+  </div>
+  </div>
+  -->
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Remember me
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-danger" ng-click="makeLogin(formData)" ng-disabled="registerForm.$invalid || checkRegisterBool()">Create User Profile</button>
+    </div>
+  </div>
+  </form>
+  <div class="hidden" id="errorDiv">
+    <div class="panel panel-danger">
+    <!-- Default panel contents -->
+      <div class="panel-heading"><strong>{{errorAlert}}</strong></div>
+      <div class="panel-body">
+        <p>{{errorMessage}}</p>
+      </div>
+    </div>
+  </div>
+  <span>{{formData}}</span>
+  <span>{{yesRegister}}</span>
+  <span>{{image}}</span>
+  <div class="text-center">
+    <h3 class="text-default">Login to Couch411</h3>
+  </div>
+  <form class="form-horizontal" name="loginForm">
+    <div class="form-group">
+    <label for="inputEmailLogin" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-8">
+      <input type="email" class="form-control" id="inputEmailLogin" placeholder="hello@couchbase.com"ng-model="loginData.email" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPasswordLogin" class="col-sm-2 control-label">Password</label>
+    <div class="col-sm-8">
+      <input type="password" class="form-control" id="inputPasswordLogin" placeholder="Password" ng-model="loginPass" required>
+    </div>
+  </div>  
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-info" ng-click="checkLogin()" ng-disabled="loginForm.$invalid">Login</button>
+    </div>
+  </div>
+  </form>
+  <span>{{loginData}}</span>
+  <span>{{yes}}</span>
+
+
+  <div class ="text-center">
+    <h3 class="text-default">Search</h3>
+  </div>
+  <form class="form-horizontal" name="searchBar">
+    <div class="form-group">
+      <label for="inputEmailSearch" class="col-sm-2 control-label">Email Search</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="inputEmailSearch" placeholder="pranav@couchbase.com" ng-model="searchData.email" required>
+      </div>
+    </div>
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-success" ng-click="getHobbies()" ng-disabled="searchBar.$invalid">Get Hobbies</button>
+    </div>
+  </div>
+  </form>
+  <span>{{hobbiesPull}}</span>
+
+  <div class ="text-center">
+    <h3 class="text-default">Advanced Search</h3>
+  </div>
+  <form class="form-horizontal" name="searchBarImage">
+    <div class="form-group">
+      <label for="inputEmailSearchImage" class="col-sm-2 control-label">Email Search</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="inputEmailSearchImage" placeholder="pranav@couchbase.com" ng-model="searchImage.email" required>
+      </div>
+    </div>
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-success" ng-click="getPic()" ng-disabled="searchBarImage.$invalid">Get Image</button>
+    </div>
+  </div>
+  </form>
+  <!--<span><image src = {{dopeness}}/></span>-->
+  <canvas id="userImageOutput"></canvas>
+</body>
+</html>
