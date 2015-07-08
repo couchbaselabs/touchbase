@@ -3,11 +3,6 @@ var Picture     = require("../models/picturemodel");
 
 var appRouter = function(app) {
     
-    app.get('*', function(req, res) {
-            console.log("getting to index.html"); // load the single view file (angular will handle the page changes on the front-end)
-            res.sendfile('index.html');
-    });
-    
     app.get("/api/loginAuth", function(req, res, next) {
         if(!req.query.email) {
             return next(JSON.stringify({"status": "error", "message": "A username must be provided"}));
@@ -27,14 +22,25 @@ var appRouter = function(app) {
                     return res.status(400).send(error);
                 }
                 res.setHeader("Authorization", "Bearer " + result);
-                res.send(user);
+                res.send(user.toString());
             });
         });
     });
 
+    app.post("/api/uploadAttempt", function(req, res) {
+       /* Picture.attempt (req.body, req.files, function(error, result) {
+            if (error) {
+                return res.status(400).send(error);
+            }
+            res.send("WOOT");
+        }); */
+        console.log(JSON.stringify(req.body));
+    });
+
     app.post("/api/registerUser", function(req, res, next) {
+        var newID = uuid.v4();
         if(!req.query.email) {
-            return next(JSON.stringify({"status": "error", "message": "A username must be provided"}));
+            return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
         }
         if(!req.query.name) {
             return next(JSON.stringify({"status": "error", "message": "A name must be provided"}));
@@ -59,13 +65,42 @@ var appRouter = function(app) {
             if (user.length === 1) {
                 return res.send({"status": "error", "message": "This email is already in use. Login, or create an account with a different email address."});
             }
-            User.create(req.query, function (error, result) {
+            User.create(newID, req.query, function (error, result) {
                 if (error) {
                     return res.status(400).send(error);
                 }
                 res.json(result);
+                Picture.upload (newID, req.query, function (error, result) {
+                    if (error) {
+                    return res.status(400).send(error);
+                    }
+                });
             });
         });
+    });
+
+    app.get("/api/nameSearch", function (req, res) {
+        console.log("in nameSearch Node");
+        if (!req.query.name) {
+            console.log("no req.query.name recognized");
+            return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
+        }
+        console.log("req.query.name recognized");
+        User.advancedSearch(req.query, function (error, user) {
+            if(error) {
+                return res.status(400).send(error);
+            }
+            var userString = "";
+            for (i; i<user.length; i++) {
+                userString+=(JSON.stringify(user[i]));
+            }
+            res.send(userString);
+        });
+    });
+
+    app.get('/', function(req, res) {
+            console.log("getting to index.html"); // load the single view file (angular will handle the page changes on the front-end)
+            res.sendfile('index.html');
     });
 
 };

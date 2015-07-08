@@ -1,7 +1,7 @@
 {
     "couchbase": {
         "server": "127.0.0.1:8091",
-        "bucket": "users",
-        "pictureBucket": "users_pictures"
+        "bucket": "loginData",
+        "pictureBucket": "userImages"
     }
 }
