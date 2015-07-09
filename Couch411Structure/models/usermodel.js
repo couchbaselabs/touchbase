@@ -1,11 +1,24 @@
 var uuid 			= require("uuid");
 var forge 			= require("node-forge");
-var bucket			= require("../app.js").bucket;
+var bucket			= require("../app").bucket;
+var bucketname		= require("../config").couchbase.bucket;
 //var pictureBucket	= require("../app.js").pictureBucket;
 var N1qlQuery 		= require('couchbase').N1qlQuery;
 //bucket.enableN1ql("http://localhost:8093");
 
 function User() { };
+
+User.createPrimaryIndexes = function(callback) {
+	var indexOnUsers = ("CREATE PRIMARY INDEX ON " + bucket);
+    var indexOnPics = ("CREATE PRIMARY INDEX ON users_pictures" + bucket);
+    bucket.query(advancedQuery, function (err, result) {
+		if (err) {
+    		callback(error, null);
+    		return;
+    	}
+    	callback(null, {message: "success", data: result});
+	});
+};
 
 User.create = function(newID, params, callback) {
 	var currentTime = new Date().toUTCString();	
@@ -27,6 +40,7 @@ User.create = function(newID, params, callback) {
         name: params.name,
         password: forge.md.sha1.create().update(params.password).digest().toHex(),
         administrator: false,
+        hasPicture: false,
         hobbyArray: stringToArray(params.hobbyArray),
         expertiseArray: stringToArray(params.expertiseArray),
         division: params.division,
@@ -35,6 +49,9 @@ User.create = function(newID, params, callback) {
         registerTime: currentTime,
         loginTimes: [currentTime]
     };
+    if (params.picture) {
+    	userDoc.hasPicture = true;
+    }
     var insertUser = N1qlQuery.fromString('INSERT INTO ' + bucket + ' (KEY, VALUE) VALUES (\"' + userDoc.uuid + '\", \"' + JSON.stringify(userDoc) + '\")');
     bucket.query(insertUser, function (err, result) {
     	if (err) {
@@ -127,15 +144,25 @@ User.advancedSearch = function(params, callback) {
 	if (params.baseOffice) {
 		baseOffice = ("AND division = \"" + params.baseOffice + "\"");
 	}
-	if(typeof bucket === "undefined") {console.log("bucket variable is undefined in userModel")};
-	var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + " " + bucket + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice);
+	var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + " " + bucketname + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice);
 	console.log(advancedQuery);
-	bucket.query(advancedQuery, function (err, result) {
-		if (err) {
+	bucket.query(advancedQuery, function (error, result) {
+		if (error) {
     		callback(error, null);
     		return;
     	}
-    	callback(null, {message: "success", data: result});
+    	console.log(result);
+        var userString = "";
+        if (result.length > 0) {
+	        for (i=0; i<result.length; i++) {
+	            userString+=(JSON.stringify(result[i].users) + " , ");
+	        }
+	        console.log("userString " + userString);
+    	}
+    	else {
+    		userString = "Sorry, there are no results for your search.";
+    	}
+    	callback(null, {message: "success", data: userString});
 	});
 };
 // must incorporate images here somehow!

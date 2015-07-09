@@ -1,7 +1,17 @@
 var User        = require("../models/usermodel");
 var Picture     = require("../models/picturemodel");
+var Publish     = require("../models/publishmodel");
 
 var appRouter = function(app) {
+
+    app.get("/api/createPrimaryIndexes", function(req, res) {
+        User.createPrimaryIndexes(function(error, result) {
+            if(error) {
+                return res.status(400).send(error);
+            }
+            res.json(result);
+        });
+    });
     
     app.get("/api/loginAuth", function(req, res, next) {
         if(!req.query.email) {
@@ -65,15 +75,15 @@ var appRouter = function(app) {
             if (user.length === 1) {
                 return res.send({"status": "error", "message": "This email is already in use. Login, or create an account with a different email address."});
             }
-            User.create(newID, req.query, function (error, result) {
+            Picture.upload (newID, req.query, function (error, result) {
                 if (error) {
                     return res.status(400).send(error);
                 }
-                res.json(result);
-                Picture.upload (newID, req.query, function (error, result) {
+                User.create(newID, req.query, function (error, result) {
                     if (error) {
                     return res.status(400).send(error);
                     }
+                    res.json(result);
                 });
             });
         });
@@ -86,15 +96,11 @@ var appRouter = function(app) {
             return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
         }
         console.log("req.query.name recognized");
-        User.advancedSearch(req.query, function (error, user) {
+        User.advancedSearch(req.query, function (error, users) {
             if(error) {
                 return res.status(400).send(error);
             }
-            var userString = "";
-            for (i; i<user.length; i++) {
-                userString+=(JSON.stringify(user[i]));
-            }
-            res.send(userString);
+            res.json(users.data);
         });
     });
 

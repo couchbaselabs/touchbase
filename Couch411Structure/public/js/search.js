@@ -10,17 +10,15 @@ search.controller("searchController", function ($scope, $http) {
 		$http({method: "GET", url: "/api/nameSearch", params: $scope.searchData})
 			.success(function(result) {
 				console.log(result);
-				$scope.searchData.output = result;
+				$scope.searchData.output = (result);
 			})
 			.error(function(result) {
 				$scope.searchData.output = ("ERROR : " + result);
 			});
 	};
 
-	/*$scope.getBase64Image = function() {
-
-		function el(id){return document.getElementById(id);} // Get elem by ID
-
+	$scope.createBase64Image = function() {
+		function getByID(id){return document.getElementById(id);} // Get elem by ID
 		function readImage() {
 		    if ( this.files && this.files[0] ) {
 		        var FR= new FileReader();
@@ -35,15 +33,35 @@ search.controller("searchController", function ($scope, $http) {
 		    }
 		}
 		readImage();
-		el("asd").addEventListener("change", readImage, false);
+		getByID("imageElement").addEventListener("change", readImage, false);
 		console.log(window.b64String);
 		var temp = window.b64String;
 		var b64 = temp;
 		console.log(b64);
-		return b64;
+		$scope.formData.picture = b64;
 	};
 
-	$scope.convertImgToStore = function() {
+	$scope.registerUser = function (someObject) {
+		$http({method: "POST", url: "/api/registerUser", params: someObject})
+			.success(function(result) {
+				console.log(result);
+			})
+			.error(function(result) {
+				console.log("ERROR IN REGISTER: " + result);
+			});
+	};
+
+	$scope.loginAuth = function (someObject) {
+		$http({method: "POST", url: "/api/registerUser", params: someObject})
+			.success(function(result) {
+				console.log(result);
+			})
+			.error(function(result) {
+				console.log("ERROR IN LOGIN: " + result);
+			});
+	};
+
+	/*$scope.convertImgToStore = function() {
 		var b64String = $scope.getBase64Image();
 		var contentType = "image/png";
 		$scope.image.base64 = b64String
