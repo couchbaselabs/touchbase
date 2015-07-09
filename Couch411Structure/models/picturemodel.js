@@ -1,10 +1,10 @@
-var uuid 			= require("uuid");
-var forge 			= require("node-forge");
-var bucket			= require("../app").bucket;
-var pictureBucket	= require("../app").pictureBucket;
-var N1qlQuery 		= require('couchbase').N1qlQuery;
-var couchbase 		= require('couchbase');
-//var multer  		= require('multer');
+var uuid 				= require("uuid");
+var forge 				= require("node-forge");
+var userBucket			= require("../app").userBucket;
+var pictureBucket		= require("../app").pictureBucket;
+var userBucketName		= require("../config").couchbase.userBucket;
+var userBucketName		= require("../config").couchbase.pictureBucket;
+var N1qlQuery 			= require('couchbase').N1qlQuery;
 
 function Picture() { };
 
@@ -24,7 +24,9 @@ Picture.upload = function(newID, params, callback) {
 		});
     }
     else {
-    	console.log("no picture to upload; stock photo will be applied");
+    	var returnMessage = "no picture to upload; stock photo will be applied"
+    	console.log(returnMessage);
+    	callback(null, {message: "success", data: returnMessage});	
     }
 };
 
@@ -38,7 +40,7 @@ Picture.attempt = function(body, files, callback) {
 
 Picture.receive = function(params, callback) {
 	// params.hasPicture will be in user Document as a boolean; set to true upon upload of picture
-	if (params.hasPicture) {
+	if (params.login.hasPicture) {
 		pictureBucket.get((params.uuid + "_pic"), function (err, result) {
 			if (err) {
 			    callback(error, null);

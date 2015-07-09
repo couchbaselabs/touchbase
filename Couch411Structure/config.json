@@ -1,8 +1,9 @@
 {
     "couchbase": {
         "server": "127.0.0.1:8091",
-        "bucket": "users",
+        "userBucket": "users",
         "pictureBucket": "users_pictures",
+        "publishBucket": "publishments",
         "TouchbasePort": 3000
     }
 }

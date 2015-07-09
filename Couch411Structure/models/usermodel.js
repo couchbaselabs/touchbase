@@ -1,17 +1,14 @@
 var uuid 			= require("uuid");
 var forge 			= require("node-forge");
-var bucket			= require("../app").bucket;
-var bucketname		= require("../config").couchbase.bucket;
-//var pictureBucket	= require("../app.js").pictureBucket;
+var userBucket		= require("../app").userBucket;
+var userBucketName	= require("../config").couchbase.userBucket;
 var N1qlQuery 		= require('couchbase').N1qlQuery;
-//bucket.enableN1ql("http://localhost:8093");
 
 function User() { };
 
 User.createPrimaryIndexes = function(callback) {
-	var indexOnUsers = ("CREATE PRIMARY INDEX ON " + bucket);
-    var indexOnPics = ("CREATE PRIMARY INDEX ON users_pictures" + bucket);
-    bucket.query(advancedQuery, function (err, result) {
+	var indexOnUsers = ("CREATE PRIMARY INDEX ON " + userBucketName);
+    userBucket.query(indexOnUsers, function (err, result) {
 		if (err) {
     		callback(error, null);
     		return;
@@ -23,39 +20,59 @@ User.createPrimaryIndexes = function(callback) {
 User.create = function(newID, params, callback) {
 	var currentTime = new Date().toUTCString();	
 	var stringToArray = function(anyString) {
-		var tempArray=anyString.split(",");
-		var resultArray=[];
-		for (i=0; i<tempArray.length; i++) {
-			var str = tempArray[i];
-			resultArray[i]= str.trim();
-			if (resultArray[i]=="") {
-				resultArray.splice(i, 1);
-			}
+		if (typeof anyString === "undefined") {
+			return anyString;
 		}
-		return resultArray;
-	}
+		else {
+			var tempArray=anyString.split(",");
+			var resultArray=[];
+			for (i=0; i<tempArray.length; i++) {
+				var str = tempArray[i];
+				resultArray[i]= str.trim();
+				if (resultArray[i]=="") {
+					resultArray.splice(i, 1);
+				}
+			}
+			return resultArray;
+		}
+	};
     var userDoc = {
-    	email: params.email,
-        uuid: newID,
+    	uuid: newID,
         name: params.name,
-        password: forge.md.sha1.create().update(params.password).digest().toHex(),
-        administrator: false,
-        hasPicture: false,
-        hobbyArray: stringToArray(params.hobbyArray),
-        expertiseArray: stringToArray(params.expertiseArray),
-        division: params.division,
-        jobTitle: params.title,
-        baseOffice: params.baseOffice,
-        registerTime: currentTime,
-        loginTimes: [currentTime]
+        login: {
+	        email: params.email,
+	        password: forge.md.sha1.create().update(params.password).digest().toHex(),
+	        administrator: false,
+	        hasPicture: false
+	    },
+        handles: {
+        	skype: params.skype
+        },
+        arrayAttributes: {
+	        hobbyArray: stringToArray(params.hobbyArray),
+	        expertiseArray: stringToArray(params.expertiseArray)
+	    },
+	    jobAttributes: {
+	        division: params.division,
+	        jobTitle: params.title,
+	        baseOffice: params.baseOffice
+	    },
+	    timeTracker: {
+	        registerTime: currentTime,
+	        loginTimes: [currentTime]
+    	}
     };
     if (params.picture) {
-    	userDoc.hasPicture = true;
+    	userDoc.login.hasPicture = true;
     }
-    var insertUser = N1qlQuery.fromString('INSERT INTO ' + bucket + ' (KEY, VALUE) VALUES (\"' + userDoc.uuid + '\", \"' + JSON.stringify(userDoc) + '\")');
-    bucket.query(insertUser, function (err, result) {
+    console.log(JSON.stringify(userDoc));
+    var insertUser = N1qlQuery.fromString('INSERT INTO ' + userBucketName + ' (KEY, VALUE) VALUES (\"' + userDoc.uuid + '\", ' + JSON.stringify(userDoc) + ')');
+    console.log(insertUser);
+    userBucket.query(insertUser, function (err, result) {
     	if (err) {
-    		callback(error, null);
+    		console.log("ERROR IN USERMODEL QUERY: ");
+    		console.log(err);
+    		callback(err, null);
     		return;
     	}
     	callback(null, {message: "success", data: result});
@@ -63,10 +80,11 @@ User.create = function(newID, params, callback) {
 };
 
 User.searchByEmail = function (params, callback) {
-	var searchUsers = N1qlQuery.fromString('SELECT * FROM ' + bucket + ' WHERE email LIKE \"%' + params.email + '%\"');
-	bucket.query(searchUsers, function (err, result) {
+	var searchUsers = N1qlQuery.fromString('SELECT * FROM ' + userBucketName + ' WHERE LOWER(login.email) LIKE LOWER(\"%' + params.email + '%\")');
+	console.log("searchByEmail: " + searchUsers);
+	userBucket.query(searchUsers, function (err, result) {
 		if (err) {
-    		callback(error, null);
+    		callback(err, null);
     		return;
     	}
     	callback(null, {message: "success", data: result});
@@ -84,8 +102,9 @@ User.validatePassword = function(rawPassword, hashedPassword) {
 
 User.addLoginTime = function(uuid, callback) {
 	var currentTime = new Date().toUTCString();
-	var addLoginTime = N1qlQuery.fromString("UPDATE " + bucket + " SET loginTimes=ARRAY_PREPEND(\"" + currentTime + "\", loginTimes) WHERE META(" + bucket + ").id =\"" + uuid + "\"");
-    bucket.query(addLoginTime, function (err, result) {
+	var addLoginTime = N1qlQuery.fromString("UPDATE " + userBucketName + " SET timeTracker.loginTimes=ARRAY_PREPEND(\"" + currentTime + "\", timeTracker.loginTimes) WHERE META(" + userBucketName + ").id =\"" + uuid + "\"");
+	console.log("addLoginTime: " + addLoginTime);
+    userBucket.query(addLoginTime, function (err, result) {
     	if (err) {
     		callback(error, null);
     		return;
@@ -110,59 +129,49 @@ User.advancedSearch = function(params, callback) {
 			return resultArray;
 	}
 	if (!params.email) {
-		email = "WHERE email LIKE \"%%\"";
+		email = "WHERE login.email LIKE \"%%\"";
 	}
 	else {
-		email = ("WHERE email LIKE \"%" + params.email + "%\"");
+		email = ("WHERE LOWER(login.email) LIKE LOWER(\"%" + params.email + "%\")");
 	}
 	if (params.name) {
-		name = ("AND name LIKE \"%" + params.name + "%\"");
+		name = ("AND LOWER(name) LIKE LOWER(\"%" + params.name + "%\")");
 	}
 	if (params.administrator) {
-		administrator = ("AND administrator = true");
+		administrator = ("AND login.administrator = true");
 	}
 	if (params.hobbies) {
 		var hobbyArray = stringToArray(params.hobbies);
 		var arrayName = "hobbyArray";
 		for (i=0; i<hobbyArray.length; i++) {
-			hobbies += ("AND ANY blah IN " + bucket + "." + arrayName + " SATISFIES blah LIKE \"%" + hobbyArray[i] + "%\" END ");
+			hobbies += ("AND ANY blah IN " + userBucketName + ".arrayAttributes." + arrayName + " SATISFIES LOWER(blah) LIKE LOWER(\"%" + hobbyArray[i] + "%\") END ");
 		}
 	}
 	if (params.expertise) {
 		var expertiseArray = stringToArray(params.expertise);
 		var arrayName = "expertiseArray";
 		for (i=0; i<expertiseArray.length; i++) {
-			hobbies += ("AND ANY blah IN " + bucket + "." + arrayName + " SATISFIES blah LIKE \"%" + expertiseArray[i] + "%\" END ");
+			hobbies += ("AND ANY blah IN " + userBucketName + ".arrayAttributes." + arrayName + " SATISFIES LOWER(blah) LIKE LOWER(\"%" + expertiseArray[i] + "%\") END ");
 		}
 	}
 	if (params.division) {
-		division = ("AND division = \"" + params.division + "\"");
+		division = ("AND jobAttributes.division = \"" + params.division + "\"");
 	}
 	if (params.title) {
-		title = ("AND title LIKE \"%" + params.title + "%\"");
+		title = ("AND LOWER(jobAttributes.title) LIKE LOWER(\"%" + params.title + "%\")");
 	}
 	if (params.baseOffice) {
-		baseOffice = ("AND division = \"" + params.baseOffice + "\"");
+		baseOffice = ("AND jobAttributes.baseOffice = \"" + params.baseOffice + "\"");
 	}
-	var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + " " + bucketname + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice);
+	var advancedQuery = N1qlQuery.fromString("SELECT * FROM" + " " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice);
 	console.log(advancedQuery);
-	bucket.query(advancedQuery, function (error, result) {
+	userBucket.query(advancedQuery, function (error, result) {
 		if (error) {
     		callback(error, null);
     		return;
     	}
     	console.log(result);
-        var userString = "";
-        if (result.length > 0) {
-	        for (i=0; i<result.length; i++) {
-	            userString+=(JSON.stringify(result[i].users) + " , ");
-	        }
-	        console.log("userString " + userString);
-    	}
-    	else {
-    		userString = "Sorry, there are no results for your search.";
-    	}
-    	callback(null, {message: "success", data: userString});
+    	callback(null, {message: "success", data: result});
 	});
 };
 // must incorporate images here somehow!

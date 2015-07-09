@@ -3,8 +3,12 @@ var search = angular.module('search', []);
 search.controller("searchController", function ($scope, $http) {
 	
 	$scope.searchData = {};
+	$scope.formData = {};
 
 	$scope.nameSearch = function(someString) {
+		// this sends an advanced search using just the name
+		// requires a name or part of one to send the request
+		$scope.searchData = {};
 		$scope.searchData.name = someString;
 		console.log($scope.searchData);
 		$http({method: "GET", url: "/api/nameSearch", params: $scope.searchData})
@@ -17,14 +21,16 @@ search.controller("searchController", function ($scope, $http) {
 			});
 	};
 
-	$scope.createBase64Image = function() {
+	$scope.createBase64Image = function(imageElementID) {
+		// this will create a base64 encoded image, which is then added to the formData
+		// the picture encoded here will be uploaded only when the "registerUser" function is called
 		function getByID(id){return document.getElementById(id);} // Get elem by ID
 		function readImage() {
 		    if ( this.files && this.files[0] ) {
 		        var FR= new FileReader();
 		        FR.onload = function(e) {
-		             el("img").src = e.target.result;
-		             el("base").innerHTML = e.target.result;
+		             getByID("img").src = e.target.result;
+		             getByID("base").innerHTML = e.target.result;
 		             b64String = e.target.result;
 		             console.log ("INSIDE:  " + b64String);
 		             console.log(typeof(b64String));
@@ -33,7 +39,7 @@ search.controller("searchController", function ($scope, $http) {
 		    }
 		}
 		readImage();
-		getByID("imageElement").addEventListener("change", readImage, false);
+		getByID(imageElementID).addEventListener("change", readImage, false);
 		console.log(window.b64String);
 		var temp = window.b64String;
 		var b64 = temp;
@@ -42,17 +48,20 @@ search.controller("searchController", function ($scope, $http) {
 	};
 
 	$scope.registerUser = function (someObject) {
-		$http({method: "POST", url: "/api/registerUser", params: someObject})
+		// this will require a formData type object which contains all entries needed for the form to create an account
+		$http({method: "POST", url: "/api/registerUser", data: someObject})
 			.success(function(result) {
 				console.log(result);
+				$scope.formData = {};
 			})
 			.error(function(result) {
-				console.log("ERROR IN REGISTER: " + result);
+				console.log("ERROR IN REGISTER: " + JSON.stringify(result[0]));
 			});
 	};
 
 	$scope.loginAuth = function (someObject) {
-		$http({method: "POST", url: "/api/registerUser", params: someObject})
+		// this will require a name and password in the object to check login
+		$http({method: "GET", url: "/api/loginAuth", params: someObject})
 			.success(function(result) {
 				console.log(result);
 			})
