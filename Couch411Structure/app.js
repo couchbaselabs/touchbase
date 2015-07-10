@@ -7,13 +7,29 @@ var bodyParser		= require('body-parser');
 var methodOverride 	= require('method-override');
 var morgan 			= require('morgan');
 var multer  		= require('multer');
+var fs 				= require('fs');
 
 // use commands
-app.use(bodyParser.urlencoded({extended:true, limit: '3mb'}));
-app.use(bodyParser.json({limit: '3mb'}));
+app.use(bodyParser.urlencoded({extended:true, limit: '4mb'}));
+app.use(bodyParser.json({limit: '4mb'}));
 app.use(morgan('dev'));
 
 app.use(express.static(__dirname + '/public'));
+app.use(multer({dest: './uploads/', 
+	onFileUploadStart: function (file) {
+	  console.log(file.originalname + ' is starting ...')
+	},
+	onFileUploadComplete: function (file) {
+	  console.log(file.fieldname + ' uploaded to  ' + file.path)
+	  done=true;
+	},
+	limits: {
+	  fieldNameSize: 100,
+	  fileSize: 3000000,
+	  files: 1,
+	  fields: 5
+	}
+}));
 
 var cluster = new couchbase.Cluster(config.couchbase.server);
 module.exports.userBucket = cluster.openBucket(config.couchbase.userBucket);

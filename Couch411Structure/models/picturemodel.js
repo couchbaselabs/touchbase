@@ -5,6 +5,8 @@ var pictureBucket		= require("../app").pictureBucket;
 var userBucketName		= require("../config").couchbase.userBucket;
 var userBucketName		= require("../config").couchbase.pictureBucket;
 var N1qlQuery 			= require('couchbase').N1qlQuery;
+var multer 				= require('multer');
+var fs 					= require('fs');
 
 function Picture() { };
 
@@ -24,17 +26,35 @@ Picture.upload = function(newID, params, callback) {
 		});
     }
     else {
-    	var returnMessage = "no picture to upload; stock photo will be applied"
+    	var returnMessage = "no picture to upload; stock photo will be applied";
     	console.log(returnMessage);
     	callback(null, {message: "success", data: returnMessage});	
     }
 };
 
-Picture.attempt = function(body, files, callback) {
+Picture.attempt = function(params, callback) {
+	if (params.extension != 'png' && params.extension != 'jpg' && params.extension != 'jpeg' && params.extension != 'gif') {
+		callback(null, {status: 400, message: "ERROR: please use a valid image format (jpg, jpeg, png, gif)"});
+	}
 	if(done==true) {
-    console.log("body:  " + JSON.stringify(body));
-    console.log("files  " + JSON.stringify(files));
-    console.log("File uploaded.");
+    	fs.readFile(params.path, function(error, data) {
+    		if(error) {
+    			callback(error, null);
+    		}
+    		var base64data = new Buffer(data, 'binary').toString('base64');
+    		pictureBucket.insert((uuid.v4()+"_picMulterNode"), base64data, function(issue, res) {
+    			if(issue) {
+    				callback(issue, null);
+    			}
+    			fs.unlink(params.path, function (err) {
+					if (err) {
+					  	callback(err, null);
+					}
+					console.log('successfully deleted /tmp/hello');
+				});
+    			callback(null, {message: "success", data: res});
+    		});
+    	});
   	}
 };
 

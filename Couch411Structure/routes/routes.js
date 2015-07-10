@@ -45,13 +45,14 @@ var appRouter = function(app) {
     });
 
     app.post("/api/uploadAttempt", function(req, res) {
-       /* Picture.attempt (req.body, req.files, function(error, result) {
+        console.log(JSON.stringify(req.body));
+        console.log(JSON.stringify(req.files));
+        Picture.attempt (req.files.userPhoto, function(error, result) {
             if (error) {
                 return res.status(400).send(error);
             }
-            res.send("WOOT");
-        }); */
-        console.log(JSON.stringify(req.body));
+        console.log(result);
+        });
     });
 
     app.post("/api/registerUser", function(req, res, next) {
