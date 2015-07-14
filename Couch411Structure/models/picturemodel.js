@@ -32,7 +32,7 @@ Picture.upload = function(newID, params, callback) {
     }
 };
 
-Picture.attempt = function(params, callback) {
+Picture.attempt = function(picId, params, callback) {
 	if (params.extension != 'png' && params.extension != 'jpg' && params.extension != 'jpeg' && params.extension != 'gif') {
 		callback(null, {status: 400, message: "ERROR: please use a valid image format (jpg, jpeg, png, gif)"});
 	}
@@ -41,6 +41,7 @@ Picture.attempt = function(params, callback) {
     		if(error) {
     			callback(error, null);
     		}
+    		// change uuid.v4() to the ID passed by cookie!
     		var base64data = new Buffer(data, 'binary').toString('base64');
     		pictureBucket.insert((uuid.v4()+"_picMulterNode"), base64data, function(issue, res) {
     			if(issue) {

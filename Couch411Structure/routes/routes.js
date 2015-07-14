@@ -3,6 +3,7 @@ var Picture     = require("../models/picturemodel");
 var Publish     = require("../models/publishmodel");
 var Session     = require("../models/sessionmodel");
 var uuid        = require("uuid");
+var multer      = require('multer');
 
 var appRouter = function(app) {
 
@@ -47,7 +48,7 @@ var appRouter = function(app) {
     app.post("/api/uploadAttempt", function(req, res) {
         console.log(JSON.stringify(req.body));
         console.log(JSON.stringify(req.files));
-        Picture.attempt (req.files.userPhoto, function(error, result) {
+        Picture.attempt (req.body.cookieID, req.files.userPhoto, function(error, result) {
             if (error) {
                 return res.status(400).send(error);
             }

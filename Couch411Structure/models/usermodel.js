@@ -18,7 +18,7 @@ User.createPrimaryIndexes = function(callback) {
 };
 
 User.create = function(newID, params, callback) {
-	var currentTime = new Date().toUTCString();	
+	var currentTime = new Date().ISOString();	
 	var stringToArray = function(anyString) {
 		if (typeof anyString === "undefined") {
 			return anyString;
@@ -101,7 +101,7 @@ User.validatePassword = function(rawPassword, hashedPassword) {
 };
 
 User.addLoginTime = function(uuid, callback) {
-	var currentTime = new Date().toUTCString();
+	var currentTime = new Date().toISOString();
 	var addLoginTime = N1qlQuery.fromString("UPDATE " + userBucketName + " SET timeTracker.loginTimes=ARRAY_PREPEND(\"" + currentTime + "\", timeTracker.loginTimes) WHERE META(" + userBucketName + ").id =\"" + uuid + "\"");
 	console.log("addLoginTime: " + addLoginTime);
     userBucket.query(addLoginTime, function (err, result) {

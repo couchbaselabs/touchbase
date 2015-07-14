@@ -7,7 +7,9 @@ var N1qlQuery 			= require('couchbase').N1qlQuery;
 function Publish() { };
 
 Publish.create = function(params, callback) {
+	var currentTime = new Date().ISOString();
 	var publishDoc = {
+		time: currentTime,
 		publishID: (uuid.v4() + "_pub_" + publishDoc.type),
 		title: params.title,
 		author: params.author,

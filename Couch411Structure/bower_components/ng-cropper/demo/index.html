@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="demo">
+<head>
+  <title>ngCropper Demo</title>
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/angular/angular.min.js"></script>
+  <script src="../bower_components/cropper/dist/cropper.js"></script>
+  <link href="../bower_components/cropper/dist/cropper.css" rel="stylesheet">
+  <script src="../ngCropper.js"></script>
+  <script src="./demo.js"></script>
+  <link href="./demo.css" rel="stylesheet">
+</head>
+<body ng-controller="UploadController">
+
+  <input type="file" onchange="angular.element(this).scope().onFile(this.files[0])">
+  <button ng-click="preview()">Show preview</button>
+  <button ng-click="scale(200)">Scale to 200px width</button>
+  <label>Disabled <input type="checkbox" ng-model="options.disabled"></label>
+
+  <br />
+
+  <div ng-if="dataUrl" class="img-container">
+    <img ng-if="dataUrl" ng-src="{{dataUrl}}" width="800"
+         ng-cropper
+         ng-cropper-show="showEvent"
+         ng-cropper-hide="hideEvent"
+         ng-cropper-options="options">
+  </div>
+
+  <div class="preview-container">
+    <img ng-if="preview.dataUrl" ng-src="{{preview.dataUrl}}">
+  </div>
+
+</body>
+</html>
