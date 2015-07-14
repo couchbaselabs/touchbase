@@ -174,6 +174,12 @@ User.advancedSearch = function(params, callback) {
     	callback(null, {message: "success", data: result});
 	});
 };
+
+User.intelligentCount = function(params, callback) {
+	// for each type of text/array field, you will want to loop through to find all instances of it
+	// you will then do a query like SELECT COUNT(*) FROM userBucketName WHERE (textfield/array loop)
+	// then ouput the field name and count type in order of descending count
+};
 // must incorporate images here somehow!
 
 module.exports = User;

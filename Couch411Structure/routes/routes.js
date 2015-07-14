@@ -27,9 +27,14 @@ var appRouter = function(app) {
             if(error) {
                 return res.status(400).send(error);
             }
-            console.log(user);
+            console.log('user: ' +  JSON.stringify(user.data));
+            var x = [];
+            x = user.data;
+            if (x.length === 0) {
+                return res.status(400).send('The username entered does not exist');   
+            }
             if(!User.validatePassword(req.query.password, user.data[0].users.login.password)) {
-                return res.send({"status": "error", "message": "The password entered is invalid"});
+                return res.status(400).send("The password entered is invalid");
             }
             User.addLoginTime(user.data[0].users.uuid, function(error, result) {
                 if(error) {
@@ -39,7 +44,7 @@ var appRouter = function(app) {
                     if(error) {
                     return res.status(400).send(error);
                     }
-                    res.send({sessionID: result});
+                    res.send({sessionID: result.sessionID, expiry: result.expiry});
                 });
             });
         });

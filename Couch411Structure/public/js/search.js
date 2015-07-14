@@ -1,10 +1,11 @@
 var search = angular.module('search', ['ngCropper']);
 
-search.controller("searchController", function ($scope, $http, $timeout, Cropper) {
+search.controller("searchController",function ($scope, $http, $timeout, Cropper) {
 
 	$scope.photoID = "woopieDoo";
 	$scope.searchData = {};
 	$scope.formData = {};
+	//$cookies.put('myFavorite', 'oatmeal');
 
 	$scope.nameSearch = function(someString) {
 		// this sends an advanced search using just the name
@@ -65,6 +66,8 @@ search.controller("searchController", function ($scope, $http, $timeout, Cropper
 		$http({method: "GET", url: "/api/loginAuth", params: someObject})
 			.success(function(result) {
 				console.log(result);
+				//$cookies.put('sessionID', result.sessionID);
+
 			})
 			.error(function(result) {
 				console.log("ERROR IN LOGIN: " + result);

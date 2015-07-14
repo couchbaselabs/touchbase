@@ -10,14 +10,15 @@ Session.create = function(userID, callback) {
 	var sessionModel = {
 		type: "session",
 		userID: userID,
-		sessionID: (uuid.v4()+"_session")
+		sessionID: (uuid.v4()+"_session"),
+		expiry: 3600
 	};
-	var insertSession = userBucket.insert(sessionModel.sessionID, sessionModel, {expiry: 3600}, function(error, result) {
+	userBucket.insert(sessionModel.sessionID, sessionModel, {expiry: 3600}, function(error, result) {
 		if (error) {
     		callback(error, null);
     		return;
     	}
-    	callback(null, sessionModel.sessionID);
+    	callback(null, sessionModel);
     });
 };
 
@@ -36,6 +37,28 @@ Session.auth = function(req, res, next) {
 		});
 	}
 };
+
+Session.remove = function(sessionID, callback) {
+	userBucket.remove(sessionID, function(error, result) {
+		if(error) {
+			callback(error, null);
+			return;
+		}
+		callback(null, result);
+	});
+};
+
+/*Session.findUser = function(sessionID, callback) {
+	var findUser = N1qlQuery.fromString('SELECT userID FROM '+userBucketName+' WHERE sessionID=\"'+sessionID+'\"');
+	userBucket.query(findUser, function(error, result) {
+		if(error) {
+			callback(error, null);
+		}
+		callback(null, result[0].)
+	})
+}*/
+
+
 
 // potential Session.delete for forceful login
 
