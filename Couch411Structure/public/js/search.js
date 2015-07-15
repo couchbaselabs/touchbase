@@ -1,11 +1,10 @@
 var search = angular.module('search', ['ngCropper']);
-
-search.controller("searchController",function ($scope, $http, $timeout, Cropper) {
+	
+search.controller("searchController", function ($scope, $http, $timeout, Cropper, $window) {
 
 	$scope.photoID = "woopieDoo";
 	$scope.searchData = {};
 	$scope.formData = {};
-	//$cookies.put('myFavorite', 'oatmeal');
 
 	$scope.nameSearch = function(someString) {
 		// this sends an advanced search using just the name
@@ -53,7 +52,7 @@ search.controller("searchController",function ($scope, $http, $timeout, Cropper)
 		// this will require a formData type object which contains all entries needed for the form to create an account
 		$http({method: "POST", url: "/api/registerUser", data: someObject})
 			.success(function(result) {
-				console.log(result);
+				console.log(result[0]);
 				$scope.formData = {};
 			})
 			.error(function(result) {
@@ -66,12 +65,18 @@ search.controller("searchController",function ($scope, $http, $timeout, Cropper)
 		$http({method: "GET", url: "/api/loginAuth", params: someObject})
 			.success(function(result) {
 				console.log(result);
-				//$cookies.put('sessionID', result.sessionID);
-
+				sessionStorage.sessionID = result.sessionID;
+				sessionStorage.expiry = result.expiry;
+				console.log('sessionStorage: '+ JSON.stringify(sessionStorage));
+				$window.location.href = '/pictureUpload.html';
 			})
 			.error(function(result) {
 				console.log("ERROR IN LOGIN: " + result);
 			});
+	};
+
+	$scope.printLocalStorage = function() {
+		console.log(sessionStorage);
 	};
 
 	  var file, data;
@@ -120,7 +125,8 @@ search.controller("searchController",function ($scope, $http, $timeout, Cropper)
 	    zoomable: false,
 	    crop: function(dataNew) {
 	      data = dataNew;
-	      $scope.formData.pictureSpec = data;
+	      $scope.pictureSpec = data;
+	      console.log($scope.pictureSpec);
 	    }
 	  };
 

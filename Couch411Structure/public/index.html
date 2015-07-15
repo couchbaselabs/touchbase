@@ -147,51 +147,12 @@
     </div>
   </div>-->
 </form>
-  <button class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+<div class="col-sm-offset-2 col-sm-10" ng-click='registerUser(formData)'>
+  <button class="btn btn-danger" >
         Create User Profile
     </button>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-              <form id = "uploadForm" action="/api/uploadAttempt" method="post" enctype="multipart/form-data">
-                <div class="modal-header">
-                    <!--<button type="button" class="close" data-dismiss="modal"><span
-                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
-                    <h4 class="modal-title" id="myModalLabel">Upload Profile Picture</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="file" onchange="angular.element(this).scope().onFile(this.files[0])" accept="image/*" name="userPhoto">
-                      <button ng-click="preview()">Show preview</button>
-                      <button ng-click="scale(200)">Scale to 200px width</button>
-                      <label>Disabled <input type="checkbox" ng-model="options.disabled"></label>
-
-                      <br />
-
-                      <div ng-if="dataUrl" class="img-container">
-                        <img ng-if="dataUrl" ng-src="{{dataUrl}}" width="300"
-                             ng-cropper
-                             ng-cropper-show="showEvent"
-                             ng-cropper-hide="hideEvent"
-                             ng-cropper-options="options">
-                      </div>
-
-                      <div class="preview-container">
-                        <img ng-if="preview.dataUrl" ng-src="{{preview.dataUrl}}">
-                      </div>
-                      <!--<form id = "uploadForm" action="/api/uploadAttempt" method="post" enctype="multipart/form-data">
-                        <input type="file" name="userPhoto" accept="image/*"/>
-                        <input type="submit" value="Upload Image" name="submit">
-                      </form>-->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No Thanks</button>
-                    <input type="text" value="{{photoID}}" name="cookieID" hidden>
-                    <input type="submit" value="Upload Picture" name="submit" class="btn btn-primary">
-                </div>
-          </form>
-        </div>
-    </div>
-  </div>
+    <!--data-toggle="modal" data-target="#myModal"    APPLY TO BUTTON FOR MODAL-->
+</div>
   <div class="hidden" id="errorDiv">
     <div class="panel panel-danger">
     <!-- Default panel contents -->

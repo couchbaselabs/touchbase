@@ -67,6 +67,12 @@ var appRouter = function(app) {
         if(!req.body.email) {
             return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
         }
+        var endsWith = function (str, suffix) {
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+        if (!endsWith(req.body.email, 'couchbase.com')) {
+            return next(JSON.stringify({"status": "error", "message": "Email must end with \"couchbase.com\""}));   
+        }
         if(!req.body.name) {
             return next(JSON.stringify({"status": "error", "message": "A name must be provided"}));
         }

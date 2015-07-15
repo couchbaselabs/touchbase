@@ -18,7 +18,7 @@ User.createPrimaryIndexes = function(callback) {
 };
 
 User.create = function(newID, params, callback) {
-	var currentTime = new Date().ISOString();	
+	var currentTime = new Date().toISOString();	
 	var stringToArray = function(anyString) {
 		if (typeof anyString === "undefined") {
 			return anyString;

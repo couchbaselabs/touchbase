@@ -13,7 +13,7 @@ Session.create = function(userID, callback) {
 		sessionID: (uuid.v4()+"_session"),
 		expiry: 3600
 	};
-	userBucket.insert(sessionModel.sessionID, sessionModel, {expiry: 3600}, function(error, result) {
+	userBucket.insert(sessionModel.sessionID, sessionModel, {expiry: sessionModel.expiry}, function(error, result) {
 		if (error) {
     		callback(error, null);
     		return;
@@ -38,15 +38,16 @@ Session.auth = function(req, res, next) {
 	}
 };
 
-Session.remove = function(sessionID, callback) {
-	userBucket.remove(sessionID, function(error, result) {
+/*Session.remove = function(sessionID, callback) {
+	userBucket.remove(sessionID, function(error, result) {				HANDLE THIS ON FRONT-END (sessionModel will delete in 1 hr anyways)
+																		simply delete the cookie upon logout
 		if(error) {
 			callback(error, null);
 			return;
 		}
 		callback(null, result);
 	});
-};
+}; */
 
 /*Session.findUser = function(sessionID, callback) {
 	var findUser = N1qlQuery.fromString('SELECT userID FROM '+userBucketName+' WHERE sessionID=\"'+sessionID+'\"');
