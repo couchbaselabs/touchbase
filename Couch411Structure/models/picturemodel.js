@@ -7,6 +7,7 @@ var userBucketName		= require("../config").couchbase.pictureBucket;
 var N1qlQuery 			= require('couchbase').N1qlQuery;
 var multer 				= require('multer');
 var fs 					= require('fs');
+var gm 					= require('gm');				// you MUST 'brew install graphicsmagick' to use this library
 
 function Picture() { };
 
@@ -32,30 +33,40 @@ Picture.upload = function(newID, params, callback) {
     }
 };
 
-Picture.attempt = function(picId, params, callback) {
-	if (params.extension != 'png' && params.extension != 'jpg' && params.extension != 'jpeg' && params.extension != 'gif') {
+Picture.attempt = function(userID, params, fileInfo, callback) {
+	if (fileInfo.extension != 'png' && fileInfo.extension != 'jpg' && fileInfo.extension != 'jpeg' && fileInfo.extension != 'gif') {
 		callback(null, {status: 400, message: "ERROR: please use a valid image format (jpg, jpeg, png, gif)"});
 	}
+	var cropDim = JSON.parse(params.cropDim);
+	console.log(cropDim);
 	if(done==true) {
-    	fs.readFile(params.path, function(error, data) {
-    		if(error) {
-    			callback(error, null);
-    		}
-    		// change uuid.v4() to the ID passed by cookie!
-    		var base64data = new Buffer(data, 'binary').toString('base64');
-    		pictureBucket.insert((uuid.v4()+"_picMulterNode"), base64data, function(issue, res) {
-    			if(issue) {
-    				callback(issue, null);
-    			}
-    			fs.unlink(params.path, function (err) {
-					if (err) {
-					  	callback(err, null);
-					}
-					console.log('successfully deleted /tmp/hello');
-				});
-    			callback(null, {message: "success", data: res});
-    		});
-    	});
+		gm(fileInfo.path)
+			.crop(cropDim.width, cropDim.height, cropDim.x, cropDim.y)
+			.write(fileInfo.path, function(error) {
+				if(error) {
+					console.log(error);
+				}
+		    	fs.readFile(fileInfo.path, function(error, data) {
+		    		if(error) {
+		    			callback(error, null);
+		    		}
+		    		// change uuid.v4() to the ID passed by cookie!
+		    		var base64data = new Buffer(data, 'binary').toString('base64');
+		    		pictureBucket.upsert((userID+"_picMulterNode"), base64data, function(issue, res) {
+		    			if(issue) {
+		    				callback(issue, null);
+		    			}
+		    			fs.unlink(fileInfo.path, function (err) {
+							if (err) {
+							  	callback(err, null);
+							}
+							console.log('successfully deleted /tmp/hello');
+							done = false;
+						});
+		    			callback(null, {message: "success", data: res});
+		    		});
+		    	});
+		    });
   	}
 };
 

@@ -23,7 +23,7 @@ var appRouter = function(app) {
         if(!req.query.password) {
             return next(JSON.stringify({"status": "error", "message": "A password must be provided"}));
         }
-        User.advancedSearch(req.query, function(error, user) {
+        User.advancedSearch('advanced', req.query, function(error, user) {
             if(error) {
                 return res.status(400).send(error);
             }
@@ -53,11 +53,16 @@ var appRouter = function(app) {
     app.post("/api/uploadAttempt", function(req, res) {
         console.log(JSON.stringify(req.body));
         console.log(JSON.stringify(req.files));
-        Picture.attempt (req.body.cookieID, req.files.userPhoto, function(error, result) {
+        Session.findUser(req.body.sessionID, function (error, userID) {
             if (error) {
                 return res.status(400).send(error);
             }
-        console.log(result);
+            Picture.attempt (userID, req.body, req.files.userPhoto, function(error, result) {
+                if (error) {
+                    return res.status(400).send(error);
+                }
+                console.log(result);
+            });
         });
     });
 
@@ -117,7 +122,7 @@ var appRouter = function(app) {
             return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
         }
         console.log("req.query.name recognized");
-        User.advancedSearch(req.query, function (error, userDocs) {
+        User.advancedSearch('advanced', req.query, function (error, userDocs) {
             if(error) {
                 return res.status(400).send(error);
             }

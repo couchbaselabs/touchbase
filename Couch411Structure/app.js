@@ -8,6 +8,7 @@ var methodOverride 	= require('method-override');
 var morgan 			= require('morgan');
 var multer  		= require('multer');
 var fs 				= require('fs');
+var gm 				= require('gm');
 
 // use commands
 app.use(bodyParser.urlencoded({extended:true, limit: '4mb'}));
@@ -27,8 +28,7 @@ app.use(multer({dest: './uploads/',
 	limits: {
 	  fieldNameSize: 100,
 	  fileSize: 3000000,
-	  files: 1,
-	  fields: 5
+	  files: 1
 	}
 }));
 

@@ -49,15 +49,16 @@ Session.auth = function(req, res, next) {
 	});
 }; */
 
-/*Session.findUser = function(sessionID, callback) {
-	var findUser = N1qlQuery.fromString('SELECT userID FROM '+userBucketName+' WHERE sessionID=\"'+sessionID+'\"');
-	userBucket.query(findUser, function(error, result) {
+// interim solution until figure out auth with Nic
+Session.findUser = function(sessionID, callback) {
+	var findUser = N1qlQuery.fromString('SELECT userID FROM `'+userBucketName+'` WHERE sessionID=$1 AND type=\"session\"');
+	userBucket.query(findUser,[sessionID], function(error, result) {
 		if(error) {
 			callback(error, null);
 		}
-		callback(null, result[0].)
+		callback(null, result[0].userID);
 	})
-}*/
+};
 
 
 
