@@ -77,6 +77,7 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 							}
 							console.log('successfully deleted /tmp/hello');
 							var updateUserhasPic = N1qlQuery.fromString('UPDATE '+userBucketName+' SET login.hasPicture = true WHERE uuid=$1');
+							console.log(updateUserhasPic);
 							userBucket.query(updateUserhasPic, [userID], function(error, result) {
 								if (error) {
 									console.log(error);
