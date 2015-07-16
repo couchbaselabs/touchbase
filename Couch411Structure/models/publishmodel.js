@@ -17,8 +17,8 @@ Publish.create = function(params, callback) {
 		hyperlink: params.webpage,
 		blurb: params.blurb
 	}
-	var insertPub = N1qlQuery.fromString('INSERT INTO ' + publishBucket + ' (KEY, VALUE) VALUES (\"' + publishDoc.publishID + '\", \"' + JSON.stringify(publishDoc) + '\")');
-    publishBucket.query(insertPub, function (err, result) {
+	var insertPub = N1qlQuery.fromString('INSERT INTO ' + publishBucket + ' (KEY, VALUE) VALUES ($1, $2)');
+    publishBucket.query(insertPub, [publishID.publishID, publishDoc], function (err, result) {
     	if (err) {
     		callback(error, null);
     		return;

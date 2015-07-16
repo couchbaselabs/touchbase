@@ -66,9 +66,9 @@ User.create = function(newID, params, callback) {
     	userDoc.login.hasPicture = true;
     }
     console.log(JSON.stringify(userDoc));
-    var insertUser = N1qlQuery.fromString('INSERT INTO ' + userBucketName + ' (KEY, VALUE) VALUES (\"' + userDoc.uuid + '\", ' + JSON.stringify(userDoc) + ')');
+    var insertUser = N1qlQuery.fromString('INSERT INTO ' + userBucketName + ' (KEY, VALUE) VALUES ($1, $2)');
     console.log(insertUser);
-    userBucket.query(insertUser, function (err, result) {
+    userBucket.query(insertUser, [userDoc.uuid, userDoc], function (err, result) {
     	if (err) {
     		console.log("ERROR IN USERMODEL QUERY: ");
     		console.log(err);
@@ -102,9 +102,9 @@ User.validatePassword = function(rawPassword, hashedPassword) {
 
 User.addLoginTime = function(uuid, callback) {
 	var currentTime = new Date().toISOString();
-	var addLoginTime = N1qlQuery.fromString("UPDATE " + userBucketName + " SET timeTracker.loginTimes=ARRAY_PREPEND(\"" + currentTime + "\", timeTracker.loginTimes) WHERE META(" + userBucketName + ").id =\"" + uuid + "\"");
+	var addLoginTime = N1qlQuery.fromString("UPDATE " + userBucketName + " SET timeTracker.loginTimes=ARRAY_PREPEND($1, timeTracker.loginTimes) WHERE META(" + userBucketName + ").id =$2");
 	console.log("addLoginTime: " + addLoginTime);
-    userBucket.query(addLoginTime, function (err, result) {
+    userBucket.query(addLoginTime, [currentTime, uuid], function (err, result) {
     	if (err) {
     		callback(error, null);
     		return;

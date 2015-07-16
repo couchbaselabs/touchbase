@@ -115,7 +115,7 @@ var appRouter = function(app) {
         });
     });
 
-    app.get("/api/nameSearch", /*Session.auth,*/ function (req, res, next) {
+    app.get("/api/nameSearch", Session.auth, function (req, res, next) {
         console.log("in nameSearch Node");
         if (!req.query.name) {
             console.log("no req.query.name recognized");

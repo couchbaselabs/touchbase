@@ -1,0 +1,7321 @@
+<!DOCTYPE html>
+<!-- saved from url=(0085)http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.OpCallback -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<title>Couchbase Node.js SDK Class: Bucket</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="./Couchbase Node SDK_files/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="./Couchbase Node SDK_files/site.couchbase.css">
+
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/index.html">Couchbase Node.js SDK</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html">Bucket</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.N1qlQueryResponse.html">Bucket.N1qlQueryResponse</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.N1qlQueryResponse.Meta.html">Bucket.N1qlQueryResponse.Meta</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.TranscoderDoc.html">Bucket.TranscoderDoc</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.html">Bucket.ViewQueryResponse</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.Meta.html">Bucket.ViewQueryResponse.Meta</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/BucketManager.html">BucketManager</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Cluster.html">Cluster</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/ClusterManager.html">ClusterManager</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/CouchbaseError.html">CouchbaseError</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/N1qlQuery.html">N1qlQuery</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/N1qlStringQuery.html">N1qlStringQuery</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/SpatialQuery.html">SpatialQuery</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/ViewQuery.html">ViewQuery</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.N1qlQueryResponse.html#event:end">Bucket.N1qlQueryResponse#event:end</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.N1qlQueryResponse.html#event:error">Bucket.N1qlQueryResponse#event:error</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.N1qlQueryResponse.html#event:row">Bucket.N1qlQueryResponse#event:row</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.N1qlQueryResponse.html#event:rows">Bucket.N1qlQueryResponse#event:rows</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.html#event:end">Bucket.ViewQueryResponse#event:end</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.html#event:error">Bucket.ViewQueryResponse#event:error</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.html#event:row">Bucket.ViewQueryResponse#event:row</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.html#event:rows">Bucket.ViewQueryResponse#event:rows</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#event:connect">Bucket#event:connect</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#event:error">Bucket#event:error</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/global.html#bindingLoadErrors">bindingLoadErrors</a>
+						</li>
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/global.html#exports">exports</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/externals.list.html" class="dropdown-toggle" data-toggle="dropdown">Externals<b class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/external-CouchbaseBinding.html">CouchbaseBinding</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+		<div class="span8">
+			
+				<div id="main">
+					
+
+
+	<span id="toc0" class="toc-shim"></span><h1 class="page-title">Class: Bucket</h1>
+<section>
+
+<header>
+    <span id="toc1" class="toc-shim"></span><h2>
+    Bucket
+    </h2>
+    
+        <div class="class-description"><p>The Bucket class represents a connection to a Couchbase bucket.  Never
+instantiate this class directly.  Instead use the <a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Cluster.html#openBucket">Cluster#openBucket</a>
+method instead.</p></div>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+<dt>
+    <span id="Bucket"></span><h4 class="name" id="Bucket"><span class="type-signature">&lt;private&gt; </span>new Bucket<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+        <span id="toc3" class="toc-shim"></span><h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.N1qlQueryResponse.html">N1qlQueryResponse</a></dt>
+            <dd></dd>
+        
+            <dt><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.TranscoderDoc.html">TranscoderDoc</a></dt>
+            <dd></dd>
+        
+            <dt><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.html">ViewQueryResponse</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+        <span id="toc4" class="toc-shim"></span><h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt class="name" id="clientVersion">
+    <span id="toc5" class="toc-shim"></span><h4><span class="type-signature"></span>clientVersion<span class="type-signature"> :string</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Returns the version of the Node.js library as a string.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <div class="sunlight-container"><div class="sunlight-menu"><ul><li><a href="http://sunlightjs.com/" title="Sunlight: JavaScript syntax highlighter by Tommy Montgomery"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41Ljg3O4BdAAAAl0lEQVQ4jWP4P9n9PyWYgTYGzAr+///Q9P//Ty/HjhfEETDg1oH/YPDgNKbm4wsIuGBO+H84WJJKhhd2dkA0v3tEZhjcPQox4MVN7P7fUEHAgM112DX++Qkx+PEFMqPxwSmIAQenkWHAvCicAUucAbCAfX2PQCCCEtDGKkz86RXEgL39BAwAKcAFbh/6/39GIL3yAj0NAAB+LQeDCZ9tvgAAAABJRU5ErkJggg==" alt="about"></a></li><li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#" title="view raw code">raw</a></li><li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#" title="collapse code block">—</a></li></ul></div><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-string">"2.0.0-beta.fa123bd"</span></span></pre></div></div>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="configThrottle">
+    <span id="toc6" class="toc-shim"></span><h4><span class="type-signature"></span>configThrottle<span class="type-signature"> :number</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Gets or sets the config throttling in milliseconds. The config throttling is
+the time that Bucket will wait before forcing a configuration refresh.  If no
+refresh occurs before this period while a configuration is marked invalid,
+an update will be triggered.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="connectionTimeout">
+    <span id="toc7" class="toc-shim"></span><h4><span class="type-signature"></span>connectionTimeout<span class="type-signature"> :number</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Sets or gets the connection timeout in milliseconds. This is the timeout
+value used when connecting to the configuration port during the initial
+connection (in this case, use this as a key in the 'options' parameter in
+the constructor) and/or when Bucket attempts to reconnect in-situ (if the
+current connection has failed).</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+	<dt class="tag-default">Default Value:</dt>
+	<dd class="tag-default">
+		<ul class="dummy">
+			<li>5000</li>
+		</ul>
+	</dd>
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="durabilityInterval">
+    <span id="toc8" class="toc-shim"></span><h4><span class="type-signature"></span>durabilityInterval<span class="type-signature"> :number</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Gets or sets the durability interval in milliseconds. The durability
+interval is the time that Bucket will wait between requesting new durability
+information during a durability poll.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="durabilityTimeout">
+    <span id="toc9" class="toc-shim"></span><h4><span class="type-signature"></span>durabilityTimeout<span class="type-signature"> :number</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Gets or sets the durability timeout in milliseconds. The durability timeout
+is the time that Bucket will wait for a response from the server in regards
+to a durability request.  If there are no responses received within this time
+frame, the request fails with an error.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="lcbVersion">
+    <span id="toc10" class="toc-shim"></span><h4><span class="type-signature"></span>lcbVersion<span class="type-signature"> :string</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Returns the libcouchbase version as a string.  This information will usually
+be in the format of 2.4.0-fffffff representing the major, minor, patch and
+git-commit that the built libcouchbase is based upon.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <div class="sunlight-container"><div class="sunlight-menu"><ul><li><a href="http://sunlightjs.com/" title="Sunlight: JavaScript syntax highlighter by Tommy Montgomery"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41Ljg3O4BdAAAAl0lEQVQ4jWP4P9n9PyWYgTYGzAr+///Q9P//Ty/HjhfEETDg1oH/YPDgNKbm4wsIuGBO+H84WJJKhhd2dkA0v3tEZhjcPQox4MVN7P7fUEHAgM112DX++Qkx+PEFMqPxwSmIAQenkWHAvCicAUucAbCAfX2PQCCCEtDGKkz86RXEgL39BAwAKcAFbh/6/39GIL3yAj0NAAB+LQeDCZ9tvgAAAABJRU5ErkJggg==" alt="about"></a></li><li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#" title="view raw code">raw</a></li><li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#" title="collapse code block">—</a></li></ul></div><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-string">"2.4.0-beta.adbf222"</span></span></pre></div></div>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="managementTimeout">
+    <span id="toc11" class="toc-shim"></span><h4><span class="type-signature"></span>managementTimeout<span class="type-signature"> :number</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Gets or sets the management timeout in milliseconds. The management timeout
+is the time that Bucket will wait for a response from the server for a
+management request.  If the response is not received within this time frame,
+the request is failed out with an error.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="nodeConnectionTimeout">
+    <span id="toc12" class="toc-shim"></span><h4><span class="type-signature"></span>nodeConnectionTimeout<span class="type-signature"> :number</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Sets or gets the node connection timeout in msecs. This value is similar to
+<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#connectionTimeout">Bucket#connectionTimeout</a>, but defines the time to wait for a
+particular node to respond before trying the next one.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="operationTimeout">
+    <span id="toc13" class="toc-shim"></span><h4><span class="type-signature"></span>operationTimeout<span class="type-signature"> :number</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Gets or sets the operation timeout in milliseconds. The operation timeout
+is the time that Bucket will wait for a response from the server for a CRUD
+operation. If the response is not received within this time frame, the
+operation is failed with an error.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+	<dt class="tag-default">Default Value:</dt>
+	<dd class="tag-default">
+		<ul class="dummy">
+			<li>2500</li>
+		</ul>
+	</dd>
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="viewTimeout">
+    <span id="toc14" class="toc-shim"></span><h4><span class="type-signature"></span>viewTimeout<span class="type-signature"> :number</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Gets or sets the view timeout in milliseconds. The view timeout is the
+time that Bucket will wait for a response from the server for a view request.
+If the response is not received within this time frame, the request fails
+with an error.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <span id="toc15" class="toc-shim"></span><h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <span id="append"></span><h4 class="name" id="append"><span class="type-signature"></span>append<span class="signature">(key, fragment, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Similar to Bucket#set, but instead of setting a new key,
+it appends data to the existing key. Note that this function only makes
+sense when the stored data is a string; 'appending' to a JSON document may
+result in parse errors when the document is later retrieved.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>fragment</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The document's contents to append.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+		<th>Default</th>
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>cas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.CAS">Bucket.CAS</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The CAS value to check. If the item on the server contains a different
+ CAS value, the operation will fail.  Note that if this option is undefined,
+ no comparison will be performed.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>persist_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is persisted to this many nodes</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>replicate_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is replicated to this many nodes</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#prepend">Bucket#prepend</a></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="counter"></span><h4 class="name" id="counter"><span class="type-signature"></span>counter<span class="signature">(key, delta, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Increments or decrements a key's numeric value.</p>
+<p>Note that JavaScript does not support 64-bit integers (while libcouchbase
+and the server do). You might receive an inaccurate value if the
+number is greater than 53-bits (JavaScript's maximum integer precision).</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>delta</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The amount to add or subtract from the counter value.  This value may be
+any non-zero integer.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+		<th>Default</th>
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>initial</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>Sets the initial value for the document if it does not exist.  Specifying
+ a value of undefined will cause the operation to fail if the document
+ does not exist, otherwise this value must be equal to or greater than 0.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>expiry</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Set the initial expiration time for the document.  A value of 0 represents
+ never expiring.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>persist_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is persisted to this many nodes</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>replicate_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is replicated to this many nodes</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="disconnect"></span><h4 class="name" id="disconnect"><span class="type-signature"></span>disconnect<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Shuts down this connection.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="enableN1ql"></span><h4 class="name" id="enableN1ql"><span class="type-signature"></span>enableN1ql<span class="signature">(hosts)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Enables N1QL support on the client.  A cbq-server URI must be passed.  This
+method will be deprecated in the future in favor of automatic configuration
+through the connected cluster.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>hosts</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Array.&lt;string&gt;</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An array of host/port combinations which are N1QL servers attached to
+this cluster.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: volatile)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <div class="sunlight-container"><div class="sunlight-menu"><ul><li><a href="http://sunlightjs.com/" title="Sunlight: JavaScript syntax highlighter by Tommy Montgomery"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41Ljg3O4BdAAAAl0lEQVQ4jWP4P9n9PyWYgTYGzAr+///Q9P//Ty/HjhfEETDg1oH/YPDgNKbm4wsIuGBO+H84WJJKhhd2dkA0v3tEZhjcPQox4MVN7P7fUEHAgM112DX++Qkx+PEFMqPxwSmIAQenkWHAvCicAUucAbCAfX2PQCCCEtDGKkz86RXEgL39BAwAKcAFbh/6/39GIL3yAj0NAAB+LQeDCZ9tvgAAAABJRU5ErkJggg==" alt="about"></a></li><li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#" title="view raw code">raw</a></li><li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#" title="collapse code block">—</a></li></ul></div><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-ident">bucket</span><span class="sunlight-operator">.</span><span class="sunlight-ident">enableN1ql</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">[</span><span class="sunlight-string">'http://1.1.1.1:8093/'</span><span class="sunlight-punctuation">,</span><span class="sunlight-string">'http://1.1.1.2:8093'</span><span class="sunlight-punctuation">]</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span></span></pre></div></div>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="get"></span><h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(key, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Retrieves a document.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="getAndLock"></span><h4 class="name" id="getAndLock"><span class="type-signature"></span>getAndLock<span class="signature">(key, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Lock the document on the server and retrieve it. When an document is locked,
+its CAS changes and subsequent operations on the document (without providing
+the current CAS) will fail until the lock is no longer held.</p>
+<p>This function behaves identically to <a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#get">Bucket#get</a> in that it will
+return the value. It differs in that the document is also locked. This
+ensures that attempts by other client instances to access this document
+while the lock is held will fail.</p>
+<p>Once locked, a document can be unlocked either by explicitly calling
+<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#unlock">Bucket#unlock</a> or by performing a storage operation
+(e.g. Bucket#set, <a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#replace">Bucket#replace</a>, Bucket::append)
+with the current CAS value.  Note that any other lock operations on this
+key will fail while a document is locked.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+		<th>Default</th>
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>lockTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    15
+                
+                </td>
+            
+
+            <td class="description last"><p>The duration of time the lock should be held for. Note that the maximum
+ duration for a lock is 30 seconds, and if a higher value is specified,
+ it will be rounded to this number.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#get">Bucket#get</a></li>
+			
+			<li>Bucekt#unlock</li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="getAndTouch"></span><h4 class="name" id="getAndTouch"><span class="type-signature"></span>getAndTouch<span class="signature">(key, expiry, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Retrieves a document and updates the expiry of the item at the same time.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>expiry</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The expiration time to use. If a value of 0 is provided, then the
+current expiration time is cleared and the key is set to
+never expire. Otherwise, the key is updated to expire in the
+time provided (in seconds).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#get">Bucket#get</a></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="getMulti"></span><h4 class="name" id="getMulti"><span class="type-signature"></span>getMulti<span class="signature">(keys, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Retrieves a list of keys</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;(Buffer|string)&gt;</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The target document keys.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.MultiGetCallback">Bucket.MultiGetCallback</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#get">Bucket#get</a></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="getReplica"></span><h4 class="name" id="getReplica"><span class="type-signature"></span>getReplica<span class="signature">(key, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get a document from a replica server in your cluster.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The index for which replica you wish to retrieve this value from, or
+ if undefined, use the value from the first server that replies.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#get">Bucket#get</a></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="insert"></span><h4 class="name" id="insert"><span class="type-signature"></span>insert<span class="signature">(key, value, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Identical to <a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#upsert">Bucket#upsert</a> but will fail if the document already
+exists.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The document's contents.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+		<th>Default</th>
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>expiry</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Set the initial expiration time for the document.  A value of 0 represents
+ never expiring.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>persist_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is persisted to this many nodes</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>replicate_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is replicated to this many nodes</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="manager"></span><h4 class="name" id="manager"><span class="type-signature"></span>manager<span class="signature">()</span><span class="type-signature"> → {<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/BucketManager.html">BucketManager</a>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Returns an instance of a BuckerManager for performing management
+operations against a bucket.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/BucketManager.html">BucketManager</a></span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="prepend"></span><h4 class="name" id="prepend"><span class="type-signature"></span>prepend<span class="signature">(key, fragment, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Like <a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#append"><code>Bucket#append</code></a>, but prepends data to the existing value.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>fragment</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The document's contents to prepend.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+		<th>Default</th>
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>cas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.CAS">Bucket.CAS</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The CAS value to check. If the item on the server contains a different
+ CAS value, the operation will fail.  Note that if this option is undefined,
+ no comparison will be performed.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>persist_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is persisted to this many nodes</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>replicate_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is replicated to this many nodes</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#append">Bucket#append</a></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="query"></span><h4 class="name" id="query"><span class="type-signature"></span>query<span class="signature">(query, <span class="optional">params</span>, callback)</span><span class="type-signature"> → {<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.html">Bucket.ViewQueryResponse</a>|<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.N1qlQueryResponse.html">Bucket.N1qlQueryResponse</a>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Executes a previously prepared query object.  This could be a
+<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/ViewQuery.html">ViewQuery</a> or a <a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/N1qlQuery.html">N1qlQuery</a>.</p>
+<p>Note: N1qlQuery queries are currently an uncommitted interface and may be
+subject to change in 2.0.0's final release.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/ViewQuery.html">ViewQuery</a></span>
+|
+
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/N1qlQuery.html">N1qlQuery</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The query to execute.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>A list or map to do replacements on a N1QL query.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.QueryCallback">Bucket.QueryCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.html">Bucket.ViewQueryResponse</a></span>
+|
+
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.N1qlQueryResponse.html">Bucket.N1qlQueryResponse</a></span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="remove"></span><h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(key, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Deletes a document on the server.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+		<th>Default</th>
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>cas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.CAS">Bucket.CAS</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The CAS value to check. If the item on the server contains a different
+ CAS value, the operation will fail.  Note that if this option is undefined,
+ no comparison will be performed.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>persist_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is persisted to this many nodes</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>replicate_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is replicated to this many nodes</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="replace"></span><h4 class="name" id="replace"><span class="type-signature"></span>replace<span class="signature">(key, value, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Identical to Bucket#set, but will only succeed if the document
+exists already (i.e. the inverse of Bucket#add).</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The document's contents.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+		<th>Default</th>
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>cas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.CAS">Bucket.CAS</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The CAS value to check. If the item on the server contains a different
+ CAS value, the operation will fail.  Note that if this option is undefined,
+ no comparison will be performed.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>expiry</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Set the initial expiration time for the document.  A value of 0 represents
+ never expiring.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>persist_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is persisted to this many nodes</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>replicate_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is replicated to this many nodes</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="setTranscoder"></span><h4 class="name" id="setTranscoder"><span class="type-signature"></span>setTranscoder<span class="signature">(encoder, decoder)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Configures a custom set of transcoder functions for encoding and decoding
+values that are being stored or retreived from the server.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>encoder</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">EncoderFunction</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The function for encoding.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>decoder</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">DecoderFunction</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The function for decoding.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="touch"></span><h4 class="name" id="touch"><span class="type-signature"></span>touch<span class="signature">(key, expiry, <span class="optional">options</span>)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Update the document expiration time.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>expiry</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The expiration time to use. If a value of 0 is provided, then the
+current expiration time is cleared and the key is set to
+never expire. Otherwise, the key is updated to expire in the
+time provided (in seconds).  Values larger than 30<em>24</em>60*60 seconds
+(30 days) are interpreted as absolute times (from the epoch).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+		<th>Default</th>
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>persist_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is persisted to this many nodes</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>replicate_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is replicated to this many nodes</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback.</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="unlock"></span><h4 class="name" id="unlock"><span class="type-signature"></span>unlock<span class="signature">(key, cas, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Unlock a previously locked document on the server.  See the
+Bucket#lock method for more details on locking.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>cas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.CAS">Bucket.CAS</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The CAS value returned when the key was locked.  This operation will fail
+if the CAS value provided does not match that which was the result of the
+original lock operation.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#getAndLock">Bucket#getAndLock</a></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="upsert"></span><h4 class="name" id="upsert"><span class="type-signature"></span>upsert<span class="signature">(key, value, <span class="optional">options</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Stores a document to the bucket.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The target document key.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The document's contents.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+		<th>Default</th>
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>cas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.CAS">Bucket.CAS</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The CAS value to check. If the item on the server contains a different
+ CAS value, the operation will fail.  Note that if this option is undefined,
+ no comparison will be performed.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>expiry</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Set the initial expiration time for the document.  A value of 0 represents
+ never expiring.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>persist_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is persisted to this many nodes</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>replicate_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional&gt;<br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"><p>Ensures this operation is replicated to this many nodes</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+            </td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <span id="toc35" class="toc-shim"></span><h3 class="subsection-title">Type Definitions</h3>
+
+        <dl>
+                
+<dt class="name" id=".CAS">
+    <span id="toc36" class="toc-shim"></span><h4>CAS</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The <em>CAS</em> value is a special object that indicates the current state
+of the item on the server. Each time an object is mutated on the server, the
+value is changed. <i>CAS</i> objects can be used in conjunction with
+mutation operations to ensure that the value on the server matches the local
+value retrieved by the client.  This is useful when doing document updates
+on the server as you can ensure no changes were applied by other clients
+while you were in the process of mutating the document locally.</p>
+<p>In the Node.js SDK, the CAS is represented as an opaque value. As such,y
+ou cannot generate CAS objects, but should rather use the values returned
+from a <a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">Bucket.OpCallback</a>.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<dt>
+    <span id=".DecoderFunction"></span><h4 class="name" id=".DecoderFunction"><span class="type-signature"></span>DecoderFunction<span class="signature">(doc)</span><span class="type-signature"> → {*}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Transcoder Decoding Function.</p>
+<p>This function will receive an object containing a <code>Buffer</code> value and an
+integer value representing any flags metadata whenever a retrieval
+operation is executed.  It is expected that this function will return a
+value representing the original value stored and encoded with its
+matching EncoderFunction.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>doc</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.TranscoderDoc.html">Bucket.TranscoderDoc</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The data from Couchbase to decode.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The resulting value.</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">*</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+            
+                
+<dt>
+    <span id=".EncoderFunction"></span><h4 class="name" id=".EncoderFunction"><span class="type-signature"></span>EncoderFunction<span class="signature">(value)</span><span class="type-signature"> → {<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.TranscoderDoc.html">Bucket.TranscoderDoc</a>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Transcoder Encoding Function.</p>
+<p>This function will receive a value when a storage operation is invoked
+that needs to encode user-provided data for storage into Couchbase.  It
+expects to be returned a <code>Buffer</code> object to store along with an integer
+representing any flag metadata relating to how to decode the key later
+using the matching DecoderFunction.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The value needing encoding.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The data to store to Couchbase.</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.TranscoderDoc.html">Bucket.TranscoderDoc</a></span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+            
+                
+<dt>
+    <span id=".MultiGetCallback"></span><h4 class="name" id=".MultiGetCallback"><span class="type-signature"></span>MultiGetCallback<span class="signature">(error, results)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Multi-Get Callback.</p>
+<p>This callback is used to return results from a getMulti operation.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">undefined</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The number of keys that failed to be retrieved.  The precise errors
+ are available by checking the error property of the individual documents.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>results</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Object&gt;</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>This is a map of keys to results.  The result for each key will optionally
+ contain an error if one occured, or if no error occured will contain
+ the CAS and value of the document.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+            
+                
+<dt>
+    <span id=".OpCallback"></span><h4 class="name" id=".OpCallback"><span class="type-signature"></span>OpCallback<span class="signature">(error, result)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Single-Key callbacks.</p>
+<p>This callback is passed to all of the single key functions.</p>
+<p>It returns a result objcet containing a combination of a CAS and a value,
+depending on which operation was invoked.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">undefined</span>
+|
+
+<span class="param-type">Error</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error for the operation. This can either be an Error object
+ or a value which evaluates to false (null, undefined, 0 or false).</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>result</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The result of the operation that was executed.  This usually contains
+ at least a <i>cas</i> property, and on some operations will contain a
+ <i>value</i> property as well.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+            
+                
+<dt>
+    <span id=".QueryCallback"></span><h4 class="name" id=".QueryCallback"><span class="type-signature"></span>QueryCallback<span class="signature">(error, rows, meta)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This is used as a callback from executed queries.  It is a shortcut method
+that automatically subscribes to the rows and error events of the
+<a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.html">Bucket.ViewQueryResponse</a>.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">undefined</span>
+|
+
+<span class="param-type">Error</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error for the operation. This can either be an Error object
+ or a falsy value.</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>rows</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Object&gt;</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The rows returned from the query</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>meta</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.ViewQueryResponse.Meta.html">Bucket.ViewQueryResponse.Meta</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The metadata returned by the query.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+            </dl>
+    
+
+    
+        <span id="toc42" class="toc-shim"></span><h3 class="subsection-title">Events</h3>
+
+        <dl>
+            
+<dt>
+    <span id="event:connect"></span><h4 class="name" id="event:connect">connect</h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Connected Event.
+Invoked once the connection has been established successfully.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <span id="event:error"></span><h4 class="name" id="event:error">error</h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Error Event.
+Invoked if the connection encounters any errors without having an
+operation context available to handle the error.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error that occured while attempting to connect to the cluster.</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+	<dt class="tag-since">Since:</dt>
+	<dd class="tag-since">
+		<ul class="dummy">
+			<li>2.0.0 <i>(stability: committed)</i></li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        </dl>
+    
+</article>
+
+</section>
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					
+		<span class="copyright">
+		Copyright 2010-2013 Couchbase, Inc.
+		</span>
+					<br>
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a>
+		on 2015-07-07T18:44:36-03:00 using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
+			</div>
+
+			
+			<div class="span3">
+				<div id="toc"><ul class="nav nav-pills nav-stacked"><li class="toc-h1"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc0">Class: Bucket</a></li><li class="toc-h2"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc1">
+    Bucket
+    </a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#Bucket">&lt;private&gt; new Bucket()</a></li><li class="toc-h3"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc3">Classes</a></li><li class="toc-h3"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc4">Members</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc5">clientVersion :string</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc6">configThrottle :number</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc7">connectionTimeout :number</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc8">durabilityInterval :number</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc9">durabilityTimeout :number</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc10">lcbVersion :string</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc11">managementTimeout :number</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc12">nodeConnectionTimeout :number</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc13">operationTimeout :number</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc14">viewTimeout :number</a></li><li class="toc-h3"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc15">Methods</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#append">append(key, fragment, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#counter">counter(key, delta, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#disconnect">disconnect()</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#enableN1ql">enableN1ql(hosts)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#get">get(key, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#getAndLock">getAndLock(key, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#getAndTouch">getAndTouch(key, expiry, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#getMulti">getMulti(keys, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#getReplica">getReplica(key, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#insert">insert(key, value, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#manager">manager() → {BucketManager}</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#prepend">prepend(key, fragment, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#query">query(query, params, callback) → {Bucket.ViewQueryResponse|Bucket.N1qlQueryResponse}</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#remove">remove(key, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#replace">replace(key, value, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#setTranscoder">setTranscoder(encoder, decoder)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#touch">touch(key, expiry, options)</a></li><li class="toc-h4 toc-active"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#unlock">unlock(key, cas, options, callback)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#upsert">upsert(key, value, options, callback)</a></li><li class="toc-h3"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc35">Type Definitions</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc36">CAS</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.DecoderFunction">DecoderFunction(doc) → {*}</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.EncoderFunction">EncoderFunction(value) → {Bucket.TranscoderDoc}</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.MultiGetCallback">MultiGetCallback(error, results)</a></li><li class="toc-h4"><a href="./Couchbase Node SDK_files/Couchbase Node SDK.html">OpCallback(error, result)</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#.QueryCallback">QueryCallback(error, rows, meta)</a></li><li class="toc-h3"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#toc42">Events</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#event:connect">connect</a></li><li class="toc-h4"><a href="http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.9/Bucket.html#event:error">error</a></li></ul></div>
+			</div>
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<!--<script src="scripts/sunlight.js"></script>-->
+	<script src="./Couchbase Node SDK_files/docstrap.lib.js"></script>
+	<script src="./Couchbase Node SDK_files/bootstrap-dropdown.js"></script>
+	<script src="./Couchbase Node SDK_files/toc.js"></script>
+
+	<script>
+		$( function () {
+			$( "[id*='$']" ).each( function () {
+				var $this = $( this );
+
+				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+			} );
+
+			$( "#toc" ).toc( {
+				anchorName  : function ( i, heading, prefix ) {
+					return $( heading ).attr( "id" ) || ( prefix + i );
+				},
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : "100px"
+			} );
+
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+			$( '.dropdown-toggle' ).dropdown();
+//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+				var $this = $( this );
+
+				var example = $this.find( "code" );
+				exampleText = example.html();
+				var lang = /{@lang (.*?)}/.exec( exampleText );
+				if ( lang && lang[1] ) {
+					exampleText = exampleText.replace( lang[0], "" );
+					example.html( exampleText );
+					lang = lang[1];
+				} else {
+					lang = "javascript";
+				}
+
+				if ( lang ) {
+
+					$this
+						.addClass( "sunlight-highlight-" + lang )
+						.addClass( "linenums" )
+						.html( example.html() );
+
+				}
+			} );
+
+			Sunlight.highlightAll( {
+				lineNumbers : false,
+				showMenu : true,
+				enableDoclinks : true
+			} );
+		} );
+	 </script>
+
+
+
+	<!--Navigation and Symbol Display-->
+	
+
+
+	<!--Google Analytics-->
+	
+
+
+</body></html>
