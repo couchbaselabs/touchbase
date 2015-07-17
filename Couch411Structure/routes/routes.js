@@ -23,7 +23,7 @@ var appRouter = function(app) {
         if(!req.query.password) {
             return next(JSON.stringify({"status": "error", "message": "A password must be provided"}));
         }
-        User.advancedSearch('advanced', req.query, function(error, user) {
+        User.advancedSearch(req.query, function(error, user) {
             if(error) {
                 return res.status(400).send(error);
             }
@@ -46,6 +46,25 @@ var appRouter = function(app) {
                     }
                     res.send({sessionID: result.sessionID, expiry: result.expiry});
                 });
+            });
+        });
+    });
+
+    app.post("/api/publishPost", Session.auth, function (req, res, next) {
+        var randomObj= {};
+        randomObj.userID = req.userID;
+        User.advancedSearch(randomObj, function(error, userDocs) {
+            if (error) {
+                return res.status(400).send(error);
+            }
+            console.log(userDocs.data[0]);
+            req.body.author = userDocs.data[0].users.name;
+            console.log(req.body);
+            Publish.create(req.body, function(err, result) {
+                if (err) {
+                    return res.status(400).send(error);
+                }
+                console.log(result);
             });
         });
     });
@@ -94,6 +113,7 @@ var appRouter = function(app) {
         if (req.body.password !== req.body.confPassword) {
             return next(JSON.stringify({"status": "error", "message": "Password did not match confirmation password"}));
         }
+        // replace with advancedSearch
         User.searchByEmail(req.body, function(error, user) {
             if(error) {
                 return res.status(400).send(error);
@@ -122,7 +142,7 @@ var appRouter = function(app) {
             return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
         }
         console.log("req.query.name recognized");
-        User.advancedSearch('advanced', req.query, function (error, userDocs) {
+        User.advancedSearch(req.query, function (error, userDocs) {
             if(error) {
                 return res.status(400).send(error);
             }

@@ -3,7 +3,7 @@ var forge 				= require("node-forge");
 var userBucket			= require("../app").userBucket;
 var pictureBucket		= require("../app").pictureBucket;
 var userBucketName		= require("../config").couchbase.userBucket;
-var userBucketName		= require("../config").couchbase.pictureBucket;
+var pictureBucketName	= require("../config").couchbase.pictureBucket;
 var N1qlQuery 			= require('couchbase').N1qlQuery;
 var multer 				= require('multer');
 var fs 					= require('fs');
@@ -77,13 +77,12 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 							}
 							console.log('successfully deleted /tmp/hello');
 							var updateUserhasPic = N1qlQuery.fromString('UPDATE '+userBucketName+' SET login.hasPicture = true WHERE uuid=$1');
-							console.log(updateUserhasPic);
+							console.log(userID);
 							userBucket.query(updateUserhasPic, [userID], function(error, result) {
 								if (error) {
 									console.log(error);
 									return;
 								}
-								console.log(result);
 							});
 						});
 		    			callback(null, {message: "success", data: res});

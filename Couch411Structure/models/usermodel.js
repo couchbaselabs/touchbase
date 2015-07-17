@@ -113,9 +113,9 @@ User.addLoginTime = function(uuid, callback) {
     });
 };
 
-User.advancedSearch = function(type, params, callback) {
-	var email, name, administrator, hobbies, expertise, division, title, baseOffice;
-	name = administrator = hobbies = expertise = division = title = baseOffice = "";
+User.advancedSearch = function(params, callback) {
+	var email, name, administrator, hobbies, expertise, division, title, baseOffice, userID;
+	name = administrator = hobbies = expertise = division = title = baseOffice = userID ="";
 	var stringToArray = function(anyString) {
 			var tempArray=anyString.split(",");
 			var resultArray=[];
@@ -163,21 +163,28 @@ User.advancedSearch = function(type, params, callback) {
 	if (params.baseOffice) {
 		baseOffice = ("AND jobAttributes.baseOffice = \"" + params.baseOffice + "\"");
 	}
-	if (type == 'advanced') {
-		var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice);
-		console.log(advancedQuery);
-		userBucket.query(advancedQuery, function (error, result) {
-			if (error) {
-	    		callback(error, null);
-	    		return;
-	    	}
-	    	console.log(result);
-	    	callback(null, {message: "success", data: result});
-		});
+	if (params.userID) {
+		userID = ("AND uuid = \"" + params.userID + "\"");
 	}
-	else if (type == 'intelligent') {
+	var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice + " " + userID);
+	console.log(advancedQuery);
+	userBucket.query(advancedQuery, function (error, result) {
+		if (error) {
+    		callback(error, null);
+    		return;
+    	}
+    	console.log(result);
+    	callback(null, {message: "success", data: result});
+	});
+};
+
+User.intelligentCount = function(params, callback) {
+	// for each type of text/array field, you will want to loop through to find all instances of it
+	// you will then do a query like SELECT COUNT(*) FROM userBucketName WHERE (textfield/array loop)
+	// then ouput the field name and count type in order of descending count
+	/*else if (type == 'intelligent') {
 		// could put in a loop for each one so that people can verify each type with a count (set up an array)
-		var intelligentQuery = N1qlQuery.fromString('SELECT COUNT(*) FROM '+userBucketName+' '+email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice);
+		var intelligentQuery = N1qlQuery.fromString("SELECT COUNT(*) FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice);
 		console.log(intelligentQuery);
 		userBucket.query(intelligentQuery, function (error, result) {
 			if (error) {
@@ -187,13 +194,7 @@ User.advancedSearch = function(type, params, callback) {
 	    	console.log(result);
 	    	callback(null, {message: "success", data: result});
 		});
-	}
-};
-
-User.intelligentCount = function(params, callback) {
-	// for each type of text/array field, you will want to loop through to find all instances of it
-	// you will then do a query like SELECT COUNT(*) FROM userBucketName WHERE (textfield/array loop)
-	// then ouput the field name and count type in order of descending count
+	} */
 
 };
 // must incorporate images here somehow!

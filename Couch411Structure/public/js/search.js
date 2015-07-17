@@ -12,7 +12,7 @@ search.controller("searchController", function ($scope, $http, $window) {
 		$scope.searchData = {};
 		$scope.searchData.name = someString;
 		console.log($scope.searchData);
-		$http({method: "GET", url: "/api/nameSearch", params: $scope.searchData, header:{'Authorization':'Bearer '+sessionStorage.sessionID}})
+		$http({method: "GET", url: "/api/nameSearch", params: $scope.searchData, headers:{'Authorization':'Bearer '+sessionStorage.sessionID}})
 			.success(function(result) {
 				console.log(result);
 				$scope.searchData.output = (result);

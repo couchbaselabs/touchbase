@@ -12,6 +12,17 @@ picture.controller("pictureController", function ($scope, $http, $timeout, Cropp
 	* call `angular.element(this).scope().onFile(this.files[0])`
 	* when input's event is fired.
 	*/
+	$scope.publishTry = function() {
+		var postTry = {"pubType": "github", "title":"Couch411", "webpage": "https://github.com/pranavmayuram/Couch411/tree/master/Couch411Structure", "blurb": "Couch411 is dank"};
+		$http({method: "POST", url: "/api/publishPost", data: postTry, headers:{'Authorization':'Bearer '+sessionStorage.sessionID}})
+			.success(function(result) {
+				console.log(result);
+			})
+			.error(function(result) {
+				console.log("ERROR : " + result);
+			});
+	};
+
 	$scope.onFile = function(blob) {
 		Cropper.encode((file = blob)).then(function(dataUrl) {
 		  $scope.dataUrl = dataUrl;

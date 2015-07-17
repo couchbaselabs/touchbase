@@ -34,9 +34,9 @@
                     <h4 class="modal-title" id="myModalLabel">Upload Profile Picture</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="file" onchange="angular.element(this).scope().onFile(this.files[0])" name="userPhoto">
-                      <button ng-click="preview()">Show preview</button>
-                      <button ng-click="scale(200)">Scale to 200px width</button>
+                    <input type="file" onchange="angular.element(this).scope().onFile(this.files[0])" name="userPhoto" accept="image/*">
+                      <button class="btn btn-default" ng-click="preview()">Show preview</button>
+                      <button class="btn btn-default" ng-click="scale(200)">Scale to 200px width</button>
                       <label>Disabled <input type="checkbox" ng-model="options.disabled"></label>
 
                       <br />
@@ -54,7 +54,7 @@
                       </div>
                       <!--<form id = "uploadForm" action="/api/uploadAttempt" method="post" enctype="multipart/form-data">
                         <input type="file" name="userPhoto" accept="image/*"/>
-                        <input type="submit" value="Upload Image" name="submit"> accept="image/*"
+                        <input type="submit" value="Upload Image" name="submit"> 
                       </form>-->
                 </div>
                 <div class="modal-footer">
@@ -67,4 +67,5 @@
         </div>
     </div>
   </div>
+  <button class="btn btn-default" ng-click="publishTry()">Make Post</button>
 </body>

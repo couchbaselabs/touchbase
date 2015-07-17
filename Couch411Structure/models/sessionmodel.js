@@ -23,7 +23,8 @@ Session.create = function(userID, callback) {
 };
 
 Session.auth = function(req, res, next) {
-	var sessionID = req.headers.Authorization;
+	var sessionID = req.headers.authorization;
+	console.log(sessionID);
 	var sessionArray = sessionID.split(" ");
 	if (sessionArray[0] === "Bearer") {
 		var getSession = N1qlQuery.fromString("SELECT userID FROM `" + userBucketName + "` WHERE type = \"session\" AND sessionID = $1");
