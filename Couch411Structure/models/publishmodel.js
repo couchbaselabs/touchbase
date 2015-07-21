@@ -29,6 +29,17 @@ Publish.create = function(params, callback) {
     });
 };
 
+Publish.remove = function(params, callback) {
+	publishBucket.remove(params.publishID, function(err, result) {
+		if (err) {
+			console.log(err);
+			callback(err, null);
+    		return;
+		}
+		callback(null, {message: "success", data: result});
+	});
+};
+
 
 
 module.exports = Publish;

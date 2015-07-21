@@ -52,7 +52,10 @@ search.controller("searchController", function ($scope, $http, $window) {
 		// this will require a formData type object which contains all entries needed for the form to create an account
 		$http({method: "POST", url: "/api/registerUser", data: someObject})
 			.success(function(result) {
-				console.log(result[0]);
+				console.log('dhjasdbahjdbsa: ' + JSON.stringify(result));
+				sessionStorage.sessionID = result.sessionID;
+				sessionStorage.expiry = result.expiry;
+				console.log('sessionStorage: '+ JSON.stringify(sessionStorage));
 				$scope.formData = {};
 			})
 			.error(function(result) {
@@ -75,8 +78,8 @@ search.controller("searchController", function ($scope, $http, $window) {
 			});
 	};
 
-	$scope.printLocalStorage = function() {
-		console.log(sessionStorage);
+	$scope.deleteSessionStorage = function() {
+		
 	};
 
 	/*$scope.convertImgToStore = function() {

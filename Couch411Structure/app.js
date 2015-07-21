@@ -17,6 +17,7 @@ app.use(morgan('dev'));
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/bower_components'));
+app.use(express.static(__dirname + '/bower_components/angular-cookies'));
 app.use(multer({dest: './uploads/', 
 	onFileUploadStart: function (file) {
 	  console.log(file.originalname + ' is starting ...')

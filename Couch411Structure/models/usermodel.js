@@ -4,6 +4,10 @@ var userBucket		= require("../app").userBucket;
 var userBucketName	= require("../config").couchbase.userBucket;
 var N1qlQuery 		= require('couchbase').N1qlQuery;
 
+var stringAttributes 	= ["skype", "name", "jobTitle"];
+var arrayAttributes		= ["hobbies", "expertise"];
+var dropdownAttributes	= ["baseOffice", "division"];
+
 function User() { };
 
 User.createPrimaryIndexes = function(callback) {
@@ -17,7 +21,7 @@ User.createPrimaryIndexes = function(callback) {
 	});
 };
 
-User.create = function(newID, params, callback) {
+User.create = function(params, callback) {
 	var currentTime = new Date().toISOString();	
 	var stringToArray = function(anyString) {
 		if (typeof anyString === "undefined") {
@@ -36,26 +40,27 @@ User.create = function(newID, params, callback) {
 			return resultArray;
 		}
 	};
+	// uuid, login, & timeTracker will remain constant; only the attributes can be changed
     var userDoc = {
-    	uuid: newID,
-        name: params.name,
+    	uuid: uuid.v4(),
         login: {
 	        email: params.email,
 	        password: forge.md.sha1.create().update(params.password).digest().toHex(),
 	        administrator: false,
 	        hasPicture: false
 	    },
-        handles: {
-        	skype: params.skype
-        },
+	    stringAttributes: {
+	    	skype: params.skype,
+        	name: params.name,
+	        jobTitle: params.title
+	    },
         arrayAttributes: {
 	        hobbyArray: stringToArray(params.hobbyArray),
 	        expertiseArray: stringToArray(params.expertiseArray)
 	    },
-	    jobAttributes: {
-	        division: params.division,
-	        jobTitle: params.title,
-	        baseOffice: params.baseOffice
+	    dropdownAttributes: {
+	        baseOffice: params.baseOffice,
+	        division: params.division
 	    },
 	    timeTracker: {
 	        registerTime: currentTime,
@@ -75,7 +80,7 @@ User.create = function(newID, params, callback) {
     		callback(err, null);
     		return;
     	}
-    	callback(null, {message: "success", data: result});
+    	callback(null, {message: "success", data: result, userID: userDoc.uuid});
     });
 };
 
@@ -179,6 +184,52 @@ User.advancedSearch = function(params, callback) {
 };
 
 User.intelligentCount = function(params, callback) {
+	if (!params.searchTerm) {
+		return callback(null, {status: "error", message: "Please enter a search term."});
+	}
+	var intelliQuery = '';
+	var arrayName = '';
+	for (i=0; i<arrayAttributes.length; i++) {
+		arrayName = arrayAttributes[i];
+		if (i>0) {
+			intelliQuery += 'UNION ALL ';
+		}
+		if (arrayName) {
+			intelliQuery += ('SELECT COUNT(*) as count, \"'+arrayName+'\" AS field FROM'+userBucketName+'where ANY blah IN '+ userBucketName + '.arrayAttributes.' + arrayName + ' SATISFIES LOWER(blah) LIKE LOWER(\"%'+params.searchTerm+'%\") END ');
+		}
+	}
+	var stringName = '';
+	for (j=0; j<stringAttributes.length; j++) {
+		stringName = stringAttributes[j];
+		if (j>0 || intelliQuery.length != -1) {
+			intelliQuery += 'UNION ALL ';
+		}
+		if (stringName) {
+			intelliQuery+= ('SELECT COUNT(*) as count, \"'+stringName+'\" AS field FROM'+userBucketName+'where LOWER(stringAttributes.'+stringName+') LIKE LOWER(\"%'+params.searchTerm+'%\") ');
+		}
+	}
+	var dropdownName = '';
+	for (k=0; k<dropdownAttributes.length; k++) {
+		dropdownName = dropdownAttributes[k];
+		if (k>0 || intelliQuery.length != -1) {
+			intelliQuery += 'UNION ALL ';
+		}
+		if (dropdownName) {
+			intelliQuery+= ('SELECT COUNT(*) as count, \"'+dropdownName+'\" AS field FROM'+userBucketName+'where dropdownAttributes.'+dropdownName+' = '+params.searchTerm+' ');
+		}
+	}
+	intelliQuery += 'ORDER BY count DESC';
+	var intelliQueryN1ql = N1qlQuery.fromString(intelliQuery);
+	console.log(intelliQueryN1ql);
+	userBucket.query(intelliQueryN1ql, function(error, result) {
+		if(error) {
+			callback(error, null);
+			return;
+		}
+		console.log(result);
+		callback(null, result);
+	});
+	// want to loop through each type of array, and go through all array elements and string elements
 	// for each type of text/array field, you will want to loop through to find all instances of it
 	// you will then do a query like SELECT COUNT(*) FROM userBucketName WHERE (textfield/array loop)
 	// then ouput the field name and count type in order of descending count
@@ -195,9 +246,7 @@ User.intelligentCount = function(params, callback) {
 	    	callback(null, {message: "success", data: result});
 		});
 	} */
-
 };
-// must incorporate images here somehow!
 
 module.exports = User;
 

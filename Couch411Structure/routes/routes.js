@@ -86,7 +86,6 @@ var appRouter = function(app) {
     });
 
     app.post("/api/registerUser", function(req, res, next) {
-        var newID = uuid.v4();
         console.log(req.body);
         if(!req.body.email) {
             return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
@@ -121,15 +120,15 @@ var appRouter = function(app) {
             if (user.length === 1) {
                 return res.send({"status": "error", "message": "This email is already in use. Login, or create an account with a different email address."});
             }
-            Picture.upload (newID, req.body, function (error, picResult) {
+            User.create(req.body, function (error, result) {
                 if (error) {
                     return res.status(400).send(error);
                 }
-                User.create(newID, req.body, function (error, result) {
+                Session.create(result.userID, function(err, resp) {
                     if (error) {
-                    return res.status(400).send(error);
+                        return res.status(400).send(err);
                     }
-                    res.json(result);
+                    res.json(resp);
                 });
             });
         });
@@ -157,6 +156,24 @@ var appRouter = function(app) {
                 userString = "Sorry, there are no results for your search.";
             }
             res.json(userString);
+        });
+    });
+
+    app.get("/api/intelligentCount", Session.auth, function (req, res, next) {
+        console.log("in intelligentSearch");
+        if (!req.query.searchTerm) {
+            console.log("no req.query.searchTerm recognized");
+            return next(JSON.stringify({"status": "error", "message": "A search term must be provided"}));
+        }
+        req.query.userID = req.userID;
+        User.intelligentCount(req.query, function (error, counts) {
+            if(error) {
+                return res.status(400).send(error);
+            }
+            if(counts.length === 0) {
+                return (JSON.stringify({"status": "error", "message": "Sorry, there are no results for your search."}));
+            }
+            res.json(counts);
         });
     });
 
