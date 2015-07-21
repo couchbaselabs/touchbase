@@ -195,7 +195,7 @@ User.intelligentCount = function(params, callback) {
 			intelliQuery += 'UNION ALL ';
 		}
 		if (arrayName) {
-			intelliQuery += ('SELECT COUNT(*) as count, \"'+arrayName+'\" AS field FROM'+userBucketName+'where ANY blah IN '+ userBucketName + '.arrayAttributes.' + arrayName + ' SATISFIES LOWER(blah) LIKE LOWER(\"%'+params.searchTerm+'%\") END ');
+			intelliQuery += ('SELECT COUNT(*) as count, \"'+arrayName+'\" AS field FROM '+userBucketName+' where ANY blah IN '+ userBucketName + '.arrayAttributes.' + arrayName + ' SATISFIES LOWER(blah) LIKE LOWER(\"%'+params.searchTerm+'%\") END ');
 		}
 	}
 	var stringName = '';
@@ -205,7 +205,7 @@ User.intelligentCount = function(params, callback) {
 			intelliQuery += 'UNION ALL ';
 		}
 		if (stringName) {
-			intelliQuery+= ('SELECT COUNT(*) as count, \"'+stringName+'\" AS field FROM'+userBucketName+'where LOWER(stringAttributes.'+stringName+') LIKE LOWER(\"%'+params.searchTerm+'%\") ');
+			intelliQuery+= ('SELECT COUNT(*) as count, \"'+stringName+'\" AS field FROM '+userBucketName+' where LOWER(stringAttributes.'+stringName+') LIKE LOWER(\"%'+params.searchTerm+'%\") ');
 		}
 	}
 	var dropdownName = '';
@@ -215,7 +215,7 @@ User.intelligentCount = function(params, callback) {
 			intelliQuery += 'UNION ALL ';
 		}
 		if (dropdownName) {
-			intelliQuery+= ('SELECT COUNT(*) as count, \"'+dropdownName+'\" AS field FROM'+userBucketName+'where dropdownAttributes.'+dropdownName+' = '+params.searchTerm+' ');
+			intelliQuery+= ('SELECT COUNT(*) as count, \"'+dropdownName+'\" AS field FROM '+userBucketName+' where dropdownAttributes.'+dropdownName+' = \"'+params.searchTerm+'\" ');
 		}
 	}
 	intelliQuery += 'ORDER BY count DESC';

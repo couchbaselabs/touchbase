@@ -22,6 +22,20 @@ search.controller("searchController", function ($scope, $http, $window) {
 			});
 	};
 
+	$scope.intelligentCount = function(someString) {
+		$scope.searchData= {};
+		$scope.searchData.searchTerm = someString;
+		console.log($scope.searchData);
+		$http({method: "GET", url: "/api/intelligentCount", params: $scope.searchData, headers:{'Authorization':'Bearer '+sessionStorage.sessionID}})
+			.success(function(result) {
+				console.log(result);
+				$scope.searchData.output = (JSON.stringify(result));
+			})
+			.error(function(result) {
+				$scope.searchData.output = ("ERROR : " + JSON.stringify(result));
+			});
+	};
+
 	$scope.createBase64Image = function(imageElementID) {
 		// this will create a base64 encoded image, which is then added to the formData
 		// the picture encoded here will be uploaded only when the "registerUser" function is called
