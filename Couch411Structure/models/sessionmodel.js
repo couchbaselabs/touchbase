@@ -33,6 +33,11 @@ Session.auth = function(req, res, next) {
 				callback(error, null);
     			return;
 			}
+			if (!result[0]) {
+				console.log("Session expired, please login again.");
+				res.send("Session expired, please login again.");
+				return;
+			}
 			req.userID = result[0].userID;
 			next();
 		});

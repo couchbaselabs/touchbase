@@ -196,25 +196,43 @@
   </div>
   <form class="form-horizontal" name="searchBar">
     <div class="form-group">
-      <label for="inputEmailSearch" class="col-sm-2 control-label">Name Search</label>
+      <label for="inputEmailSearch" class="col-sm-2 control-label">Intelligent Search</label>
       <div class="col-sm-8">
         <input type="text" class="form-control" id="inputNameSearch" placeholder="Couch Meme Base" ng-model="temp" required>
       </div>
     </div>
     <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-success" ng-click="intelligentCount(temp)" ng-disabled="searchBar.$invalid">Get Names</button>
+      <button type="submit" class="btn btn-success" ng-click="intelligentCount(temp)" ng-disabled="searchBar.$invalid">Get Counts</button>
     </div>
   </div>
   </form>
-  <span>{{searchData.output}}</span>
-
-  <div class ="text-center">
-    <h3 class="text-default">Advanced Search</h3>
+  <div class = "text-center">
+    <table id="countTable" class="table table-hover">
+      <tbody>
+        <tr ng-repeat="countResult in searchData.output track by $index">
+          <td>{{countResult.field}}</td>
+          <td>{{countResult.count}}</td>
+          <td><a class="btn btn-primary actionButton"
+            ng-click="advancedSearch(countResult.field)"> See Results </a></td>
+      </tbody>
+    </table>
   </div>
+  <span class = "text-center"><h5> RESULTS </h5></span>
+  <div class = "text-center">
+    <table id="resultTable" class="table table-striped">
+      <tbody>
+        <tr ng-repeat="person in searchData.peopleResults track by $index">
+          <td>{{person.users.stringAttributes.name}}</td>
+          <td>{{person.users.login.email}}</td>
+          <td>{{person.users.stringAttributes.skype}}</td>
+      </tbody>
+    </table>
+  </div>
+
   <form class="form-horizontal" name="searchBarImage">
     <div class="form-group">
-      <label for="inputEmailSearchImage" class="col-sm-2 control-label">Email Search</label>
+      <label for="inputEmailSearchImage" class="col-sm-2 control-label">Image Search</label>
       <div class="col-sm-8">
         <input type="text" class="form-control" id="inputEmailSearchImage" placeholder="pranav@couchbase.com" ng-model="searchImage.email" required>
       </div>

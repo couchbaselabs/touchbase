@@ -59,6 +59,7 @@ var appRouter = function(app) {
             }
             console.log(userDocs.data[0]);
             req.body.author = userDocs.data[0].users.name;
+            req.body.authorID = userDocs.data[0].users.uuid;
             console.log(req.body);
             Publish.create(req.body, function(err, result) {
                 if (err) {
@@ -165,7 +166,6 @@ var appRouter = function(app) {
             console.log("no req.query.searchTerm recognized");
             return next(JSON.stringify({"status": "error", "message": "A search term must be provided"}));
         }
-        req.query.userID = req.userID;
         User.intelligentCount(req.query, function (error, counts) {
             if(error) {
                 return res.status(400).send(error);
@@ -174,6 +174,23 @@ var appRouter = function(app) {
                 return (JSON.stringify({"status": "error", "message": "Sorry, there are no results for your search."}));
             }
             res.json(counts);
+        });
+    });
+
+    app.get("/api/advancedSearch", Session.auth, function (req, res, next) {
+        console.log("in advancedSearch");
+        if (!req.query) {
+            console.log("no search term recognized");
+            return next(JSON.stringify({"status": "error", "message": "A search term must be provided"}));
+        }
+        User.advancedSearch(req.query, function (error, users) {
+            if(error) {
+                return res.status(400).send(error);
+            }
+            if(users.length === 0) {
+                return (JSON.stringify({"status": "error", "message": "Sorry, there are no results for your search."}));
+            }
+            res.json(users);
         });
     });
 

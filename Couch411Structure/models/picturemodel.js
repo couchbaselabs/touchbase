@@ -11,7 +11,7 @@ var gm 					= require('gm');				// you MUST 'brew install graphicsmagick' to use
 
 function Picture() { };
 
-Picture.upload = function(newID, params, callback) {
+/*Picture.upload = function(newID, params, callback) {
 	if (params.picture) {
 		var b64string = params.picture;
 		if (b64string.search("data:image/jpg;base64") == -1 && b64string.search("data:image/jpeg;base64") == -1 && b64string.search("data:image/png;base64") == -1 && b64string.search("data:image/gif;base64") == -1) {
@@ -31,7 +31,7 @@ Picture.upload = function(newID, params, callback) {
     	console.log(returnMessage);
     	callback(null, {message: "success", data: returnMessage});	
     }
-};
+};*/
 
 
 Picture.attempt = function(userID, params, fileInfo, callback) {

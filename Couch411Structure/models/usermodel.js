@@ -47,12 +47,13 @@ User.create = function(params, callback) {
 	        email: params.email,
 	        password: forge.md.sha1.create().update(params.password).digest().toHex(),
 	        administrator: false,
-	        hasPicture: false
+	        hasPicture: false,
+	        emailVerified: true
 	    },
 	    stringAttributes: {
 	    	skype: params.skype,
         	name: params.name,
-	        jobTitle: params.title
+	        jobTitle: params.jobTitle
 	    },
         arrayAttributes: {
 	        hobbyArray: stringToArray(params.hobbyArray),
@@ -64,12 +65,10 @@ User.create = function(params, callback) {
 	    },
 	    timeTracker: {
 	        registerTime: currentTime,
+	        updateTimes: [],
 	        loginTimes: [currentTime]
     	}
     };
-    if (params.picture) {
-    	userDoc.login.hasPicture = true;
-    }
     console.log(JSON.stringify(userDoc));
     var insertUser = N1qlQuery.fromString('INSERT INTO ' + userBucketName + ' (KEY, VALUE) VALUES ($1, $2)');
     console.log(insertUser);
@@ -81,6 +80,68 @@ User.create = function(params, callback) {
     		return;
     	}
     	callback(null, {message: "success", data: result, userID: userDoc.uuid});
+    });
+};
+
+User.update = function(params, currentDoc, callback) {
+	var currentTime = new Date().toISOString();	
+	var stringToArray = function(anyString) {
+		if (typeof anyString === "undefined") {
+			return anyString;
+		}
+		else {
+			var tempArray=anyString.split(",");
+			var resultArray=[];
+			for (i=0; i<tempArray.length; i++) {
+				var str = tempArray[i];
+				resultArray[i]= str.trim();
+				if (resultArray[i]=="") {
+					resultArray.splice(i, 1);
+				}
+			}
+			return resultArray;
+		}
+	};
+	// uuid, login, & timeTracker will remain constant; only the attributes can be changed
+    var userDocUpdate = {
+    	uuid: params.uuid,
+        login: {
+	        email: params.email,
+	        password: currentDoc.login.password,
+	        administrator: currentDoc.login.administrator,
+	        hasPicture: currentDoc.login.hasPicture,
+	        emailVerified: currentDoc.login.emailVerified
+	    },
+	    stringAttributes: {
+	    	skype: params.skype,
+        	name: params.name,
+	        jobTitle: params.jobTitle
+	    },
+        arrayAttributes: {
+	        hobbyArray: stringToArray(params.hobbyArray),
+	        expertiseArray: stringToArray(params.expertiseArray)
+	    },
+	    dropdownAttributes: {
+	        baseOffice: params.baseOffice,
+	        division: params.division
+	    },
+	    timeTracker: {
+	        registerTime: currentDoc.timeTracker.registerTime,
+	        updateTimes: [currentTime].concatenate(currentDoc.timeTracker.updateTimes),
+	        loginTimes: currentDoc.timeTracker.loginTimes
+    	}
+    };
+    console.log(JSON.stringify(userDoc));
+    var updateUser = N1qlQuery.fromString('UPDATE ' + userBucketName + ' SET ' + userBucketName + ' (KEY, VALUE) VALUES ($1, $2) WHERE META(' + userBucketName+ ').id = $1');
+    console.log(updateUser);
+    userBucket.query(updateUser, [userDocUpdate.uuid, userDocUpdate], function (err, result) {
+    	if (err) {
+    		console.log("ERROR IN USERMODEL QUERY: ");
+    		console.log(err);
+    		callback(err, null);
+    		return;
+    	}
+    	callback(null, {message: "success", data: result, userID: userDocUpdate.uuid});
     });
 };
 
@@ -119,8 +180,9 @@ User.addLoginTime = function(uuid, callback) {
 };
 
 User.advancedSearch = function(params, callback) {
-	var email, name, administrator, hobbies, expertise, division, title, baseOffice, userID;
-	name = administrator = hobbies = expertise = division = title = baseOffice = userID ="";
+	/*var email, name, administrator, hobbies, expertise, division, title, baseOffice, userID;
+	name = administrator = hobbies = expertise = division = title = baseOffice = userID =""; */
+	var advancedQuery = ('SELECT * FROM ' + userBucketName + ' WHERE `e703eab0-3740-424b-8bd3-03ae4ca909df` IS MISSING ');
 	var stringToArray = function(anyString) {
 			var tempArray=anyString.split(",");
 			var resultArray=[];
@@ -133,53 +195,55 @@ User.advancedSearch = function(params, callback) {
 			}
 			return resultArray;
 	}
-	if (!params.email) {
-		email = "WHERE login.email LIKE \"%%\"";
-	}
-	else {
-		email = ("WHERE LOWER(login.email) LIKE LOWER(\"%" + params.email + "%\")");
-	}
-	if (params.name) {
-		name = ("AND LOWER(name) LIKE LOWER(\"%" + params.name + "%\")");
+	// create the parts of the file you need, using a for loop in the script, and use += to add them to advancedQuery
+	if (params.email) {
+		advancedQuery += ("AND LOWER(login.email) LIKE LOWER(\"%" + params.email + "%\") ");
 	}
 	if (params.administrator) {
-		administrator = ("AND login.administrator = true");
+		advancedQuery += ("AND login.administrator = true ");
+	}
+	if (params.name) {
+		advancedQuery += ("AND LOWER(stringAttributes.name) LIKE LOWER (\"%" + params.name + "%\") ");
+	}
+	if (params.jobTitle) {
+		advancedQuery += ("AND LOWER(stringAttributes.jobTitle) LIKE LOWER(\"%" + params.jobTitle + "%\") ");
+	}
+	if (params.skype) {
+		advancedQuery += ("AND LOWER(stringAttributes.skype) LIKE LOWER(\"%" + params.skype + "%\") ");
 	}
 	if (params.hobbies) {
 		var hobbyArray = stringToArray(params.hobbies);
 		var arrayName = "hobbyArray";
 		for (i=0; i<hobbyArray.length; i++) {
-			hobbies += ("AND ANY blah IN " + userBucketName + ".arrayAttributes." + arrayName + " SATISFIES LOWER(blah) LIKE LOWER(\"%" + hobbyArray[i] + "%\") END ");
+			advancedQuery += ("AND ANY blah IN " + userBucketName + ".arrayAttributes." + arrayName + " SATISFIES LOWER(blah) LIKE LOWER(\"%" + hobbyArray[i] + "%\") END ");
 		}
 	}
 	if (params.expertise) {
 		var expertiseArray = stringToArray(params.expertise);
 		var arrayName = "expertiseArray";
 		for (i=0; i<expertiseArray.length; i++) {
-			hobbies += ("AND ANY blah IN " + userBucketName + ".arrayAttributes." + arrayName + " SATISFIES LOWER(blah) LIKE LOWER(\"%" + expertiseArray[i] + "%\") END ");
+			advancedQuery += ("AND ANY blah IN " + userBucketName + ".arrayAttributes." + arrayName + " SATISFIES LOWER(blah) LIKE LOWER(\"%" + expertiseArray[i] + "%\") END ");
 		}
 	}
 	if (params.division) {
-		division = ("AND jobAttributes.division = \"" + params.division + "\"");
-	}
-	if (params.title) {
-		title = ("AND LOWER(jobAttributes.title) LIKE LOWER(\"%" + params.title + "%\")");
+		advancedQuery += ("AND dropdownAttributes.division = \"" + params.division + "\" ");
 	}
 	if (params.baseOffice) {
-		baseOffice = ("AND jobAttributes.baseOffice = \"" + params.baseOffice + "\"");
+		advancedQuery += ("AND dropdownAttributes.baseOffice = \"" + params.baseOffice + "\" ");
 	}
 	if (params.userID) {
-		userID = ("AND uuid = \"" + params.userID + "\"");
+		advancedQuery += ("AND uuid = \"" + params.userID + "\" ");
 	}
-	var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice + " " + userID);
-	console.log(advancedQuery);
-	userBucket.query(advancedQuery, function (error, result) {
+	// var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice + " " + userID);
+	var advancedQueryN1ql = N1qlQuery.fromString(advancedQuery);
+	console.log(advancedQueryN1ql);
+	userBucket.query(advancedQueryN1ql, function (error, result) {
 		if (error) {
     		callback(error, null);
     		return;
     	}
     	console.log(result);
-    	callback(null, {message: "success", data: result});
+    	callback(null, result);
 	});
 };
 
@@ -218,7 +282,7 @@ User.intelligentCount = function(params, callback) {
 			intelliQuery+= ('SELECT COUNT(*) as count, \"'+dropdownName+'\" AS field FROM '+userBucketName+' where dropdownAttributes.'+dropdownName+' = \"'+params.searchTerm+'\" ');
 		}
 	}
-	intelliQuery += 'ORDER BY count DESC';
+	intelliQuery += 'ORDER BY count DESC, field';
 	var intelliQueryN1ql = N1qlQuery.fromString(intelliQuery);
 	console.log(intelliQueryN1ql);
 	userBucket.query(intelliQueryN1ql, function(error, result) {
@@ -226,8 +290,18 @@ User.intelligentCount = function(params, callback) {
 			callback(error, null);
 			return;
 		}
-		console.log(result);
-		callback(null, result);
+		var refinedArray = [];
+		for (z=0; z<result.length; z++) {
+			if (result[z].count > 0) {
+				refinedArray.push(result[z]);
+			}
+		}
+		if (refinedArray.length === 0) {
+			refinedArray[0] = "Sorry, there are no results for your search.";
+		}
+		console.log('result: ' + result);
+		console.log('refinedArray: ' + refinedArray);
+		callback(null, refinedArray);
 	});
 	// want to loop through each type of array, and go through all array elements and string elements
 	// for each type of text/array field, you will want to loop through to find all instances of it

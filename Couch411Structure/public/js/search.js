@@ -29,10 +29,22 @@ search.controller("searchController", function ($scope, $http, $window) {
 		$http({method: "GET", url: "/api/intelligentCount", params: $scope.searchData, headers:{'Authorization':'Bearer '+sessionStorage.sessionID}})
 			.success(function(result) {
 				console.log(result);
-				$scope.searchData.output = (JSON.stringify(result));
+				$scope.searchData.output = (result);
 			})
 			.error(function(result) {
 				$scope.searchData.output = ("ERROR : " + JSON.stringify(result));
+			});
+	};
+
+	$scope.advancedSearch = function(someField) {
+		eval("$scope.searchData." + someField + "= $scope.searchData.searchTerm;");
+		$http({method: "GET", url: "/api/advancedSearch", params: $scope.searchData, headers:{'Authorization':'Bearer '+sessionStorage.sessionID}})
+			.success(function(result) {
+				console.log(JSON.stringify(result));
+				$scope.searchData.peopleResults = (result);
+			})
+			.error(function(result) {
+				$scope.searchData.peopleResults = ("ERROR : " + JSON.stringify(result));
 			});
 	};
 
