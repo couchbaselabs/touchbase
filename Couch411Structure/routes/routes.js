@@ -3,7 +3,8 @@ var Picture     = require("../models/picturemodel");
 var Publish     = require("../models/publishmodel");
 var Session     = require("../models/sessionmodel");
 var uuid        = require("uuid");
-var multer      = require('multer');
+var multer      = require("multer");
+var async       = require("async");
 
 var appRouter = function(app) {
 
@@ -190,31 +191,54 @@ var appRouter = function(app) {
             if(result.length === 0) {
                 return (JSON.stringify({"status": "error", "message": "Sorry, there are no results for your search."}));
             }
+            async.each(result, function(person, callback) {
+                Picture.receive(person.users, function (err, resp) {
+                    if (error) {
+                        callback(error);
+                    }
+                    else  {
+                        person.users.picSRC = resp.value;
+                        console.log(typeof resp.value);
+                        console.log('resp.value: ' + resp.value);
+                        callback();
+                    }
+                });
+            }, function(err) {
+                if (err) {
+                    console.log(err);
+                    return res.status(400).send(err);
+                }
+                res.json(result);
+            });
+            /*
             var picFinish = false;
+            var pulled = 0;
             for(y=0; y<result.length; y++) {
-                (function(y) {
-                    Picture.receive(result[y].users, function (err, resp) {
-                        if (error) {
-                            console.log(err);
-                            return res.status(400).send(err);
+                //(function(y) {
+                Picture.receive(result[y].users, function (err, resp) {
+                    if (error) {
+                        console.log(err);
+                        return res.status(400).send(err);
+                    }
+                    else {
+                        console.log('RESULT : ' + result[y]);
+                        // console.log('RESULT0 : ' + result[0]);
+                        console.log(y);
+                        result[y].users.picSRC = resp.value;
+                        console.log(typeof resp.value);
+                        console.log('resp.value: ' + resp.value);
+                        //if (y === (result.length-1)) {
+                        if (++pulled == result.length) {
+                            var picFinish = true;
                         }
-                        else {
-                            console.log('RESULT : ' + result[y]);
-                            // console.log('RESULT0 : ' + result[0]);
-                            console.log(y);
-                            result[y].users.picSRC = resp.value;
-                            console.log(typeof resp.value);
-                            console.log('resp.value: ' + resp.value);
-                            if (y === (result.length-1)) {
-                                var picFinish = true;
-                            }
-                            if (picFinish) {
-                                res.json(result);
-                            }
+                        if (picFinish) {
+                            res.json(result);
                         }
-                    });
-                })(y);
-            }
+                        ++pulled;
+                    }
+                });
+                //})(y);
+            } */
         });
     });
 

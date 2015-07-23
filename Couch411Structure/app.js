@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({extended:true, limit: '4mb'}));
 app.use(bodyParser.json({limit: '4mb'}));
 app.use(morgan('dev'));
 
+app.use(express.static(__dirname + '/'));
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/uploads'));
 app.use(express.static(__dirname + '/bower_components'));
