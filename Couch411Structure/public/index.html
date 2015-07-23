@@ -56,15 +56,13 @@
   <div class="form-group">
     <label for="inputExpertise3" class="col-sm-2 control-label">Expertise</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="inputExpertise3" placeholder="Please Input a Comma-Separated List, Ex: (GoLang, Excel, N1QL, Indexing Architecture)" ng-model="formData.expertiseArray"
-      ng-blur="arrayExpertise(expertiseString)">
+      <input type="text" class="form-control" id="inputExpertise3" placeholder="Please Input a Comma-Separated List, Ex: (GoLang, Excel, N1QL, Indexing Architecture)" ng-model="formData.expertise">
     </div>
   </div>
   <div class="form-group">
     <label for="inputHobbies3" class="col-sm-2 control-label">Hobbies/Interests</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control" id="inputHobbies3" placeholder="Please Input a Comma-Separated List, Ex: (Golf, Horse-riding, Reading, Coffee, etc.)" ng-model="formData.hobbyArray"
-      ng-blur="arrayHobbies(hobbyString)">
+      <input type="text" class="form-control" id="inputHobbies3" placeholder="Please Input a Comma-Separated List, Ex: (Golf, Horse-riding, Reading, Coffee, etc.)" ng-model="formData.hobbies">
     </div>
   </div>
   <div class="form-group">
@@ -223,6 +221,7 @@
     <table id="resultTable" class="table table-striped">
       <tbody>
         <tr ng-repeat="person in searchData.peopleResults track by $index">
+          <td><img ng-src="{{person.users.picSRC}}" border="3" height="100" width="100" class="img-circle"></img></td>
           <td>{{person.users.stringAttributes.name}}</td>
           <td>{{person.users.login.email}}</td>
           <td>{{person.users.stringAttributes.skype}}</td>

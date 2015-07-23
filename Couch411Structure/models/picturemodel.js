@@ -95,23 +95,29 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 Picture.receive = function(params, callback) {
 	// params.hasPicture will be in user Document as a boolean; set to true upon upload of picture
 	if (params.login.hasPicture) {
-		pictureBucket.get((params.uuid + "_pic"), function (err, result) {
+		console.log('IDs: ' + params.uuid);
+		pictureBucket.get((params.uuid + "_picMulterNode"), function (err, result) {
 			if (err) {
-			    callback(error, null);
-			    return;
+			    return callback(err, null);
 	  		}
-			callback(null, {message: "success", data: result});		
+	  		/*if (result.length === 0) {
+	  			return callback(null, 'profile-default-red.png');
+	  		}*/
+	  		//console.log(result);
+	  		result.value = ("data:image/jpeg;base64," + result.value);
+			callback(null, result);		
 		});
 	}
 	else {
+		callback(null, {value: 'default_picture.png'});
 		// there will be a default_pic chosen by the developer, which will exist in the database
-		pictureBucket.get(("default_pic"), function (err, result) {	
+		/*pictureBucket.get(("default_pic"), function (err, result) {	
 			if (err) {
 			    callback(error, null);
 			    return;
 	  		}
-			callback(null, {message: "success", data: result});	
-		});
+			callback(null, result);	
+		});*/
 	}
 };
 

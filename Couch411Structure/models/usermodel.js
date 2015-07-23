@@ -56,8 +56,8 @@ User.create = function(params, callback) {
 	        jobTitle: params.jobTitle
 	    },
         arrayAttributes: {
-	        hobbyArray: stringToArray(params.hobbyArray),
-	        expertiseArray: stringToArray(params.expertiseArray)
+	        hobbies: stringToArray(params.hobbies),
+	        expertise: stringToArray(params.expertise)
 	    },
 	    dropdownAttributes: {
 	        baseOffice: params.baseOffice,
@@ -118,8 +118,8 @@ User.update = function(params, currentDoc, callback) {
 	        jobTitle: params.jobTitle
 	    },
         arrayAttributes: {
-	        hobbyArray: stringToArray(params.hobbyArray),
-	        expertiseArray: stringToArray(params.expertiseArray)
+	        hobbies: stringToArray(params.hobbies),
+	        expertise: stringToArray(params.expertise)
 	    },
 	    dropdownAttributes: {
 	        baseOffice: params.baseOffice,
@@ -213,14 +213,14 @@ User.advancedSearch = function(params, callback) {
 	}
 	if (params.hobbies) {
 		var hobbyArray = stringToArray(params.hobbies);
-		var arrayName = "hobbyArray";
+		var arrayName = "hobbies";
 		for (i=0; i<hobbyArray.length; i++) {
 			advancedQuery += ("AND ANY blah IN " + userBucketName + ".arrayAttributes." + arrayName + " SATISFIES LOWER(blah) LIKE LOWER(\"%" + hobbyArray[i] + "%\") END ");
 		}
 	}
 	if (params.expertise) {
 		var expertiseArray = stringToArray(params.expertise);
-		var arrayName = "expertiseArray";
+		var arrayName = "expertise";
 		for (i=0; i<expertiseArray.length; i++) {
 			advancedQuery += ("AND ANY blah IN " + userBucketName + ".arrayAttributes." + arrayName + " SATISFIES LOWER(blah) LIKE LOWER(\"%" + expertiseArray[i] + "%\") END ");
 		}
@@ -235,6 +235,7 @@ User.advancedSearch = function(params, callback) {
 		advancedQuery += ("AND uuid = \"" + params.userID + "\" ");
 	}
 	// var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice + " " + userID);
+	advancedQuery += "ORDER BY stringAttributes.name";
 	var advancedQueryN1ql = N1qlQuery.fromString(advancedQuery);
 	console.log(advancedQueryN1ql);
 	userBucket.query(advancedQueryN1ql, function (error, result) {

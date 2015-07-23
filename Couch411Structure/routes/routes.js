@@ -27,20 +27,20 @@ var appRouter = function(app) {
             if(error) {
                 return res.status(400).send(error);
             }
-            console.log('user: ' +  JSON.stringify(user.data));
+            console.log('user: ' +  JSON.stringify(user));
             var x = [];
-            x = user.data;
+            x = user;
             if (x.length === 0) {
                 return res.status(400).send('The username entered does not exist');   
             }
-            if(!User.validatePassword(req.query.password, user.data[0].users.login.password)) {
+            if(!User.validatePassword(req.query.password, user[0].users.login.password)) {
                 return res.status(400).send("The password entered is invalid");
             }
-            User.addLoginTime(user.data[0].users.uuid, function(error, result) {
+            User.addLoginTime(user[0].users.uuid, function(error, result) {
                 if(error) {
                     return res.status(400).send(error);
                 }
-                Session.create(user.data[0].users.uuid, function(error, result) {
+                Session.create(user[0].users.uuid, function(error, result) {
                     if(error) {
                     return res.status(400).send(error);
                     }
@@ -183,14 +183,38 @@ var appRouter = function(app) {
             console.log("no search term recognized");
             return next(JSON.stringify({"status": "error", "message": "A search term must be provided"}));
         }
-        User.advancedSearch(req.query, function (error, users) {
+        User.advancedSearch(req.query, function (error, result) {
             if(error) {
                 return res.status(400).send(error);
             }
-            if(users.length === 0) {
+            if(result.length === 0) {
                 return (JSON.stringify({"status": "error", "message": "Sorry, there are no results for your search."}));
             }
-            res.json(users);
+            var picFinish = false;
+            for(y=0; y<result.length; y++) {
+                (function(y) {
+                    Picture.receive(result[y].users, function (err, resp) {
+                        if (error) {
+                            console.log(err);
+                            return res.status(400).send(err);
+                        }
+                        else {
+                            console.log('RESULT : ' + result[y]);
+                            // console.log('RESULT0 : ' + result[0]);
+                            console.log(y);
+                            result[y].users.picSRC = resp.value;
+                            console.log(typeof resp.value);
+                            console.log('resp.value: ' + resp.value);
+                            if (y === (result.length-1)) {
+                                var picFinish = true;
+                            }
+                            if (picFinish) {
+                                res.json(result);
+                            }
+                        }
+                    });
+                })(y);
+            }
         });
     });
 

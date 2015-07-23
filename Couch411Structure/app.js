@@ -16,6 +16,7 @@ app.use(bodyParser.json({limit: '4mb'}));
 app.use(morgan('dev'));
 
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/uploads'));
 app.use(express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/bower_components/angular-cookies'));
 app.use(multer({dest: './uploads/', 
