@@ -58,9 +58,9 @@ var appRouter = function(app) {
             if (error) {
                 return res.status(400).send(error);
             }
-            console.log(userDocs.data[0]);
-            req.body.author = userDocs.data[0].users.name;
-            req.body.authorID = userDocs.data[0].users.uuid;
+            console.log(userDocs[0]);
+            req.body.author = userDocs[0].users.name;
+            req.body.authorID = userDocs[0].users.uuid;
             console.log(req.body);
             Publish.create(req.body, function(err, result) {
                 if (err) {
@@ -127,7 +127,7 @@ var appRouter = function(app) {
                     return res.status(400).send(error);
                 }
                 Session.create(result.userID, function(err, resp) {
-                    if (error) {
+                    if (err) {
                         return res.status(400).send(err);
                     }
                     res.json(resp);
@@ -135,6 +135,32 @@ var appRouter = function(app) {
             });
         });
     });
+
+    /*app.post("/api/updateUser", Session.Auth, function (req, res, next) {
+        if(!req.body.email) {
+            return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
+        }
+        var endsWith = function (str, suffix) {
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+        if (!endsWith(req.body.email, 'couchbase.com')) {
+            return next(JSON.stringify({"status": "error", "message": "Email must end with \"couchbase.com\""}));   
+        }
+        if(!req.body.name) {
+            return next(JSON.stringify({"status": "error", "message": "A name must be provided"}));
+        }
+        if(!req.body.password) {
+            return next(JSON.stringify({"status": "error", "message": "A password must be provided"}));
+        }
+        req.body.unchanged.uuid = req.userID;
+        User.update(req.body.changed, req.body.unchanged, function(error, result) {
+            if(error) {
+                return res.status(400).send(error);
+            }
+            console.log('update worked!');
+            res.json(result);
+        });
+    });*/
 
     app.get("/api/nameSearch", Session.auth, function (req, res, next) {
         console.log("in nameSearch Node");
@@ -183,6 +209,9 @@ var appRouter = function(app) {
         if (!req.query) {
             console.log("no search term recognized");
             return next(JSON.stringify({"status": "error", "message": "A search term must be provided"}));
+        }
+        if (req.query.myProfile) {
+            req.query.userID = req.userID;
         }
         User.advancedSearch(req.query, function (error, result) {
             if(error) {

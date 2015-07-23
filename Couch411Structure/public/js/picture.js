@@ -6,6 +6,7 @@ picture.controller("pictureController", function ($scope, $http, $timeout, Cropp
 	$scope.searchData = {};
 	$scope.formData = {};
 	$scope.cropDim ={};
+	$scope.myData = {};
 	/**
 	* Method is called every time file input's value changes.
 	* Because of Angular has not ng-change for file inputs a hack is needed -
@@ -20,6 +21,29 @@ picture.controller("pictureController", function ($scope, $http, $timeout, Cropp
 			})
 			.error(function(result) {
 				console.log("ERROR : " + result);
+			});
+	};
+
+	$scope.getMyProfile = function() {
+		$http({method: "GET", url: "/api/advancedSearch", params: {'myProfile': true}, headers:{'Authorization':'Bearer '+sessionStorage.sessionID}})
+			.success(function(result) {
+				console.log(result[0]);
+				$scope.myData.changed = result[0];
+				$scope.myData.unchanged = result[0];
+			})
+			.error(function(result) {
+				console.log("ERROR IN PROFILE GET: " + result);
+			});
+	};
+
+	$scope.updateMyProfile = function() {
+		$http({method: "POST", url: "/api/updateUser", data: $scope.myData , headers:{'Authorization':'Bearer '+sessionStorage.sessionID}})
+			.success(function(result) {
+				console.log(result);
+				console.log('profile updated!');
+			})
+			.error(function(result) {
+				console.log('error in update '+result);
 			});
 	};
 

@@ -104,7 +104,7 @@ User.update = function(params, currentDoc, callback) {
 	};
 	// uuid, login, & timeTracker will remain constant; only the attributes can be changed
     var userDocUpdate = {
-    	uuid: params.uuid,
+    	uuid: currentDoc.uuid,
         login: {
 	        email: params.email,
 	        password: currentDoc.login.password,
@@ -235,7 +235,7 @@ User.advancedSearch = function(params, callback) {
 		advancedQuery += ("AND uuid = \"" + params.userID + "\" ");
 	}
 	// var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice + " " + userID);
-	//advancedQuery += "ORDER BY stringAttributes.name";
+	advancedQuery += "ORDER BY stringAttributes.name";
 	var advancedQueryN1ql = N1qlQuery.fromString(advancedQuery);
 	console.log(advancedQueryN1ql);
 	userBucket.query(advancedQueryN1ql, function (error, result) {
