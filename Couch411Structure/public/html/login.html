@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Touchbase</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"/>
+    <link href="semantic-ui/dist/semantic.min.css" rel="stylesheet" type="text/css">
+    <script src="semantic-ui/dist/semantic.min.js"/>
+    <link href="ng-cropper/dist/ngCropper.all.css" rel="stylesheet">
+    <script src="ng-cropper/dist/ngCropper.all.js"/>
+    <script src="../js/touchbase.js"/>
+</head>
+
+<style type="text/css">
+    body {
+      background-color: #DADADA;
+    }
+    body > .grid {
+      height: 100%;
+    }
+    .image {
+      margin-top: -100px;
+    }
+    .column {
+      max-width: 450px;
+    }
+</style>
+
+<body>
+    <h2> hello world> </h2>
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <h2 class="ui teal image header"><img class="image" src="uploads/default_picture.png"></h2>
+
+            <div class="content">
+                <h2 class="ui teal image header">Log-in to your account </h2>
+            </div>
+
+            <form class="ui large form">
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i> <input name="email"
+                            placeholder="E-mail address" type="text">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i> <input name="password"
+                            placeholder="Password" type="password">
+                        </div>
+                    </div>
+
+                    <div class="ui fluid large teal submit button">
+                        Login
+                    </div>
+                </div>
+
+                <div class="ui error message"></div>
+            </form>
+
+            <div class="ui message">
+                New to us? <a href="#">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
