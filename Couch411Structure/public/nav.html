@@ -40,18 +40,33 @@
 </head>
 <body ng-app="touchbase">
   <div class="ui vertical sidebar menu" style="background:#BD1C14"> 
-   <a class="item"><font color ="white">My Profile</font><i class="white inverted user icon"></i></a>
+   <a class="item"><img src="uploads/touchbaseFull.png" height="63.9773"></img></a>
    <a href="#" class="item"><font color ="white">My Profile</font><i class="white inverted user icon"></i></a>
    <a href="#" class="item"><font color ="white">Posts</font><i class="white inverted quote right icon"></i></a>
-   <a href="#" class="item"><font color ="white">All Users</font><i class="white inverted users icon"></i></a>
-   <a href="#" class="item"><font color ="white">Statistics </font><i class="white inverted line chart icon"></i></a>
+   <a ui-sref="allUsers" class="item"><font color ="white">All Users</font><i class="white inverted users icon"></i></a>
+   <a href="#" class="item"><font color ="white">Statistics</font><i class="white inverted line chart icon"></i></a>
+   <a ng-controller="signOutController"class="item" ng-click="signOut()"><font color ="white">Sign Out</font><i class="white inverted sign out icon"></i></a>
   </div>
-      <div class="ui top fixed menu" style="background:#BD1C14">
+      <div class="ui borderless top fixed menu" style="background:#BD1C14">
           <div class="ui title item launch button"> <i class="white inverted sidebar icon"></i> </div>
           <div class="ui title item"> <font color ="white">Touchbase</font></div>
+          <div class="right menu">
+            <div class="ui title item">
+              <img src="uploads/touchbaseLogo.png">
+            </div>
+          </div>
       </div>
   <div class="pusher">
       <div class="ui segment">
+        <br/>
+        <br/>
+        <br/>
+        <div ui-view></div>
+        <!--<div class="ui fluid icon input">
+          <input type="text" placeholder="Search a very wide input...">
+          <i class="search icon"></i>
+        </div>
+        <br/>
         <p>Eins, zwei, drei, vier
             <br/>Fünf, sechs, sieben, acht
             <br/>Uno, due
@@ -122,6 +137,6 @@
             <br/>Li, tva, tri
             <br/>
         </p>
-    </div>
+    </div>-->
   </div>
 </body>

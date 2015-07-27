@@ -18,6 +18,7 @@ Session.create = function(userID, callback) {
     		callback(error, null);
     		return;
     	}
+    	console.log(sessionModel);
     	callback(null, sessionModel);
     });
 };

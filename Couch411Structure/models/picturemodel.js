@@ -94,6 +94,7 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 
 Picture.receive = function(params, callback) {
 	// params.hasPicture will be in user Document as a boolean; set to true upon upload of picture
+	console.log('params for picModel: ' + JSON.stringify(params));
 	if (params.login.hasPicture) {
 		console.log('IDs: ' + params.uuid);
 		pictureBucket.get((params.uuid + "_picMulterNode"), function (err, result) {

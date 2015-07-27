@@ -42,6 +42,7 @@ User.create = function(params, callback) {
 	};
 	// uuid, login, & timeTracker will remain constant; only the attributes can be changed
     var userDoc = {
+    	// should add a type here, ex. type: "user"
     	uuid: uuid.v4(),
         login: {
 	        email: params.email,
@@ -235,7 +236,7 @@ User.advancedSearch = function(params, callback) {
 		advancedQuery += ("AND uuid = \"" + params.userID + "\" ");
 	}
 	// var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice + " " + userID);
-	advancedQuery += "ORDER BY stringAttributes.name";
+	advancedQuery += "AND type IS MISSING ORDER BY stringAttributes.name";
 	var advancedQueryN1ql = N1qlQuery.fromString(advancedQuery);
 	console.log(advancedQueryN1ql);
 	userBucket.query(advancedQueryN1ql, function (error, result) {

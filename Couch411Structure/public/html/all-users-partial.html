@@ -1,0 +1,79 @@
+<div ng-controller="searchController" ng-init="getAllUsers()">
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<!--<div class="ui divided grid stackable cards">
+		<div class = "three column row">
+			<div ng-repeat="person in searchData.peopleResults track by $index">
+					<div class="ui card">
+					  <div class="image">
+					    <img ng-src="{{person.users.picSRC}}"></img>
+					  </div>
+					  <div class="content">
+					    <a class="header">{{person.users.stringAttributes.name}}</a>
+					    <div class="meta">
+					      <span class="date">{{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}</span>
+					    </div>
+					    <div class="description">
+					      {{person.users.stringAttributes.jobTitle}}
+					    </div>
+					  </div>
+					  <div class="extra content">
+					    <a>
+					      <i class="inbox icon"></i>
+					      {{person.users.login.email}}
+					    </a>
+					  </div>
+					</div>
+			</div>
+		</div>
+	</div>-->
+	<!-- WORKS<table class="ui single line table">
+	  <thead>
+	    <tr>
+	      <th>Image</th>
+	      <th>Name</th>
+	      <th>E-mail address</th>
+	      <th>Division - Location</th>
+	      <th>Job Title</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr ng-repeat="person in searchData.peopleResults track by $index">
+	      <td><img ng-src="{{person.users.picSRC}}" width="80" height="80"></img></td>
+	      <td>{{person.users.stringAttributes.name}}</td>
+	      <td>{{person.users.login.email}}</td>
+	      <td>{{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}</td>
+	      <td>{{person.users.stringAttributes.jobTitle}}</td>
+	    </tr>
+	  </tbody>
+	</table> -->
+	<div class="ui grid">
+		<div ng-repeat="person in searchData.peopleResults track by $index">
+				<div class="sixteen wide mobile eight wide tablet four wide computer column">
+					<div class="ui card">
+					  <div class="image">
+					    <img ng-src="{{person.users.picSRC}}"></img>
+					  </div>
+					  <div class="content">
+					    <a class="header">{{person.users.stringAttributes.name}}</a>
+					    <div class="meta">{{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}
+					    </div>
+					    <div class="description">
+					      {{person.users.stringAttributes.jobTitle}}
+					    </div>
+					  </div>
+					  <div class="extra content">
+					    <a>
+					      <i class="inbox icon"></i>{{person.users.login.email}}
+					    </a>
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
