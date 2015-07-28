@@ -89,33 +89,33 @@ var appRouter = function(app) {
 
     app.post("/api/registerUser", function(req, res, next) {
         console.log(req.body);
-        if(!req.body.email) {
+        if(!req.body.login.email) {
             return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
         }
         var endsWith = function (str, suffix) {
             return str.indexOf(suffix, str.length - suffix.length) !== -1;
         }
-        if (!endsWith(req.body.email, 'couchbase.com')) {
+        if (!endsWith(req.body.login.email, 'couchbase.com')) {
             return next(JSON.stringify({"status": "error", "message": "Email must end with \"couchbase.com\""}));   
         }
-        if(!req.body.name) {
+        if(!req.body.stringAttributes.name) {
             return next(JSON.stringify({"status": "error", "message": "A name must be provided"}));
         }
-        if(!req.body.password) {
+        if(!req.body.login.password) {
             return next(JSON.stringify({"status": "error", "message": "A password must be provided"}));
         }
-        if(!req.body.confPassword) {
+        if(!req.body.login.confPassword) {
             return next(JSON.stringify({"status": "error", "message": "A password confirmation must be provided"}));
         }
         var passCheck = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-        if (!passCheck.test(req.body.password)) {
+        if (!passCheck.test(req.body.login.password)) {
             return next(JSON.stringify({"status": "error", "message": "Password must contain 1 lower case character, 1 upper case character, 1 number and at least 6 total characters"}));
         }
-        if (req.body.password !== req.body.confPassword) {
+        if (req.body.login.password !== req.body.login.confPassword) {
             return next(JSON.stringify({"status": "error", "message": "Password did not match confirmation password"}));
         }
         // replace with advancedSearch
-        User.searchByEmail(req.body, function(error, user) {
+        User.advancedSearch(req.body.login, function(error, user) {
             if(error) {
                 return res.status(400).send(error);
             }

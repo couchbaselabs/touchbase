@@ -1,5 +1,9 @@
 var touchbase = angular.module('touchbase', ['ui.router', 'ngCropper']);
 
+var stringAttributes 	= ["skype", "name", "jobTitle"];
+var arrayAttributes		= ["hobbies", "expertise"];
+var dropdownAttributes	= ["baseOffice", "division"];
+
 touchbase.config(function($stateProvider, $urlRouterProvider) {
 
 	$urlRouterProvider.otherwise('/login');

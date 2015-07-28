@@ -45,24 +45,24 @@ User.create = function(params, callback) {
     	// should add a type here, ex. type: "user"
     	uuid: uuid.v4(),
         login: {
-	        email: params.email,
-	        password: forge.md.sha1.create().update(params.password).digest().toHex(),
+	        email: params.login.email,
+	        password: forge.md.sha1.create().update(params.login.password).digest().toHex(),
 	        administrator: false,
 	        hasPicture: false,
 	        emailVerified: true
 	    },
 	    stringAttributes: {
-	    	skype: params.skype,
-        	name: params.name,
-	        jobTitle: params.jobTitle
+	    	skype: params.stringAttributes.skype,
+        	name: params.stringAttributes.name,
+	        jobTitle: params.stringAttributes.jobTitle
 	    },
         arrayAttributes: {
-	        hobbies: stringToArray(params.hobbies),
-	        expertise: stringToArray(params.expertise)
+	        hobbies: stringToArray(params.arrayAttributes.hobbies),
+	        expertise: stringToArray(params.arrayAttributes.expertise)
 	    },
 	    dropdownAttributes: {
-	        baseOffice: params.baseOffice,
-	        division: params.division
+	        baseOffice: params.dropdownAttributes.baseOffice,
+	        division: params.dropdownAttributes.division
 	    },
 	    timeTracker: {
 	        registerTime: currentTime,
