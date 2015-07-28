@@ -23,13 +23,13 @@ Session.create = function(userID, callback) {
     });
 };
 
-Session.auth = function(req, res, next) {
+Session.auth = function (req, res, next) {
 	var sessionID = req.headers.authorization;
 	console.log(sessionID);
 	var sessionArray = sessionID.split(" ");
 	if (sessionArray[0] === "Bearer") {
 		var getSession = N1qlQuery.fromString("SELECT userID FROM `" + userBucketName + "` WHERE type = \"session\" AND sessionID = $1");
-		userBucket.query(getSession, [sessionArray[1]], function(error, result) {
+		userBucket.query(getSession, [sessionArray[1]], function (error, result) {
 			if(error) {
 				callback(error, null);
     			return;
@@ -57,12 +57,13 @@ Session.auth = function(req, res, next) {
 }; */
 
 // interim solution until figure out auth with Nic
-Session.findUser = function(sessionID, callback) {
+Session.findUser = function (sessionID, callback) {
 	var findUser = N1qlQuery.fromString('SELECT userID FROM `'+userBucketName+'` WHERE sessionID=$1 AND type=\"session\"');
-	userBucket.query(findUser,[sessionID], function(error, result) {
+	userBucket.query(findUser,[sessionID], function (error, result) {
 		if(error) {
 			callback(error, null);
 		}
+		console.log(result[0]);
 		callback(null, result[0].userID);
 	})
 };

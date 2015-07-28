@@ -70,7 +70,7 @@ touchbase.controller('registerController', function ($scope, $http, $window) {
 				localStorage.expiry = result.expiry;
 				console.log('localStorage: '+ JSON.stringify(localStorage));
 				$scope.formData = {};
-				$window.location.href = '/pictureUpload.html';
+				$window.location.href = 'picture.html';
 			})
 			.error(function(result) {
 				console.log("ERROR IN REGISTER: " + JSON.stringify(result[0]));
@@ -79,15 +79,19 @@ touchbase.controller('registerController', function ($scope, $http, $window) {
 
 });
 
-touchbase.controller('pictureController', function ($scope, $http, $timeout, Cropper) {
+touchbase.controller('pictureController', function ($scope, $http, $timeout, Cropper, $window) {
 
 	$scope.cropDim ={};
+	$scope.sessionInfo={};
 	/**
 	* Method is called every time file input's value changes.
 	* Because of Angular has not ng-change for file inputs a hack is needed -
 	* call `angular.element(this).scope().onFile(this.files[0])`
 	* when input's event is fired.
 	*/
+	$scope.getSessionInfo = function () {
+		$scope.sessionInfo.sessionID = localStorage.sessionID;
+	};
 
 	$scope.onFile = function(blob) {
 		Cropper.encode((file = blob)).then(function(dataUrl) {
@@ -138,8 +142,14 @@ touchbase.controller('pictureController', function ($scope, $http, $timeout, Cro
 	};
 
 	$scope.finalCropCheck = function() {
+		if ($scope.cropDim.x < 0.001) {
+			$scope.cropDim.x = 0;
+		}
+		if ($scope.cropDim.y < 0.001) {
+			$scope.cropDim.y = 0;
+		}
 		console.log($scope.cropDim);
-	}
+	};
 	/**
 	* Showing (initializing) and hiding (destroying) of a cropper are started by
 	* events. The scope of the `ng-cropper` directive is derived from the scope of
