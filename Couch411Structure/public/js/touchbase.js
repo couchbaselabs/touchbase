@@ -214,6 +214,7 @@ touchbase.controller('publishController', function ($scope, $http, $window) {
 touchbase.controller('searchController', function ($scope, $http, $window) {
 
 	$scope.searchData = {};
+	$scope.intelliCount={};
 
 	$scope.nameSearch = function(someString) {
 		// this sends an advanced search using just the name
@@ -232,17 +233,22 @@ touchbase.controller('searchController', function ($scope, $http, $window) {
 	};
 
 	$scope.intelligentCount = function(someString) {
-		$scope.searchData= {};
-		$scope.searchData.searchTerm = someString;
-		console.log($scope.searchData);
-		$http({method: "GET", url: "/api/intelligentCount", params: $scope.searchData, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
-			.success(function(result) {
-				console.log(result);
-				$scope.searchData.output = (result);
-			})
-			.error(function(result) {
-				$scope.searchData.output = ("ERROR : " + JSON.stringify(result));
-			});
+		$scope.intelliCount={};
+		if (!someString) {
+			$scope.intelliCount.output = [];
+		}
+		else {
+			$scope.intelliCount.searchTerm = someString;
+			console.log($scope.intelliCount.searchTerm);
+			$http({method: "GET", url: "/api/intelligentCount", params: $scope.intelliCount, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
+				.success(function(result) {
+					console.log(result);
+					$scope.intelliCount.output = result;
+				})
+				.error(function(result) {
+					$scope.intelliCount.output = ("ERROR : " + JSON.stringify(result));
+				});
+		}
 	};
 
 	$scope.advancedSearch = function(someField) {

@@ -1,10 +1,4 @@
 <div ng-controller="searchController" ng-init="getAllUsers()">
-	<br/>
-	<br/>
-	<br/>
-	<br/>
-	<br/>
-	<br/>
 	<!--<div class="ui divided grid stackable cards">
 		<div class = "three column row">
 			<div ng-repeat="person in searchData.peopleResults track by $index">
@@ -31,7 +25,49 @@
 			</div>
 		</div>
 	</div>-->
-	<!-- WORKS<table class="ui single line table">
+	  <div class="ui icon input">
+          <input type="text" placeholder="Search users/attributes..." ng-model="searchTerm" ng-change="intelligentCount(searchTerm)">
+	    <i class="search icon"></i>
+	  </div>
+	<div class="ui segments">
+		<div ng-repeat="countResult in intelliCount.output track by $index">
+			<div class="ui segment"> <p>{{countResult.field}} - {{countResult.count}}</p> </div>
+		</div>
+	</div>
+	<!--<div class="ui thirty-two column grid">
+		<div class="column"></div>
+		<div class="column">
+			<div class="ui left internal attached rail">
+			<br/>
+		    	<div class="ui segment">
+		      		<div class="ui relaxed divided list">
+					  <div class="item">
+					    <i class="large github middle aligned icon"></i>
+					    <div class="content">
+					      <a class="header">Semantic-Org/Semantic-UI</a>
+					      <div class="description">Updated 10 mins ago</div>
+					    </div>
+					  </div>
+					  <div class="item">
+					    <i class="large github middle aligned icon"></i>
+					    <div class="content">
+					      <a class="header">Semantic-Org/Semantic-UI-Docs</a>
+					      <div class="description">Updated 22 mins ago</div>
+					    </div>
+					  </div>
+					  <div class="item">
+					    <i class="large github middle aligned icon"></i>
+					    <div class="content">
+					      <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
+					      <div class="description">Updated 34 mins ago</div>
+					    </div>
+					  </div>
+					</div>
+		  	</div>
+		  </div>
+		</div>
+	</div>-->
+	<!--<table class="ui single line table">
 	  <thead>
 	    <tr>
 	      <th>Image</th>
@@ -50,30 +86,143 @@
 	      <td>{{person.users.stringAttributes.jobTitle}}</td>
 	    </tr>
 	  </tbody>
-	</table> -->
-	<div class="ui grid">
+	</table>-->
+	<style>
+	@import url(//fonts.googleapis.com/css?family=Roboto:400,500,300,100,700,900);
+html,
+body {
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		color: #2E2E3C;
+		line-height: 24px;
+		-webkit-font-smoothing: antialiased;
+}
+
+* {
+		box-sizing: border-box;
+		-webkit-tap-highlight-color: transparent;
+		text-rendering: optimizeLegibility;
+}
+
+*::-moz-selection {
+		color: #CFD8DC;
+		background: #009688;
+}
+
+*::selection {
+		color: #CFD8DC;
+		background: #009688;
+}
+
+*::-webkit-scrollbar {
+		width: 10px!important;
+		background: #FAFAFA;
+}
+
+*::-webkit-scrollbar-track {
+		background: rgba(255, 255, 255, .08);
+}
+
+*::-webkit-scrollbar-thumb {
+		background-color: rgba(0, 0, 0, .2);
+}
+/* End defaults*/
+.card {
+    display: inline-block;
+    vertical-align: top;
+    width: 300px;
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    background: #FFF;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    color: #272727;
+    border-radius: 2px;
+  }
+  .card .title {
+    line-height: 48px;
+    font-size: 24px;
+    font-weight: 300;
+  }
+  .card .content {
+    padding: 20px;
+    font-weight: 300;
+    border-radius: 0 0 2px 2px;
+  }
+  .card p {
+    margin: 0;
+  }
+  .card .action {
+    border-top: 1px solid rgba(160, 160, 160, 0.2);
+    padding: 20px;
+  }
+  .card a {
+    color: #ffab40;
+    margin-right: 20px;
+    -webkit-transition: color 0.3s ease;
+    transition: color 0.3s ease;
+    text-transform: lowercase;
+    text-decoration: none;
+  }
+  .card .image {
+    position: relative;
+  }
+  .card .image img {
+    border-radius: 2px 2px 0 0;
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  .card .image .title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    color: #FFF;
+  }
+ </style>
+ <br/>
+ 	<div class="ui cards">
+	<div ng-repeat="person in searchData.peopleResults track by $index">
+		<div class="card">
+		  <div class="image">
+		    <img ng-src="{{person.users.picSRC}}">
+		    <span class="title">{{person.users.stringAttributes.name}}</span>
+		  </div>
+		  <div class="content">
+		    <p>{{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}</p>
+		    <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
+		    <a><i class="inbox icon"></i>{{person.users.login.email}}</a>
+		  </div>
+		 </div>
+	</div>
+	</div>
+	
+	<!--<div class="ui four cards">
 		<div ng-repeat="person in searchData.peopleResults track by $index">
-				<div class="sixteen wide mobile eight wide tablet four wide computer column">
-					<div class="ui card">
-					  <div class="image">
-					    <img ng-src="{{person.users.picSRC}}"></img>
-					  </div>
-					  <div class="content">
-					    <a class="header">{{person.users.stringAttributes.name}}</a>
-					    <div class="meta">{{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}
-					    </div>
-					    <div class="description">
-					      {{person.users.stringAttributes.jobTitle}}
-					    </div>
-					  </div>
-					  <div class="extra content">
-					    <a>
-					      <i class="inbox icon"></i>{{person.users.login.email}}
-					    </a>
-					  </div>
-					</div>
+			<div class="ui card">
+			  <div class="content">
+			  	<a class="header">{{person.users.stringAttributes.name}}</a>
+			    <div class="meta">{{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}
+			    </div>
+			    <div class="right floated ui mini image">
+			    <img  ng-src="{{person.users.picSRC}}">
 				</div>
+			    <div class="description">
+			      {{person.users.stringAttributes.jobTitle}}
+			    </div>
+			  </div>
+			  <div class="extra content">
+			    <a>
+			      <i class="inbox icon"></i>{{person.users.login.email}}
+			    </a>
+			  </div>
 			</div>
 		</div>
-	</div>
+		</div>
+	</div>-->
 </div>

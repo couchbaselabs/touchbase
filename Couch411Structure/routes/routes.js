@@ -189,17 +189,19 @@ var appRouter = function(app) {
 
     app.get("/api/intelligentCount", Session.auth, function (req, res, next) {
         console.log("in intelligentSearch");
-        if (!req.query.searchTerm) {
+
+        /*if (!req.query.searchTerm) {
             console.log("no req.query.searchTerm recognized");
             return next(JSON.stringify({"status": "error", "message": "A search term must be provided"}));
-        }
+        }*/
         User.intelligentCount(req.query, function (error, counts) {
             if(error) {
                 return res.status(400).send(error);
             }
-            if(counts.length === 0) {
+            /*if(counts.length === 0) {
                 return (JSON.stringify({"status": "error", "message": "Sorry, there are no results for your search."}));
-            }
+            }*/
+            console.log(counts);
             res.json(counts);
         });
     });
@@ -217,9 +219,9 @@ var appRouter = function(app) {
             if(error) {
                 return res.status(400).send(error);
             }
-            if(result.length === 0) {
+            /*if(result.length === 0) {
                 return (JSON.stringify({"status": "error", "message": "Sorry, there are no results for your search."}));
-            }
+            }*/
             async.each(result, function(person, callback) {
                 Picture.receive(person.users, function (err, resp) {
                     if (error) {
@@ -227,8 +229,6 @@ var appRouter = function(app) {
                     }
                     else  {
                         person.users.picSRC = resp.value;
-                        console.log(typeof resp.value);
-                        console.log('resp.value: ' + resp.value);
                         callback();
                     }
                 });

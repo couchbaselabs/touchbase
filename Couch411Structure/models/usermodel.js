@@ -250,9 +250,9 @@ User.advancedSearch = function(params, callback) {
 };
 
 User.intelligentCount = function(params, callback) {
-	if (!params.searchTerm) {
+	/*if (!params.searchTerm) {
 		return callback(null, {status: "error", message: "Please enter a search term."});
-	}
+	}*/
 	var intelliQuery = '';
 	var arrayName = '';
 	for (i=0; i<arrayAttributes.length; i++) {
@@ -299,7 +299,7 @@ User.intelligentCount = function(params, callback) {
 			}
 		}
 		if (refinedArray.length === 0) {
-			refinedArray[0] = "Sorry, there are no results for your search.";
+			refinedArray[0] = {"users": {"field": "Sorry, there are no results for your search."}};
 		}
 		console.log('result: ' + result);
 		console.log('refinedArray: ' + refinedArray);

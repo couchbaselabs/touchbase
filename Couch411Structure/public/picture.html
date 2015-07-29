@@ -41,6 +41,12 @@
 </head>
 
 <body ng-app="touchbase" ng-controller="pictureController" ng-init="getSessionInfo()">
+  <script>
+    function redirect() {
+      window.location.href=('nav.html');
+      return false;
+    }
+  </script>
   <div class="ui middle aligned center aligned grid">
   <div class="column">
     <h2 class="ui white inverted header">
@@ -70,7 +76,7 @@
                 <div class="preview-container">
                   <img ng-if="preview.dataUrl" ng-src="{{preview.dataUrl}}">
                 </div>
-              <button type="button" class="ui grey button" data-dismiss="modal">No Thanks</button>
+              <a type="button" class="ui grey button" href="nav.html">No Thanks</a>
               <input type="hidden" value="{{sessionInfo.sessionID}}" name="sessionID" >
               <input type="hidden" value="{{cropDim}}" name="cropDim" >
               <a href="nav.html">
