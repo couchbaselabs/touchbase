@@ -1,0 +1,57 @@
+<script type="text/javascript">
+  $(document)
+      .ready(function() {
+        $("#divUpload").on("click", function() {
+        $('#hidde-new-file').click(); 
+      });
+    })
+    ;
+</script>
+
+<div ng-controller="pictureController" ng-init="getSessionInfo()">
+  <script>
+    function redirect() {
+      window.location.href=('nav.html');
+      return false;
+    }
+  </script>
+  <div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui white inverted header">
+      <img src="uploads/touchbaseLogo.png" class="image">
+      <div class="content">
+        Touchbase | Upload Picture
+      </div>
+    </h2>
+    <form class="ui form" id = "uploadForm" action="/api/uploadAttempt" method="post" enctype="multipart/form-data">
+              <br />
+              <div class="ui blue labeled icon button" id="divUpload">
+                Choose Image for Crop
+                <i class="white inverted upload icon"></i>
+              </div>
+              <input type="file" onchange="angular.element(this).scope().onFile(this.files[0])" id="hidde-new-file" name="userPhoto" value="Grey Button" accept="image/*" style="display: none"required/>
+                <br />
+                <br />
+                <div ng-if="dataUrl" class="img-container">
+                  <img ng-if="dataUrl" ng-src="{{dataUrl}}" width="300"
+                       ng-cropper
+                       ng-cropper-show="showEvent"
+                       ng-cropper-hide="hideEvent"
+                       ng-cropper-options="options">
+                </div>
+                <br />
+                <br />
+                <div class="preview-container">
+                  <img ng-if="preview.dataUrl" ng-src="{{preview.dataUrl}}">
+                </div>
+              <a type="button" class="ui grey button" href="nav.html">No Thanks</a>
+              <input type="hidden" value="{{sessionInfo.sessionID}}" name="sessionID" >
+              <input type="hidden" value="{{cropDim}}" name="cropDim" >
+              <a href="nav.html">
+                <input class="ui green button" ng-click="finalCropCheck();" type="submit" value="Upload Picture" name="submit"/>
+              </a>
+          </div>
+      <!--<button class="ui fluid large blue submit button" ng-click="registerUser(formData)"> Upload </button>
+      <a class="ui fluid large blue submit button" href="nav.html"> No Thanks </a>-->
+    </form>
+</div>

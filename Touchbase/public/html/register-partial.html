@@ -1,0 +1,96 @@
+<div ng-controller="registerController" class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui white inverted header">
+      <img src="uploads/touchbaseLogo.png" class="image">
+      <div class="content">
+        Touchbase | Register
+      </div>
+    </h2>
+    <form class="ui form">
+      <div class="ui stacked segment">
+        <div class="two fields">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="name" placeholder="Name *" ng-model="formData.stringAttributes.name"> 
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="inbox icon"></i>
+              <input type="email" name="email" placeholder="Email *" ng-model="formData.login.email">
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="password" placeholder="Password *" ng-model="formData.login.password">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="confirmPassword" placeholder="Confirm Password *" ng-model="formData.login.confPassword">
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="skype icon"></i>
+              <input type="text" name="skypeID" placeholder="Skype ID" ng-model="formData.stringAttributes.skype">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="tag icon"></i>
+              <input type="text" name="jobTitle" placeholder="Job Title" ng-model="formData.stringAttributes.jobTitle">
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <select class="ui search selection dropdown" id="search-select" ng-model="formData.dropdownAttributes.division">
+              <option value="">Division</option>
+              <option>Engineering</option>
+              <option>Marketing</option>
+              <option>Sales</option>
+              <option>Support</option>
+              <option>Other Staff</option>
+            </select>
+          </div>
+          <div class="field">
+            <select class="ui search selection dropdown" id="search-select" ng-model="formData.dropdownAttributes.baseOffice">
+              <option value=""><i class="location arrow icon"></i>Base Office</option>
+              <option>Mountain View</option>
+              <option>San Francisco</option>
+              <option>Bangalore</option>
+              <option>Manchester</option>
+              <option>Other - Remote</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="sun icon"></i>
+            <input type="text" name="hobbies" placeholder="Hobbies | Comma-separated (i.e. Hiking, Travel...)" ng-model="formData.arrayAttributes.hobbies">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="cubes icon"></i>
+            <input type="text" name="expertise" placeholder="Expertise | Comma-separated (i.e. GoLang, N1QL...)" ng-model="formData.arrayAttributes.expertise">
+          </div>
+        </div>
+        <button class="ui fluid large blue submit button" ng-click="registerUser(formData)"> Sign Up </button>
+      </div>
+      <div class="ui error message"></div>
+    </form>
+    <div class="ui message">
+      Already Registered?  </br>
+      <a class="ui red button" ui-sref="login">Login</a>
+    </div>
+  </div>
+</div>

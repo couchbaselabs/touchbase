@@ -1,0 +1,119 @@
+<div ng-controller="loginController"> 
+  <style>
+  .vertical-center {
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh; /* These two lines are counted as one :-)       */
+
+    display: flex;
+    align-items: center;
+  }
+  </style>
+  <div class="vertical-center">
+    <div class="container">
+    <div class="row text-center">
+      <img src="uploads/touchbaseLogo.png" width="40"></img>
+    </div>
+    <h5 class="text-center"><font color="white"> Touchbase | Login </font></h5>
+    <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z2">
+        <md-content class="md-padding">
+            <div flex-sm="100" flex-gt-sm="80" layout-sm="column">
+                <form name="contactForm" data-ng-submit="loginAuth(formData)">
+                    <md-input-container>
+                        <label>Email:</label>
+                        <input type="email" ng-model="formData.email" required>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Password:</label>
+                        <input type="password" ng-model="formData.password" required>
+                    </md-input-container>
+ 
+                    <md-button type="submit" class="md-primary" ng-disable="contactForm.$invalid"
+                               ng-class="{'md-raised md-hue-1': (contactForm.$dirty && contactForm.$valid) }"
+                               aria-label="Save Project">Login</md-button>
+                </form>
+            </div>
+        </md-content>
+      </div>
+    </div>
+</div>
+ <!--<div class="ui middle aligned center aligned grid">
+  <div class="column">
+  <md-content md-theme="docs-dark" layout-padding layout="row" layout-sm="column">
+    <md-input-container>
+      <label>Title</label>
+      <input ng-model="user.title">
+    </md-input-container>
+    <md-input-container>
+      <label>Email</label>
+      <input ng-model="user.email" type="email">
+    </md-input-container>
+  </md-content>
+
+  <div class="row">
+      <div class="col s12 m5">
+        <div class="card-panel teal">
+          <span class="white-text"><form class="ui grey large form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="email" placeholder="E-mail address" ng-model="loginData.email">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="Password" ng-model="loginData.password">
+          </div>
+        </div>
+        <button class="" ng-click="loginAuth(loginData)">Login</button>
+      </div>
+
+      <div class="ui error message"></div>
+
+    </form>
+  </span>
+        </div>
+      </div>
+    </div>
+  <div class="col-sm-4">
+      <div class="card">
+  <md-content layout-padding>
+  </md-content>
+</div>
+</div>
+</div>
+    <h2 class="ui white inverted header">
+      <img src="uploads/touchbaseLogo.png" class="image">
+      <div class="content">
+        Touchbase | Login
+      </div>
+    </h2>
+    <form class="ui grey large form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="email" placeholder="E-mail address" ng-model="loginData.email">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="Password" ng-model="loginData.password">
+          </div>
+        </div>
+        <button class="ui fluid large red submit button" ng-click="loginAuth(loginData)">Login</button>
+      </div>
+
+      <div class="ui error message"></div>
+
+    </form>
+
+    <div class="ui message">
+      New to us?  </br>
+      <a class="ui blue button" ui-sref="register"> Sign Up </a>
+    </div>
+  </div>
+</div>
+</div>-->

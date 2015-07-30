@@ -1,0 +1,38 @@
+<div ng-controller="publishController" ng-init="getAllPosts('github')">
+	<div ng-repeat="post in publishData.output track by $index">
+ 		<div class="col-sm-4">
+	 		<div class="card small">
+	 			<span class= "text right">
+	 				<i class="plus icon activator"></i>
+	 			</span>
+	 			<br/>
+	 			<div class="text center waves-effect waves-block waves-light">
+				    <div class="card-content waves-effect waves-block waves-light">
+				      <span class="card-title activator grey-text text-darken-4">{{post.users_publishments.title}}</span>
+				      <p><strong>{{post.users_publishments.author}}</strong></p>
+				      <p>{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
+				      <p><a ng-href="{{post.users_publishments.hyperlink}}"><i class="external icon"></i> {{post.users_publishments.title}}</a></p>
+				    </div>
+				</div>
+			    <div class="card-reveal">
+	 			  <div class="text-center">
+				      <div class="card-title grey-text text-darken-4">{{post.users_publishments.title}} </div>
+	 			  </div>
+				      <br/>
+				      <p>{{post.users_publishments.blurb}}</p>
+				 </div>
+		    </div>
+		</div>
+	</div>
+	<div class="fixed-action-btn" style="bottom: 25px; right: 24px;">
+	    <md-button class="md-fab blue darken" aria-label="Add" ng-click="showAdd($event)">
+        	<i class="ui large search icon"></i>
+     	</md-button>
+	</div>
+	<div class="fixed-action-btn" style="bottom: 90px; right: 24px;">
+	    <md-button class="md-fab blue darken" aria-label="Search" ng-click="showAdd($event)">
+        	<i class="ui large write icon"></i>
+     	</md-button>
+	</div>
+	
+</div>

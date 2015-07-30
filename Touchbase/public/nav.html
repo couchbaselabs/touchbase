@@ -1,0 +1,114 @@
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <meta name="viewport" content="initial-scale=1" />
+     <!-- Angular Material Dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.7/components/icon.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.7/components/grid.min.css"/>
+    
+    <link href="./ng-cropper/dist/ngCropper.all.css" rel="stylesheet">
+    <script src="./ng-cropper/dist/ngCropper.all.js"></script>
+    <script src="js/touchbase.js"></script>
+    <style>
+      .md-toolbar-tools h1 {
+        font-size: inherit;
+        font-weight: inherit;
+        margin: inherit;
+      }
+
+      .site-sidenav {
+          background: #106CC8;
+        }
+    </style>
+  </head>
+  <body layout="column" ng-app="touchbase" ng-controller="AppCtrl">
+    <md-toolbar layout="row">
+      <div class="md-toolbar-tools">
+        <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
+          <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
+        </md-button>
+        <img src="uploads/touchbaseFull.png" width="170"></img>
+        <span flex></span>
+        <img src="uploads/touchbaseLogo.png" width="31">
+      </div>
+    </md-toolbar>
+    <div layout="row" flex>
+        <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+          <md-list>
+            <md-list-item>
+              <div ui-sref="myProfile">
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                  <div class="inset">
+                    <i class="user icon"></i>
+                  </div>
+                  <div class="inset">My Profile
+                  </div>
+                </md-item-content>
+              </div>
+            </md-list-item>
+            <md-list-item>
+              <div ui-sref="statistics">
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                  <div class="inset">
+                    <i class="line graph icon"></i>
+                  </div>
+                  <div class="inset">Statistics
+                  </div>
+                </md-item-content>
+              </div>
+            </md-list-item>
+            <md-list-item>
+              <div ui-sref="allUsers">
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                  <div class="inset">
+                    <i class="users icon"></i>
+                  </div>
+                  <div class="inset">All Users
+                  </div>
+                </md-item-content>
+              </div>
+            </md-list-item>
+            <md-list-item>
+              <div ui-sref="allPosts">
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                  <div class="inset">
+                    <i class="right quote icon"></i>
+                  </div>
+                  <div class="inset">Posts
+                  </div>
+                </md-item-content>
+              </div>
+            </md-list-item>
+            <md-list-item>
+              <div ng-controller="signOutController" ng-click="signOut()">
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                  <div class="inset">
+                    <i class="sign out icon"></i>
+                  </div>
+                  <div class="inset">Sign Out
+                  </div>
+                </md-item-content>
+              </div>
+            </md-list-item>
+          </md-list>
+        </md-sidenav>
+        <div layout="column" flex id="content">
+            <md-content layout="column" flex class="md-padding">
+                <div ui-view></div>
+            </md-content>
+        </div>
+    </div>
+    </div>
+  </body>
+</html>
