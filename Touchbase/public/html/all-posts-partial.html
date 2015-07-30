@@ -1,5 +1,10 @@
 <div ng-controller="publishController" ng-init="getAllPosts('github')">
-	<div ng-repeat="post in publishData.output track by $index">
+	<md-input-container >
+      <!-- Use floating label instead of placeholder -->
+      <label><i class="search icon"></i>Search</label>
+      <input ng-model="searchText" type="text">
+    </md-input-container>
+	<div ng-repeat="post in publishData.output | filter:searchText ">
  		<div class="col-sm-4">
 	 		<div class="card small">
 	 			<span class= "text right">
@@ -30,7 +35,7 @@
      	</md-button>
 	</div>
 	<div class="fixed-action-btn" style="bottom: 90px; right: 24px;">
-	    <md-button class="md-fab blue darken" aria-label="Search" ng-click="showAdd($event)">
+	    <md-button class="md-fab blue darken" aria-label="Search" ng-click="showAdvanced($event)">
         	<i class="ui large write icon"></i>
      	</md-button>
 	</div>
