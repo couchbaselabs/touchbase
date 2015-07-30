@@ -29,6 +29,11 @@ touchbase.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: 'html/all-users-partial.html'
 		})
 
+		.state('allPosts', {
+			url: '/allPosts',
+			templateUrl: 'html/all-posts-partial.html'
+		})
+
 		.state('statistics', {
 			url: '/statistics'
 			// could have nested views here for each stat?
@@ -201,6 +206,16 @@ touchbase.controller('publishController', function ($scope, $http, $window) {
 	$scope.publishTry = function() {
 		var postTry = {"pubType": "github", "title":"Couch411", "webpage": "https://github.com/pranavmayuram/Couch411/tree/master/Couch411Structure", "blurb": "Couch411 is dank"};
 		$http({method: "POST", url: "/api/publishPost", data: postTry, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
+			.success(function(result) {
+				console.log(result);
+			})
+			.error(function(result) {
+				console.log("ERROR : " + result);
+			});
+	};
+
+	$scope.getAllPosts = function(type) {
+		$http({method: "GET", url: "/api/searchPosts", params: {pubType: type}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
 				console.log(result);
 			})

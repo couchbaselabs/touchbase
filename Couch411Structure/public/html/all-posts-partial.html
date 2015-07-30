@@ -1,0 +1,30 @@
+<div ng-controller="publishController" ng-init="getAllPosts()">
+	<div class="ui fluid icon input">
+          <input type="text" placeholder="Search posts/attributes..." ng-model="searchTerm" ng-change="intelligentCount(searchTerm)">
+	    <i class="search icon"></i>
+	  </div>
+	<div class="ui segments">
+		<div ng-repeat="countResult in intelliCount.output track by $index">
+			<div class="ui segment">{{countResult.field}} <span class="ui right aligned">{{countResult.count}}</span> </div>
+		</div>
+	</div>
+	<br/>
+	<div class="ui orange launch right attached fixed button"><i class="write icon"></i> Make Post</div>
+	<div class="ui container">
+	 	<div class="ui cards">
+			<div ng-repeat="person in searchData.peopleResults track by $index">
+				<div class="card">
+				  <div class="image">
+				    <img ng-src="{{person.users.picSRC}}">
+				    <span class="title">{{person.users.stringAttributes.name}}</span>
+				  </div>
+				  <div class="content">
+				    <p>{{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}</p>
+				    <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
+				    <a><i class="inbox icon"></i>{{person.users.login.email}}</a>
+				  </div>
+				 </div>
+			</div>
+		</div>
+	</div>
+</div>

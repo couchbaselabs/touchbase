@@ -299,7 +299,7 @@ User.intelligentCount = function(params, callback) {
 			}
 		}
 		if (refinedArray.length === 0) {
-			refinedArray[0] = {"users": {"field": "Sorry, there are no results for your search."}};
+			refinedArray[0] = {"field": "Sorry, there are no results for your search."};
 		}
 		console.log('result: ' + result);
 		console.log('refinedArray: ' + refinedArray);
