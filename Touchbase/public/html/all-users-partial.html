@@ -21,7 +21,35 @@
 	<!--<md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-search-text-change="intelligentCount(searchText)" md-items="item in intelliCount(searchText)" md-item-text="item.field" md-min-length="1">
 	  <span md-highlight-text="searchText">{{item.field}}</span>
 	</md-autocomplete>-->
+	<script>
+	$('.dropdown-menu').find('input').click(function (e) {
+    	e.stopPropagation();
+	});
 	</script>
+
+	<div class="dropdown dropdown-scroll">
+    <button class="btn btn-default red dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"><i class="ui large search icon"></i></button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation">
+            <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-search"></span></span>
+                <input type="text" class="form-control" placeholder="Search users/attributes..." ng-model="query" ng-change="intelligentCount(query)"></input>
+            </div>
+        </li>
+        <li role="presentation" ng-repeat='countResult in intelliCount.output' ng-click="advancedSearch(query, countResult.field)">{{countResult.field}}   {{countResult.count}}
+        </li>
+    </ul>
+	</div>
+	<md-input-container >
+      <!-- Use floating label instead of placeholder -->
+      <label><i class="search icon"></i>Search</label>
+      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)">
+    </md-input-container>
+
+    <div ng-show="loading" class="center block">
+    	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+	
  	<div ng-repeat="person in searchData.peopleResults track by $index">
  		<div class="col-sm-4">
 	 		<div class="card small">
@@ -29,10 +57,10 @@
 	 				<i class="plus icon activator"></i>
 	 			</span>
 	 			<br/>
-	 			<div class="text center waves-effect waves-block waves-light">
+	 			<div class="text center activator waves-effect waves-block waves-light">
 			    	<img class="activator img-circle" ng-src="{{person.users.picSRC}}" width="150" border="3">
 			    <div class="card-content waves-effect waves-block waves-light">
-			      <span class="card-title activator grey-text text-darken-4">{{person.users.stringAttributes.name}}</span>
+			      <span class="card-title grey-text text-darken-4">{{person.users.stringAttributes.name}}</span>
 			      <p>{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
 			      <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
 			      <p><a href="#">{{person.users.login.email}}</a></p>
@@ -53,12 +81,6 @@
 			    </div>
 			</div>
 		</div>
-	</div>
-
-	<div class="fixed-action-btn" style="bottom: 25px; right: 24px;">
-		    <md-button class="md-fab blue darken" aria-label="Add" ng-click="showAdvanced($event)">
-	        	<i class="ui large search icon"></i>
-	     	</md-button>
 	</div>
  	<!--<md-card>
       <img ng-src="{{person.users.picSRC}}" class="md-card-image">

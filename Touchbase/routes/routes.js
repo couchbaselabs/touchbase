@@ -59,7 +59,7 @@ var appRouter = function(app) {
                 return res.status(400).send(error);
             }
             console.log(userDocs[0]);
-            req.body.author = userDocs[0].users.name;
+            req.body.author = userDocs[0].users.stringAttributes.name;
             req.body.authorID = userDocs[0].users.uuid;
             console.log(req.body);
             Publish.create(req.body, function(err, result) {

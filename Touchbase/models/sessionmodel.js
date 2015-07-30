@@ -3,6 +3,7 @@ var forge 				= require("node-forge");
 var userBucket			= require("../app").userBucket;
 var userBucketName		= require("../config").couchbase.userBucket;
 var N1qlQuery 			= require('couchbase').N1qlQuery;
+var async      			= require("async");
 
 function Session() {};
 
@@ -13,13 +14,36 @@ Session.create = function(userID, callback) {
 		sessionID: (uuid.v4()+"_session"),
 		expiry: 3600
 	};
-	userBucket.insert(sessionModel.sessionID, sessionModel, {expiry: sessionModel.expiry}, function(error, result) {
+	userBucket.insert(sessionModel.sessionID, sessionModel, {expiry: sessionModel.expiry}, function (error, result) {
 		if (error) {
     		callback(error, null);
     		return;
     	}
     	console.log(sessionModel);
-    	callback(null, sessionModel);
+    	var checkInsert = N1qlQuery.fromString("SELECT * FROM "+userBucketName+" WHERE sessionID = $1");
+    	var waiting=false;
+    	console.log(checkInsert);
+    	async.whilst(
+    		function() {
+    			return waiting;
+	    	},
+	    	function(cb){
+	    		userBucket.query(checkInsert, [sessionModel.sessionID], function (error, result) {
+	    			if (error) {
+	    				return callback(error, null);
+	    			}
+	    			if (result.length === 1) {
+	    				waiting = true;
+	    				cb();
+	    			}
+	    		});
+	    	}, function(err) {
+	    		if (err) {
+	    			callback(err, null);
+	    		}
+	    		callback(null, sessionModel);
+	    	}
+   		);
     });
 };
 
@@ -36,7 +60,7 @@ Session.auth = function (req, res, next) {
 			}
 			if (!result[0]) {
 				console.log("Session expired, please login again.");
-				res.send("Session expired, please login again.");
+				res.send({currentSession: false});
 				return;
 			}
 			req.userID = result[0].userID;

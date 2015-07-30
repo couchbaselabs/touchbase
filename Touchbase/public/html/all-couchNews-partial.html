@@ -1,4 +1,4 @@
-<div ng-controller="publishController" ng-init="getAllPosts('github')">
+<div ng-controller="publishController" ng-init="getAllPosts('couchNews')">
 	<md-input-container >
       <!-- Use floating label instead of placeholder -->
       <label><i class="search icon"></i>Search</label>
@@ -11,11 +11,14 @@
 	 				<i class="plus icon activator"></i>
 	 			</span>
 	 			<br/>
-	 			<div class="text center waves-effect waves-block waves-light">
+	 			<div class="text center activator waves-effect waves-block waves-light">
+	 			<img class="activator img-circle" src="icons/couchbase-logo.png" width="75"></img>
 				    <div class="card-content waves-effect waves-block waves-light">
-				      <span class="card-title activator grey-text text-darken-4">{{post.users_publishments.title}}</span>
+				      <span class="card-title grey-text text-darken-4">{{post.users_publishments.title}}</span>
+				      <br/>
+				      <br/>
 				      <p><strong>{{post.users_publishments.author}}</strong></p>
-				      <p>{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
+				      <p>{{post.users_publishments.timeDisp}}</p>
 				      <p><a ng-href="{{post.users_publishments.hyperlink}}"><i class="external icon"></i> {{post.users_publishments.title}}</a></p>
 				    </div>
 				</div>
@@ -29,15 +32,12 @@
 		    </div>
 		</div>
 	</div>
-	<div class="fixed-action-btn" style="bottom: 25px; right: 24px;">
-	    <md-button class="md-fab blue darken" aria-label="Add" ng-click="showAdd($event)">
-        	<i class="ui large search icon"></i>
-     	</md-button>
-	</div>
-	<div class="fixed-action-btn" style="bottom: 90px; right: 24px;">
-	    <md-button class="md-fab blue darken" aria-label="Search" ng-click="showAdvanced($event)">
-        	<i class="ui large write icon"></i>
-     	</md-button>
+	<div class="footer-copyright">
+		<div class="fixed-action-btn">
+			<span class = "btn-floating btn-large red" ng-click="postNews($event)">
+	        	<i class="write icon"></i>
+	     	<span>
+		</div>
 	</div>
 	
 </div>

@@ -39,11 +39,12 @@ Publish.search = function(params, callback) {
 		pubQuery+= ("AND authorID = "+params.authorID+" ");
 	}
 	if (params.title) {
-		pubQuery+= ("AND title LIKE LOWER(%"+params.hyperlink+"%) ");
+		pubQuery+= ("AND title LIKE LOWER(%"+params.title+"%) ");
 	}
 	if (params.author) {
 		pubQuery+= ("AND author LIKE LOWER(%"+params.author+"%) ");
 	}
+	pubQuery += "ORDER BY time DESC";
 	pubQueryN1ql = N1qlQuery.fromString(pubQuery);
 	console.log(pubQueryN1ql);
 	publishBucket.query(pubQueryN1ql, function (error, result) {

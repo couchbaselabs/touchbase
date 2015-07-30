@@ -1,0 +1,25 @@
+{
+  "name": "Touchbase",
+  "version": "0.0.1",
+  "authors": [
+    "pranavmayuram"
+  ],
+  "description": "A social network API-driven application using Couchbase.",
+  "main": "app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "acute-select": "~0.1.0",
+    "angular-cookies": "~1.4.3",
+    "ng-cropper": "~0.3.0",
+    "ng-flow": "~2",
+    "ngImgCrop": "~0.3.2",
+    "tc-angular-chartjs": "~1.0.12"
+  }
+}

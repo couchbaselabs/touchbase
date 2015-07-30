@@ -1,60 +1,30 @@
 <md-dialog aria-label="Mango (Fruit)">
-  <md-content layout-padding>
-    <form name="userForm">
-      <div layout layout-sm="column">
-        <md-input-container style="width:80%">
-            <label>Company (Disabled)</label>
-            <input ng-model="user.company" disabled>
-          </md-input-container>
-        <md-input-container flex>
-          <label>Submission Date</label>
-          <input type="date" ng-model="user.submissionDate">
-        </md-input-container>
-      </div>
-      <div layout layout-sm="column">
-        <md-input-container flex>
-          <label>First name</label>
-          <input ng-model="user.firstName">
-        </md-input-container>
-        <md-input-container flex>
-          <label>Last Name</label>
-          <input ng-model="theMax">
-        </md-input-container>
-      </div>
-      <md-input-container flex>
-        <label>Address</label>
-        <input ng-model="user.address">
-      </md-input-container>
-      <md-input-container md-no-float>
-        <input ng-model="user.address2" placeholder="Address 2">
-      </md-input-container>
-      <div layout layout-sm="column">
-        <md-input-container flex>
-          <label>City</label>
-          <input ng-model="user.city">
-        </md-input-container>
-        <md-input-container flex>
-          <label>State</label>
-          <input ng-model="user.state">
-        </md-input-container>
-        <md-input-container flex>
-          <label>Postal Code</label>
-          <input ng-model="user.postalCode">
-        </md-input-container>
-      </div>
-      <md-input-container flex>
-        <label>Biography</label>
-        <textarea ng-model="user.biography" columns="1" md-maxlength="150"></textarea>
-      </md-input-container>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Intelligent Search</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="icons/ic_clear_black_24px.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+  <md-input-container >
+      <!-- Use floating label instead of placeholder -->
+      <label><i class="search icon"></i>Search</label>
+      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)">
+  </md-input-container>
+  <md-list>
+    <md-list-item ng-repeat="countResult in intelliCount.output" ng-click="advancedSearch(countResult.field)">
+      <span class="text left">{{countResult.field}}</span><span class="text right">{{countResult.count}}</span>
+    </md-list-item>
+  </md-list>
     <span flex></span>
     <div>
-    <md-button ng-click="answer('not useful')" class="md-primary">
-     Not Useful
-    </md-button>
-    <md-button ng-click="answer('useful')" class="md-primary">
-      Useful
+    <md-button ng-click="cancel()" class="md-primary">
+     Cancel
     </md-button>
     </div>
-</form>
-  </md-content>
+    </form>
+  </md-dialog-content>
 </md-dialog>

@@ -36,7 +36,7 @@ signUp.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
 });
 
-signUp.controller('loginController', function ($scope, $http, $window) {
+signUp.controller('loginController', function ($scope, $http, $window, $timeout) {
 	
 	$scope.loginData={};
 
@@ -47,7 +47,7 @@ signUp.controller('loginController', function ($scope, $http, $window) {
 				console.log(result);
 				localStorage.sessionID = result.sessionID;
 				localStorage.expiry = result.expiry;
-				$window.location.href = 'nav.html';
+				$timeout(function() {$window.location.href = 'nav.html'}, 300);
 				console.log('localStorage: '+ JSON.stringify(localStorage));
 			})
 			.error(function(result) {
