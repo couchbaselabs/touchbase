@@ -27,13 +27,18 @@
                         <input type="password" ng-model="formData.password" required>
                     </md-input-container>
  
-                    <md-button type="submit" class="md-primary" ng-disable="contactForm.$invalid"
+                    <md-button type="submit" class="md-raised" ng-disable="contactForm.$invalid"
                                ng-class="{'md-raised md-hue-1': (contactForm.$dirty && contactForm.$valid) }"
                                aria-label="Save Project">Login</md-button>
                 </form>
             </div>
         </md-content>
       </div>
+      <br/>
+          <div class="text-center">
+                  <p><font color="white">New to us?</font></p>
+                  <p><md-button class="md-raised" ui-sref="register">Sign Up</md-button></p>
+          </div>
     </div>
 </div>
  <!--<div class="ui middle aligned center aligned grid">

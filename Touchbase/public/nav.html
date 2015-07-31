@@ -44,9 +44,9 @@
     </style>
   </head>
   <body layout="column" ng-app="touchbase" ng-controller="AppCtrl">
-    <md-toolbar layout="row">
+    <md-toolbar hide-gt-md layout="row">
       <div class="md-toolbar-tools">
-        <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
+        <md-button ng-click="toggleSidenav('left')" class="md-icon-button">
           <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
         </md-button>
         <h2>Touchbase</h2>
@@ -55,7 +55,12 @@
       </div>
     </md-toolbar>
     <div layout="row" flex>
-        <md-sidenav style="background:#C62828" layout="column" class="md-sidenav-left md-whiteframe-z2 md-default-theme" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+        <md-sidenav style="background:#C62828" layout="column" class="md-sidenav-left md-whiteframe-z2 md-default-theme" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+        <header class="nav-header text-center">
+            <br/>
+            <img src="uploads/touchbaseLogo.png" width="70"alt="">
+            <h5 class="docs-logotype md-heading"><font color="white">Touchbase</font></h5>
+        </header>
         <md-content style="background:transparent" flex>
           <md-list md-default-theme>
             <md-list-item>

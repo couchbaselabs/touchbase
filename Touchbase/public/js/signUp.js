@@ -1,4 +1,4 @@
-var signUp = angular.module('signUp', ['ngMaterial','ui.router', 'ngCropper']);
+var signUp = angular.module('signUp', ['ngMaterial','ui.router', 'ngCropper','formFor', 'formFor.materialTemplates']);
 
 var stringAttributes 	= ["skype", "name", "jobTitle"];
 var arrayAttributes		= ["hobbies", "expertise"];

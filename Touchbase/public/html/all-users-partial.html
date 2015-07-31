@@ -46,7 +46,7 @@
       <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)">
     </md-input-container>
 
-    <div ng-show="loading" class="center block">
+    <div layout="row" layout-sm="column" layout-align="space-around" ng-show="loading">
     	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
 	

@@ -103,6 +103,9 @@ touchbase.controller('DemoCtrl', function ($timeout, $q, $log, $scope, $http) {
 		console.log($scope.intelliCount.searchTerm);
 		$http({method: "GET", url: "/api/intelligentCount", params: $scope.intelliCount, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
+				if (result.currentSession==false) {
+					console.log('failed');
+				}
 				console.log(result);
 				$scope.intelliCount.output = result;
 			})
@@ -136,6 +139,9 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 	$scope.getMyProfile = function() {
 		$http({method: "GET", url: "/api/advancedSearch", params: {'myProfile': true}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
+				if (result.currentSession==false) {
+					console.log('failed');
+				}
 				console.log(result[0]);
 				$scope.myData.changed = result[0];
 				$scope.myData.unchanged = result[0];
@@ -148,6 +154,9 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 	$scope.updateMyProfile = function() {
 		$http({method: "POST", url: "/api/updateUser", data: $scope.myData , headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
+				if (result.currentSession==false) {
+					console.log('failed');
+				}
 				console.log(result);
 				console.log('profile updated!');
 			})
@@ -168,6 +177,9 @@ touchbase.controller('publishController', function ($scope, $http, $window, $mdD
 		postTry.pubType = pubType;
 		$http({method: "POST", url: "/api/publishPost", data: postTry, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
+				if (result.currentSession==false) {
+					console.log('failed');
+				}
 				console.log(result);
 			})
 			.error(function(result) {
@@ -178,6 +190,9 @@ touchbase.controller('publishController', function ($scope, $http, $window, $mdD
 	$scope.getAllPosts = function(type) {
 		$http({method: "GET", url: "/api/postSearch", params: {pubType: type}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
+				if (result.currentSession==false) {
+					console.log('failed');
+				}
 				console.log(result);
 				for (i=0; i<result.length; i++) {
 					result[i].users_publishments.timeDisp = moment(result[i].users_publishments.time).fromNow();
@@ -226,6 +241,9 @@ function DialogController($scope, $http, $mdDialog) {
 		postTry.pubType = pubType;
 		$http({method: "POST", url: "/api/publishPost", data: postTry, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
+				if (result.currentSession==false) {
+					console.log('failed');
+				}
 				console.log(result);
 			})
 			.error(function(result) {
@@ -265,9 +283,15 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 			$scope.intelliCount.searchTerm = someString;
 			console.log($scope.intelliCount.searchTerm);
 			$http({method: "GET", url: "/api/intelligentCount", params: $scope.intelliCount, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
-					.then(function (result) {
-						$scope.intelliCount.output=result.data;
-	    				return result.data;
+					.success(function (result) {
+						if (result.currentSession==false) {
+							console.log('failed');
+						}
+						$scope.intelliCount.output=result;
+	    				return result;
+	  				})
+	  				.error (function(result) {
+	  					console.log(result);
 	  				});
 				/*
 				.then(function(result) {
@@ -282,6 +306,9 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 		eval("tempObj." + someField + "= \"" + string+"\";");
 		$http({method: "GET", url: "/api/advancedSearch", params: tempObj, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
+				if (result.currentSession==false) {
+					console.log('failed');
+				}
 				console.log(JSON.stringify(result));
 				$scope.searchData.peopleResults = (result);
 			})
