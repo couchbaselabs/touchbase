@@ -25,7 +25,7 @@
     <script src="Chart.js/Chart.min.js"></script>
     <script src="tc-angular-chartjs/dist/tc-angular-chartjs.min.js"></script>
     <style>
-      body
+      html, body
       .md-toolbar-tools h1 {
         font-size: inherit;
         font-weight: inherit;
@@ -49,7 +49,7 @@
         <md-button ng-click="toggleSidenav('left')" class="md-icon-button">
           <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
         </md-button>
-        <h2>Touchbase</h2>
+        <img src="uploads/touchbaseTextCaps.png" width="150"/>
         <span flex></span>
         <img src="uploads/touchbaseLogo.png" width="31">
       </div>
@@ -59,10 +59,11 @@
         <header class="nav-header text-center">
             <br/>
             <img src="uploads/touchbaseLogo.png" width="70"alt="">
-            <h5 class="docs-logotype md-heading"><font color="white">Touchbase</font></h5>
+            <div class="docs-logotype md-heading"><img src="uploads/touchbaseTextCaps.png" width="150"/></div>
         </header>
         <md-content style="background:transparent" flex>
           <md-list md-default-theme>
+          <md-divider></md-divider>
             <md-list-item>
               <div ng-click="toggleSidenav('left');" ui-sref="myProfile">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
@@ -74,6 +75,7 @@
                 </md-item-content>
               </div>
             </md-list-item>
+            <md-divider></md-divider>
             <md-list-item>
               <div ng-click="toggleSidenav('left');" ui-sref="statistics">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
@@ -85,6 +87,7 @@
                 </md-item-content>
               </div>
             </md-list-item>
+            <md-divider></md-divider>
             <md-list-item>
               <div ng-click="toggleSidenav('left');" ui-sref="allUsers">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
@@ -96,6 +99,7 @@
                 </md-item-content>
               </div>
             </md-list-item>
+            <md-divider></md-divider>
             <md-list-item>
               <div ng-click="toggleSidenav('left');" ui-sref="allGit">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
@@ -107,6 +111,7 @@
                 </md-item-content>
               </div>
             </md-list-item>
+            <md-divider></md-divider>
             <md-list-item>
               <div ng-click="toggleSidenav('left');" ui-sref="allNews">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
@@ -118,6 +123,7 @@
                 </md-item-content>
               </div>
             </md-list-item>
+            <md-divider></md-divider>
             <md-list-item>
               <div ng-controller="signOutController" ng-click="signOut()">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
@@ -129,6 +135,7 @@
                 </md-item-content>
               </div>
             </md-list-item>
+            <md-divider></md-divider>
           </md-list>
         </md-content>
         </md-sidenav>

@@ -21,21 +21,24 @@ Session.create = function(userID, callback) {
     	}
     	console.log(sessionModel);
     	var checkInsert = N1qlQuery.fromString("SELECT * FROM "+userBucketName+" WHERE sessionID = $1");
-    	var waiting=false;
+    	var waiting=true;
+    	var i=0;
     	console.log(checkInsert);
-    	async.whilst(
+    	async.until(
     		function() {
     			return waiting;
 	    	},
 	    	function(cb){
+	    		console.log(i + ": " + checkInsert);
 	    		userBucket.query(checkInsert, [sessionModel.sessionID], function (error, result) {
 	    			if (error) {
 	    				return callback(error, null);
 	    			}
 	    			if (result.length === 1) {
-	    				waiting = true;
-	    				cb();
+	    				waiting = false;
+	    				cb(error);
 	    			}
+	    			i++;
 	    		});
 	    	}, function(err) {
 	    		if (err) {

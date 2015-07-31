@@ -16,7 +16,8 @@ touchbase.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider
 		})
 
 		.state('myProfile', {
-			
+			url: '/myProfile',
+			templateUrl: 'html/my-profile-partial.html'
 		})
 
 		.state('allUsers', {

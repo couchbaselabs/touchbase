@@ -20,14 +20,17 @@
                 <form name="contactForm" data-ng-submit="loginAuth(formData)">
                     <md-input-container>
                         <label>Email:</label>
-                        <input type="email" ng-model="formData.email" required>
+                        <input type="email" ng-model="formData.email" required name="email" ng-blur="checkEmail(formData.email)">
+                        <div ng-messages="contactForm.email.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.emailError)">{{errors.emailError}}</div>
+                        </div>
                     </md-input-container>
                     <md-input-container flex>
                         <label>Password:</label>
                         <input type="password" ng-model="formData.password" required>
                     </md-input-container>
  
-                    <md-button type="submit" class="md-raised" ng-disable="contactForm.$invalid"
+                    <md-button type="submit" class="md-primary" ng-disable="contactForm.$invalid"
                                ng-class="{'md-raised md-hue-1': (contactForm.$dirty && contactForm.$valid) }"
                                aria-label="Save Project">Login</md-button>
                 </form>
@@ -39,8 +42,14 @@
                   <p><font color="white">New to us?</font></p>
                   <p><md-button class="md-raised" ui-sref="register">Sign Up</md-button></p>
           </div>
+      </div>
     </div>
 </div>
+    <!--<form ng-controller="IndexFormDemoController"form-for="ctrl.formData"
+      form-for-builder
+      validation-rules="ctrl.validationAndViewRules"
+      submit-with="ctrl.submit()">
+  </form>-->
  <!--<div class="ui middle aligned center aligned grid">
   <div class="column">
   <md-content md-theme="docs-dark" layout-padding layout="row" layout-sm="column">

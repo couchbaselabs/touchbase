@@ -1,4 +1,106 @@
-<div ng-controller="registerController" class="ui middle aligned center aligned grid">
+<div ng-controller="registerController">
+  <div layout="column" layout-align="center">
+    <div class="container">
+    <div class="row text-center">
+      <img src="uploads/touchbaseLogo.png" width="40">
+    </div>
+    <h5 class="text-center"><font color="white"> Touchbase | Profile </font></h5>
+    <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z2">
+        <md-content class="md-padding">
+            <div flex-sm="100" flex-gt-sm="80" layout-sm="column">
+                <form name="contactForm" data-ng-submit="registerUser(registerData)">
+                  <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label><i class="inbox icon"></i> Email:</label>
+                        <input type="email" ng-model="registerData.login.email" required name="email" ng-blur="checkEmail(registerData.login.email)">
+                        <div ng-messages="contactForm.email.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.emailError)">{{errors.emailError}}</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label><i class="user icon"></i> Name:</label>
+                        <input type="text" ng-model="registerData.stringAttributes.name" required name="name" ng-blur="checkName(registerData.stringAttributes.name)">
+                        <div ng-messages="contactForm.name.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.nameError)">{{errors.nameError}}</div>
+                        </div>
+                    </md-input-container>
+                  </div>
+                  <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label><i class="lock icon"></i> Password:</label>
+                        <input type="password" ng-model="registerData.login.password" ng-change="passStrength(registerData.login.password)" ng-blur="passStrength(registerData.login.password)" required>
+                        <div ng-messages="contactForm.password.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.passwordError)">{{errors.passwordError}}</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label><i class="lock icon"></i> Confirm Password:</label>
+                        <input type="password" ng-model="registerData.login.confPassword" ng-blur="checkPass(registerData.login.password, registerData.login.confPassword)" required>
+                        <div ng-messages="contactForm.confPassword.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.confPasswordError)">{{errors.confPasswordError}}</div>
+                        </div>
+                    </md-input-container>
+                  </div>
+                  <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label><i class="skype icon"></i> Skype:</label>
+                        <input type="text" ng-model="registerData.stringAttributes.skype">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label><i class="tag icon"></i> Job Title:</label>
+                        <input type="text" ng-model="registerData.stringAttributes.jobTitle">
+                    </md-input-container>
+                  </div>
+                  <div layout layout-sm="column"> 
+                    <md-input-container flex>
+                      <md-select placeholder="Division" ng-model="registerData.dropdownAttributes.division">
+                        <md-option>Engineering</md-option>
+                        <md-option>Marketing</md-option>
+                        <md-option>Sales</md-option>
+                        <md-option>Support</md-option>
+                        <md-option>Other Staff</md-option>
+                      </md-select>
+                    </md-input-container>
+                    <md-input-container flex>
+                      <md-select placeholder="Base Office" ng-model="registerData.dropdownAttributes.baseOffice" tabindex="0" >
+                        <md-option>Mountain View</md-option>
+                        <md-option>San Francisco</md-option>
+                        <md-option>Bangalore</md-option>
+                        <md-option>Manchester</md-option>
+                        <md-option>Other - Remote</md-option>
+                      </md-select>
+                    </md-input-container>
+                  </div>
+                  <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label><i class="cubes icon"></i> Expertise: (Comma-separated list - limit 5)</label>
+                        <input type="text" ng-model="registerData.arrayAttributes.expertise">
+                        <div ng-messages="contactForm.expertise.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.expertiseError)">{{errors.expertiseError}}</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label><i class="sun icon"></i> Hobbies: (Comma-separated list - limit 5)</label>
+                        <input type="text" ng-model="registerData.arrayAttributes.hobbies">
+                        <div ng-messages="contactForm.email.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.hobbiesError)">{{errors.hobbiesError}}</div>
+                        </div>
+                    </md-input-container>
+                  </div>
+ 
+                    <md-button type="submit" class="md-primary" ng-disable="contactForm.$invalid"
+                               ng-class="{'md-raised md-hue-1': (registerForm.$dirty && registerForm.$valid) }"
+                               aria-label="Save Project">Register</md-button>
+                </form>
+                <!--<md-select ng-model="size" placeholder="Size" class="ng-valid md-default-theme ng-touched ng-dirty ng-valid-parse" tabindex="0" aria-disabled="false" role="combobox" aria-expanded="false" id="select_99" aria-invalid="false" aria-label="Size"><md-select-label class="md-select-label" id="select_label_96"><span>medium (14-inch)</span><span class="md-select-icon" aria-hidden="true"></span></md-select-label></md-select>-->
+            </div>
+        </md-content>
+      </div>
+      </div>
+    </div>
+  </div>
+<!--
+
   <div class="column">
     <h2 class="ui white inverted header">
       <img src="uploads/touchbaseLogo.png" class="image">
@@ -53,22 +155,22 @@
         <div class="two fields">
           <div class="field">
             <select class="ui search selection dropdown" id="search-select" ng-model="formData.dropdownAttributes.division">
-              <option value="">Division</option>
-              <option>Engineering</option>
-              <option>Marketing</option>
-              <option>Sales</option>
-              <option>Support</option>
-              <option>Other Staff</option>
+              <md-option value="">Division</md-option>
+              <md-option>Engineering</md-option>
+              <md-option>Marketing</md-option>
+              <md-option>Sales</md-option>
+              <md-option>Support</md-option>
+              <md-option>Other Staff</md-option>
             </select>
           </div>
           <div class="field">
             <select class="ui search selection dropdown" id="search-select" ng-model="formData.dropdownAttributes.baseOffice">
-              <option value=""><i class="location arrow icon"></i>Base Office</option>
-              <option>Mountain View</option>
-              <option>San Francisco</option>
-              <option>Bangalore</option>
-              <option>Manchester</option>
-              <option>Other - Remote</option>
+              <md-option value=""><i class="location arrow icon"></i>Base Office</md-option>
+              <md-option>Mountain View</md-option>
+              <md-option>San Francisco</md-option>
+              <md-option>Bangalore</md-option>
+              <md-option>Manchester</md-option>
+              <md-option>Other - Remote</md-option>
             </select>
           </div>
         </div>
@@ -93,4 +195,4 @@
       <a class="ui red button" ui-sref="login">Login</a>
     </div>
   </div>
-</div>
+</div>-->

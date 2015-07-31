@@ -26,7 +26,21 @@
     	e.stopPropagation();
 	});
 	</script>
+	<style>
+		body {
+		    position: relative
+		}
+		#aFloat {
+		z-index: 1000;
+		position: absolute;
 
+		width: 200px;
+		height: 100px;
+
+		background-color: grey;
+		color: white;
+		}
+	</style>
 	<div class="dropdown dropdown-scroll">
     <button class="btn btn-default red dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"><i class="ui large search icon"></i></button>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
