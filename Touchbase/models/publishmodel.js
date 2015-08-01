@@ -36,13 +36,13 @@ Publish.search = function(params, callback) {
 		pubQuery+= ("AND pubType = \""+params.pubType+"\" ");
 	}
 	if (params.authorID) {
-		pubQuery+= ("AND authorID = "+params.authorID+" ");
+		pubQuery+= ("AND authorID = \""+params.authorID+"\" ");
 	}
 	if (params.title) {
-		pubQuery+= ("AND title LIKE LOWER(%"+params.title+"%) ");
+		pubQuery+= ("AND title LIKE LOWER(%\""+params.title+"\"%) ");
 	}
 	if (params.author) {
-		pubQuery+= ("AND author LIKE LOWER(%"+params.author+"%) ");
+		pubQuery+= ("AND author LIKE LOWER(%\""+params.author+"\"%) ");
 	}
 	pubQuery += "ORDER BY time DESC";
 	pubQueryN1ql = N1qlQuery.fromString(pubQuery);

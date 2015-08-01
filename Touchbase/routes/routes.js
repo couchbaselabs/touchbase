@@ -72,6 +72,9 @@ var appRouter = function(app) {
     });
 
     app.get("/api/postSearch", Session.auth, function (req, res, next) {
+        if (req.query.myProfile) {
+            req.query.authorID = req.userID;
+        }
         Publish.search(req.query, function (error, result) {
             if (error) {
                 return res.status(400).send(error);

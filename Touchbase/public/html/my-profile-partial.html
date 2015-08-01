@@ -1,23 +1,71 @@
-<div ng-controller="profileupdateController">
+<div ng-controller="profileupdateController" ng-init="getMyProfile()">
+  <h2 class="md-title text center md-primary"><strong>My Profile</strong></h2>
+  <div layout="row" layout-sm="column" layout-align="space-around" ng-show="loading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
   <md-content class="md-padding">    
     <md-card>
       <md-card-content>
         <div class="text center">
-          <img class=" img-circle" ng-src="{{person.users.picSRC}}" width="150" border="3">
-          <h2 class="md-title">Paracosm</h2>
+          <img class=" img-circle" ng-src="{{myData.users.picSRC}}" width="150" border="3">
+          <h2 class="md-title">{{myData.users.stringAttributes.name}}</h2>
         </div>
-          <p>
-            The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-            two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-          </p>
+        <div layout="column" layout-margin>
+          <p><strong>Email: </strong>{{myData.users.login.email}}</p>
+          <p><strong>Skype: </strong>{{myData.users.stringAttributes.skype}}</p>
+          <p><strong>Job Title: </strong>{{myData.users.stringAttributes.jobTitle}}</p>
+          <p><strong>Base Office: </strong>{{myData.users.dropdownAttributes.baseOffice}}</p>
+          <p><strong>Division: </strong>{{myData.users.dropdownAttributes.division}}</p>
+          <p><strong>Expertise: </strong>{{myData.users.arrayAttributes.expertise}}</p>
+          <p><strong>Hobbies: </strong>{{myData.users.arrayAttributes.hobbies}}</p>
+        </div>
+
       </md-card-content>
-      <div class="md-actions" layout="row" layout-align="end center">
-        <md-button>Edit Profile</md-button>
+      <div class="md-actions" layout="row" layout-align="center center">
+        <md-button class="md-primary">Edit Profile</md-button>
       </div>
     </md-card>
   </md-content>
+
+  <div layout="row" layout-sm="column" layout-align="space-around" ng-show="postLoading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+  <h2 class="md-title text center md-primary"><strong>My Posts<strong></h2>
+  <br/>
+  <div ng-init="getMyPosts()">
+  <div ng-repeat="post in publishData.output">
+    <div class="col-sm-4">
+      <div class="card small">
+        <span class= "text right">
+          <i class="plus icon activator"></i>
+        </span>
+        <br/>
+        <div class=" activator text center waves-effect waves-block waves-light">
+          <div ng-if="post.users_publishments.pubType === 'github'">
+            <img class="activator img-circle" src="icons/GitHub-Mark-120px-plus.png" width="75"></img>
+          </div>
+          <div ng-if="post.users_publishments.pubType === 'couchNews'">
+            <img class="activator img-circle" src="icons/couchbase-logo.png" width="75"></img>
+          </div>
+            <div class="card-content waves-effect waves-block waves-light">
+              <span class="card-title activator grey-text text-darken-4">{{post.users_publishments.title}}</span>
+              <br/>
+              <br/>
+              <p><strong>{{post.users_publishments.author}}</strong></p>
+              <p>{{post.users_publishments.timeDisp}}</p>
+              <p><a ng-href="{{post.users_publishments.hyperlink}}"><i class="external icon"></i> {{post.users_publishments.title}}</a></p>
+            </div>
+        </div>
+          <div class="card-reveal">
+          <div class="text-center">
+              <div class="card-title grey-text text-darken-4">{{post.users_publishments.title}} </div>
+          </div>
+              <br/>
+              <p>{{post.users_publishments.blurb}}</p>
+         </div>
+        </div>
+    </div>
+  </div>
+  
 </div>
-
-<div ng-controller="publishController">
-
 </div>

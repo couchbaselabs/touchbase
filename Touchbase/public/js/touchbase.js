@@ -6,7 +6,7 @@ var dropdownAttributes	= ["baseOffice", "division"];
 
 touchbase.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
-	$urlRouterProvider.otherwise('/allUsers');
+	$urlRouterProvider.otherwise('/myProfile');
 	
 	$stateProvider
 	
@@ -136,16 +136,18 @@ touchbase.controller('DemoCtrl', function ($timeout, $q, $log, $scope, $http) {
 touchbase.controller('profileupdateController', function ($scope, $http, $window) {
 
 	$scope.myData = {};
+	$scope.publishData={};
 
 	$scope.getMyProfile = function() {
+		$scope.loading = true;
 		$http({method: "GET", url: "/api/advancedSearch", params: {'myProfile': true}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
 				if (result.currentSession==false) {
 					console.log('failed');
 				}
 				console.log(result[0]);
-				$scope.myData.changed = result[0];
-				$scope.myData.unchanged = result[0];
+				$scope.myData= result[0];
+				$scope.loading = false;
 			})
 			.error(function(result) {
 				console.log("ERROR IN PROFILE GET: " + result);
@@ -163,6 +165,25 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 			})
 			.error(function(result) {
 				console.log('error in update '+result);
+			});
+	};
+
+	$scope.getMyPosts = function(type) {
+		$scope.postLoading = true;
+		$http({method: "GET", url: "/api/postSearch", params: {'myProfile': true}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
+			.success(function(result) {
+				if (result.currentSession==false) {
+					console.log('failed');
+				}
+				console.log(result);
+				for (i=0; i<result.length; i++) {
+					result[i].users_publishments.timeDisp = moment(result[i].users_publishments.time).fromNow();
+				}
+				$scope.publishData.output=result;
+				$scope.postLoading = false;
+			})
+			.error(function(result) {
+				console.log("ERROR : " + result);
 			});
 	};
 
