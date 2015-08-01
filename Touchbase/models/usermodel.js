@@ -147,14 +147,14 @@ User.update = function(params, currentDoc, callback) {
 };
 
 User.searchByEmail = function (params, callback) {
-	var searchUsers = N1qlQuery.fromString('SELECT * FROM ' + userBucketName + ' WHERE LOWER(login.email) LIKE LOWER(\"%' + params.email + '%\")');
+	var searchUsers = N1qlQuery.fromString('SELECT login.email FROM ' + userBucketName + ' WHERE LOWER(login.email) LIKE LOWER($1)');
 	console.log("searchByEmail: " + searchUsers);
-	userBucket.query(searchUsers, function (err, result) {
+	userBucket.query(searchUsers, [params.email], function (err, result) {
 		if (err) {
     		callback(err, null);
     		return;
     	}
-    	callback(null, {message: "success", data: result});
+    	callback(null, result);
 	});
 };
 

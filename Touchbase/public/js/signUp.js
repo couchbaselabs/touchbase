@@ -108,7 +108,7 @@ signUp.controller('registerController', function ($scope, $http, $window, $state
 			$scope.errors.emailError = "Please enter a valid couchbase.com email address.";
 		}
 		else {
-			$scope.errors.emailError = "";
+			emailSearch(someString, 'email');
 		}
 	};
 
@@ -128,10 +128,27 @@ signUp.controller('registerController', function ($scope, $http, $window, $state
 		} else {
 			$scope.errors.nameError = "";
 		}
+
+	};
+
+	var emailSearch = function(string, someField) {
+		var tempObj={};
+		eval("tempObj." + someField + "= \"" + string+"\";");
+		$http({method: "GET", url: "/api/emailSearch", params: tempObj})
+			.success(function(result) {
+				if (result.length === 1) {
+					$scope.errors.emailError = "This email is taken, please try again."
+				} else {
+					$scope.errors.emailError = "";
+				}
+				console.log(JSON.stringify(result));
+			})
+			.error(function(result) {
+				console.log('ERROR IN EMAILSEARCH: ' + error);
+			});
 	};
 
 	var stringToArray = function(anyString) {
-		else {
 			var tempArray=anyString.split(",");
 			var resultArray=[];
 			for (i=0; i<tempArray.length; i++) {
@@ -142,7 +159,6 @@ signUp.controller('registerController', function ($scope, $http, $window, $state
 				}
 			}
 			return resultArray;
-		}
 	};
 
 	$scope.checkExpertise = function (someString) {

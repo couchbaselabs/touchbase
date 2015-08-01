@@ -74,14 +74,14 @@
                   <div layout layout-sm="column">
                     <md-input-container flex>
                         <label><i class="cubes icon"></i> Expertise: (Comma-separated list - limit 5)</label>
-                        <input type="text" ng-model="registerData.arrayAttributes.expertise">
+                        <input type="text" ng-model="registerData.arrayAttributes.expertise" ng-blur="checkExpertise(registerData.arrayAttributes.expertise)">
                         <div ng-messages="contactForm.expertise.$error" role="alert">
                           <div ng-message="required" ng-hide="!(errors.expertiseError)">{{errors.expertiseError}}</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex>
                         <label><i class="sun icon"></i> Hobbies: (Comma-separated list - limit 5)</label>
-                        <input type="text" ng-model="registerData.arrayAttributes.hobbies">
+                        <input type="text" ng-model="registerData.arrayAttributes.hobbies" ng-blur="checkHobbies(registerData.arrayAttributes.hobbies)">
                         <div ng-messages="contactForm.email.$error" role="alert">
                           <div ng-message="required" ng-hide="!(errors.hobbiesError)">{{errors.hobbiesError}}</div>
                         </div>

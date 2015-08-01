@@ -172,28 +172,18 @@ var appRouter = function(app) {
         });
     });*/
 
-    app.get("/api/nameSearch", Session.auth, function (req, res, next) {
+    app.get("/api/emailSearch", function (req, res, next) {
         console.log("in nameSearch Node");
-        if (!req.query.name) {
-            console.log("no req.query.name recognized");
+        if (!req.query.email) {
+            console.log("no req.query.email recognized");
             return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
         }
-        console.log("req.query.name recognized");
-        User.advancedSearch(req.query, function (error, userDocs) {
+        console.log("req.query.email recognized");
+        User.searchByEmail(req.query, function (error, userDocs) {
             if(error) {
                 return res.status(400).send(error);
             }
-            var userString = "";
-            if (userDocs.data.length > 0) {
-                for (i=0; i<userDocs.data.length; i++) {
-                    userString+=(JSON.stringify(userDocs.data[i].users) + " ");
-                }
-                console.log("userString " + userString);
-            }
-            else {
-                userString = "Sorry, there are no results for your search.";
-            }
-            res.json(userString);
+            res.json(userDocs);
         });
     });
 
