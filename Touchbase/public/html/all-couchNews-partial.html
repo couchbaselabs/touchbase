@@ -4,6 +4,9 @@
       <label><i class="search icon"></i>Search</label>
       <input ng-model="searchText" type="text">
     </md-input-container>
+    <div layout="row" layout-sm="column" layout-align="space-around" ng-show="loading">
+    	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
 	<div ng-repeat="post in publishData.output | filter:searchText ">
  		<div class="col-sm-4">
 	 		<div class="card small">

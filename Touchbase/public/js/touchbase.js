@@ -210,6 +210,7 @@ touchbase.controller('publishController', function ($scope, $http, $window, $mdD
 	};
 
 	$scope.getAllPosts = function(type) {
+		$scope.loading = true;
 		$http({method: "GET", url: "/api/postSearch", params: {pubType: type}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
 				if (result.currentSession==false) {
@@ -219,6 +220,7 @@ touchbase.controller('publishController', function ($scope, $http, $window, $mdD
 				for (i=0; i<result.length; i++) {
 					result[i].users_publishments.timeDisp = moment(result[i].users_publishments.time).fromNow();
 				}
+				$scope.loading = false;
 				$scope.publishData.output=result;
 			})
 			.error(function(result) {

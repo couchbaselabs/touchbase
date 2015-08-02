@@ -199,6 +199,7 @@ signUp.controller('pictureController', function ($scope, $http, $timeout, Croppe
 	*/
 	$scope.getSessionInfo = function () {
 		$scope.sessionInfo.sessionID = localStorage.sessionID;
+		console.log(localStorage.sessionID);
 	};
 
 	$scope.onFile = function(blob) {
@@ -236,6 +237,7 @@ signUp.controller('pictureController', function ($scope, $http, $timeout, Croppe
 	$scope.options = {
 		maximize: true,
 		aspectRatio: 1/ 1,
+		dragCrop: false,
 		zoomable: false,
 		crop: function(dataNew) {
 		  data = dataNew;

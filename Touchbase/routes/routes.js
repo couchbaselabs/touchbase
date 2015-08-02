@@ -84,19 +84,20 @@ var appRouter = function(app) {
         });
     });
 
-    app.post("/api/uploadAttempt", function(req, res) {
+    app.post("/api/uploadAttempt", Session.auth, function (req, res, next) {
         console.log(JSON.stringify(req.body));
         console.log(JSON.stringify(req.files));
-        Session.findUser(req.body.sessionID, function (error, userID) {
+        /*Session.findUser(req.body.sessionID, function (error, userID) {
+            if (error) {
+                return res.status(400).send(error);
+            }*/
+        console.log(req.userID);
+        Picture.attempt (req.userID, req.body, req.files.userPhoto, function(error, result) {
             if (error) {
                 return res.status(400).send(error);
             }
-            Picture.attempt (userID, req.body, req.files.userPhoto, function(error, result) {
-                if (error) {
-                    return res.status(400).send(error);
-                }
-                console.log(result);
-            });
+            console.log(result);
+            res.redirect('../nav.html');
         });
     });
 
