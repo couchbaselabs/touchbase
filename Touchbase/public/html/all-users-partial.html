@@ -88,8 +88,9 @@
 		      <label><i class="search icon"></i>Search</label>
 		      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)" data-toggle="dropdown">
 		    </md-input-container>
-				<span class = "btn-floating btn-large red" ng-click="getAllUsers()">
+				<span class = "btn-floating btn-large md-primary" ng-click="getAllUsers()">
 		        	<i class="users icon"></i>
+		        	<md-tooltip>All Users</md-tooltip>
 		     	<span>
 		</div>
 	    <div id="contained" ng-if="!searchHide">

@@ -49,6 +49,9 @@
       strong {
         font-weight: bold;
       }
+      .active {
+        opacity: 0.5;
+      }
 
     </style>
   </head>
@@ -74,7 +77,7 @@
           <md-list md-default-theme>
           <md-divider></md-divider>
             <md-list-item>
-              <div ng-click="toggleSidenav('left');" ui-sref="myProfile">
+              <div ng-click="toggleSidenav('left');" ui-sref="myProfile" ui-sref-active = "active">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
                   <div class="inset">
                     <i class="inverted user icon"></i>
@@ -86,7 +89,7 @@
             </md-list-item>
             <md-divider></md-divider>
             <md-list-item>
-              <div ng-click="toggleSidenav('left');" ui-sref="statistics">
+              <div ng-click="toggleSidenav('left');" ui-sref="statistics" ui-sref-active = "active">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
                   <div class="inset">
                     <i class="inverted line graph icon"></i>
@@ -98,7 +101,7 @@
             </md-list-item>
             <md-divider></md-divider>
             <md-list-item>
-              <div ng-click="toggleSidenav('left');" ui-sref="allUsers">
+              <div ng-click="toggleSidenav('left');" ui-sref="allUsers" ui-sref-active = "active">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
                   <div class="inset">
                     <i class="inverted users icon"></i>
@@ -110,7 +113,7 @@
             </md-list-item>
             <md-divider></md-divider>
             <md-list-item>
-              <div ng-click="toggleSidenav('left');" ui-sref="allGit">
+              <div ng-click="toggleSidenav('left');" ui-sref="allGit" ui-sref-active = "active">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
                   <div class="inset">
                     <i class="inverted github icon"></i>
@@ -122,7 +125,7 @@
             </md-list-item>
             <md-divider></md-divider>
             <md-list-item>
-              <div ng-click="toggleSidenav('left');" ui-sref="allNews">
+              <div ng-click="toggleSidenav('left');" ui-sref="allNews" ui-sref-active = "active">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
                   <div class="inset">
                     <i class="inverted newspaper icon"></i>
@@ -134,7 +137,7 @@
             </md-list-item>
             <md-divider></md-divider>
             <md-list-item>
-              <div ng-controller="signOutController" ng-click="signOut()">
+              <div ng-controller="signOutController" ng-click="signOut()" ui-sref-active = "active">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
                   <div class="inset">
                     <i class="inverted sign out icon"></i>

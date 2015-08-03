@@ -74,7 +74,7 @@ Session.auth = function (req, res, next) {
 	userBucket.get(sessionID, function (error, result) {
 		if(error) {
 			console.log('session expired: ' + error);
-			res.redirect('../');				// must use '../' because the current route is '/api/...'
+			res.redirect('../index.html');				// make this an absolute path once there is an actual domain
 			return;
 		}
 		console.log(result);
