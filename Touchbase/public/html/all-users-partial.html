@@ -45,7 +45,7 @@
 
 		#containment {
   			position: relative;
-  			z-index: 10;
+  			z-index: 100;
 		}
 
 		#contained {
@@ -83,27 +83,37 @@
         </li>
     </ul>-->
     <div id="containment">
-	    <md-input-container >
-	      <label><i class="search icon"></i>Search</label>
-	      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)" data-toggle="dropdown">
-	    </md-input-container>
-	    <md-whiteframe class="md-whiteframe-z4" id="contained">
-			<md-list>
-				<div ng-repeat="countResult in intelliCount.output">
-					<md-list-item>
-						<div ng-click="advancedSearch(searchText, countResult.field)">
-						  <md-item-content md-ink-ripple layout="row" layout-align="start center">
-						    <div class="md-list-item-text">
-							      <strong>{{countResult.field}}</strong>
-							      <strong>{{countResult.count}}</strong>
-						    </div>
-						  </md-item-content>
-						</div>
-					</md-list-item>
-				<md-divider></md-divider>
-				</div>
-			</md-list>
-		</md-whiteframe>
+    	<div layout layout-sm="column">
+		    <md-input-container flex>
+		      <label><i class="search icon"></i>Search</label>
+		      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)" data-toggle="dropdown">
+		    </md-input-container>
+				<span class = "btn-floating btn-large red" ng-click="getAllUsers()">
+		        	<i class="users icon"></i>
+		     	<span>
+		</div>
+	    <div id="contained" ng-if="!searchHide">
+	    	<md-whiteframe class="md-whiteframe-z4" layout layout-align="center center" style="background:#ffffff;">
+	    	<span>
+				<md-list>
+					<div ng-repeat="countResult in intelliCount.output">
+						<md-list-item>
+							<div ng-click="advancedSearch(searchText, countResult.field); searchHide();">
+							  <md-item-content md-ink-ripple layout="row" layout-align="start center">
+							    <div class="md-list-item-text">
+								    <strong>{{countResult.field}}</strong>
+								    <span flex></span>
+								    <strong>{{countResult.count}}</strong>
+							    </div>
+							  </md-item-content>
+							</div>
+						</md-list-item>
+					<md-divider ng-if="!$last"></md-divider>
+					</div>
+				</md-list>
+			</span>
+			</md-whiteframe>
+		</div>
 	</div>
 
 		<!--<md-list-item>

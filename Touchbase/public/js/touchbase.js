@@ -299,6 +299,7 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 
 	$scope.intelligentCount = function(someString) {
 		$scope.intelliCount={};
+		$scope.searchHide = false;
 		if (!someString) {
 			$scope.intelliCount.output = [];
 			return ({"field": "Sorry there are no results for your search."});
@@ -336,6 +337,7 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 				}
 				console.log(JSON.stringify(result));
 				$scope.searchData.peopleResults = (result);
+				$scope.searchHide = true;
 			})
 			.error(function(result) {
 				$scope.searchData.peopleResults = ("ERROR : " + JSON.stringify(result));
