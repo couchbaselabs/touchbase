@@ -22,10 +22,21 @@
 	<div layout="row" layout-sm="column" layout-align="space-around" ng-show="loading">
     	<md-progress-circular class="md-primary" md-mode="indeterminate"></md-progress-circular>
     </div>
-    <div ng-if="!loading">
-    	<canvas tc-chartjs-line chart-options="options" chart-data="data" auto-legend></canvas>
-    </div>
 
-    <md-button class="md-primary md-raised" ng-click="viewData('week')"> Weekly View </md-button>
+    <md-content class="md-padding">
+	    <md-card class="md-padding">
+		    <h2 class="md-title text-center">{{type}} Logins</h2>
+		    <div ng-if="!loading">
+		    	<canvas tc-chartjs-line chart-options="options" chart-data="data" auto-legend></canvas>
+		    </div>
+		      <md-card-content>
+		      </md-card-content>
+		      <div class="md-actions" layout="row" layout-align="end center">
+		        <md-button class="md-primary" ng-click="viewData('day')">Daily View</md-button>
+		        <md-button class="md-primary" ng-click="viewData('week')">Weekly View</md-button>
+		      </div>
+	    </md-card>
+	</md-content>
+
 
 </div>
