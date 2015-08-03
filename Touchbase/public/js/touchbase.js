@@ -449,19 +449,34 @@ touchbase.controller('signOutController', function ($scope, $http, $window) {
 
 touchbase.controller('statisticsController', function ($scope, $http, $window) {
 
+	$scope.graphData={};
+
+	$scope.loading = true;
 	$scope.getGraphData = function() {
 		$http({method: "GET", url: "/api/graphData", headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success (function(result) {
 				console.log(result);
-			})
-			.error (function(result) {
-				console.log(error);
-			});
-	}
+				$scope.graphData = result;
+				$scope.viewData('day');
+				$scope.activeX= $scope.graphData.xDay;
+			$scope.activeTotal= $scope.graphData.dayTotal;
+			for (i=0; i<$scope.activeTotal.length; i++) {
+				if (!$scope.activeTotal[i]) {
+					$scope.activeTotal[i] = 0;
+				}
+			}
+			$scope.activeDistinct= $scope.graphData.dayDistinct;
+			for (i=0; i<$scope.activeDistinct.length; i++) {
+				if (!$scope.activeDistinct[i]) {
+					$scope.activeDistinct[i] = 0;
+				}
+			}
+			console.log($scope.activeX);
+			$scope.loading = false;
 
-    // Chart.js Data
+			// Chart.js Data
     $scope.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: $scope.activeX,
       datasets: [
         {
           label: 'My First dataset',
@@ -471,7 +486,7 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
           pointStrokeColor: '#fff',
           pointHighlightFill: '#fff',
           pointHighlightStroke: 'rgba(220,220,220,1)',
-          data: [65, 59, 80, 81, 56, 55, 40]
+          data: $scope.activeTotal
         },
         {
           label: 'My Second dataset',
@@ -481,7 +496,7 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
           pointStrokeColor: '#fff',
           pointHighlightFill: '#fff',
           pointHighlightStroke: 'rgba(151,187,205,1)',
-          data: [28, 48, 40, 19, 86, 27, 90]
+          data: $scope.activeDistinct
         }
       ]
     };
@@ -539,6 +554,104 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
       //String - A legend template
       legendTemplate : '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
     };
+			})
+			.error (function(result) {
+				console.log(error);
+			});
+	};
+
+	$scope.viewData = function(type) {
+		if (type === 'week') {
+			$scope.activeX=$scope.graphData.xWeek;
+			$scope.activeTotal=$scope.graphData.weekTotal;
+			$scope.activeDistinct=$scope.graphData.weekDistinct;
+		}
+		else if (type === 'day') {
+			$scope.activeX= $scope.graphData.xDay;
+			$scope.activeTotal= $scope.graphData.dayTotal;
+			$scope.activeDistinct= $scope.graphData.dayDistinct;
+			console.log($scope.activeX);
+		}
+		$scope.data = {
+      labels: $scope.activeX,
+      datasets: [
+        {
+          label: 'My First dataset',
+          fillColor: 'rgba(220,220,220,0.2)',
+          strokeColor: 'rgba(220,220,220,1)',
+          pointColor: 'rgba(220,220,220,1)',
+          pointStrokeColor: '#fff',
+          pointHighlightFill: '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data: $scope.activeTotal
+        },
+        {
+          label: 'My Second dataset',
+          fillColor: 'rgba(151,187,205,0.2)',
+          strokeColor: 'rgba(151,187,205,1)',
+          pointColor: 'rgba(151,187,205,1)',
+          pointStrokeColor: '#fff',
+          pointHighlightFill: '#fff',
+          pointHighlightStroke: 'rgba(151,187,205,1)',
+          data: $scope.activeDistinct
+        }
+      ]
+    };
+
+     
+
+    // Chart.js Options
+    $scope.options =  {
+
+      // Sets the chart to be responsive
+      responsive: true,
+
+      ///Boolean - Whether grid lines are shown across the chart
+      scaleShowGridLines : true,
+
+      //String - Colour of the grid lines
+      scaleGridLineColor : "rgba(0,0,0,.05)",
+
+      //Number - Width of the grid lines
+      scaleGridLineWidth : 1,
+
+      //Boolean - Whether the line is curved between points
+      bezierCurve : true,
+
+      //Number - Tension of the bezier curve between points
+      bezierCurveTension : 0.4,
+
+      //Boolean - Whether to show a dot for each point
+      pointDot : true,
+
+      //Number - Radius of each point dot in pixels
+      pointDotRadius : 4,
+
+      //Number - Pixel width of point dot stroke
+      pointDotStrokeWidth : 1,
+
+      //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+      pointHitDetectionRadius : 20,
+
+      //Boolean - Whether to show a stroke for datasets
+      datasetStroke : true,
+
+      //Number - Pixel width of dataset stroke
+      datasetStrokeWidth : 2,
+
+      //Boolean - Whether to fill the dataset with a colour
+      datasetFill : true,
+
+      // Function - on animation progress
+      onAnimationProgress: function(){},
+
+      // Function - on animation complete
+      onAnimationComplete: function(){},
+
+      //String - A legend template
+      legendTemplate : '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
+    };
+	};
 
 });
 

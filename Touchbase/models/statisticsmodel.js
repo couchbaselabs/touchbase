@@ -17,6 +17,7 @@ Statistics.graph = function(callback) {
 	var graphObj = {'xWeek':[], 'weekTotal':[], 'weekDistinct':[], 'xDay':[], 'dayTotal':[], 'dayDistinct':[]};
 	var currentTime = moment(new Date().toISOString());
 	var week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+	var days = ['12am', '1am', '2am', '3am', '4am', '5am', '6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm'];
 	var graphQuery = N1qlQuery.fromString("SELECT timeTracker.loginTimes AS logins FROM "+userBucketName);
 	console.log(graphQuery);
 	userBucket.query(graphQuery, function (error, result) {
@@ -76,10 +77,38 @@ Statistics.graph = function(callback) {
 						}
 					}
 				}
+				var day = moment().isoWeekday();
+				var dayCounter = 0;
+				while (dayCounter<7) {
+					var index = day+dayCounter-1;
+					if (index >=7) {
+						index = index-7;
+					}
+					graphObj.xWeek[dayCounter] = week[index];
+					dayCounter ++;
+				}
+				var currentHour = moment().hour();
+				var hourCounter = 0;
+				while (hourCounter<24) {
+					// console.log("currentHour: "+ currentHour+ "hourCounter: "+hourCounter);
+					var indi = currentHour+hourCounter;
+					if (indi >=24) {
+						indi -=24;
+					}
+					graphObj.xDay[hourCounter] = days[indi];
+					hourCounter ++;
+				}
+
 			}
 			else {
 				console.log('user has no logins');
 			}
+			graphObj.xWeek.reverse();
+			graphObj.weekTotal.reverse();
+			graphObj.weekDistinct.reverse();
+			graphObj.xDay.reverse();
+			graphObj.dayTotal.reverse();
+			graphObj.dayDistinct.reverse();
 		}
 		callback(null, graphObj);
 	});
