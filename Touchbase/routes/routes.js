@@ -2,14 +2,24 @@ var User        = require("../models/usermodel");
 var Picture     = require("../models/picturemodel");
 var Publish     = require("../models/publishmodel");
 var Session     = require("../models/sessionmodel");
+var Statistics  = require("../models/statisticsmodel")
 var uuid        = require("uuid");
 var multer      = require("multer");
 var async       = require("async");
 
 var appRouter = function(app) {
 
+    app.get("/api/graphData", Session.auth, function(req, res, next) {
+        Statistics.graph(function (error, result) {
+            if (error) {
+                return res.status(400).send(error);
+            }
+            res.json(result);
+        });
+    });
+
     app.get("/api/createPrimaryIndexes", function(req, res) {
-        User.createPrimaryIndexes(function(error, result) {
+        User.createPrimaryIndexes(function (error, result) {
             if(error) {
                 return res.status(400).send(error);
             }

@@ -1,26 +1,4 @@
 <div ng-controller="searchController" ng-init="getAllUsers()">
-		<!--<md-autocomplete
-	          ng-disabled="ctrl.isDisabled"
-	          md-no-cache="ctrl.noCache"
-	          md-selected-item="ctrl.selectedItem"
-	          md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-	          md-search-text="ctrl.searchText"
-	          md-selected-item-change="ctrl.selectedItemChange(item)"
-	          md-items="item in ctrl.querySearch(ctrl.searchText)"
-	          md-item-text="item.display"
-	          md-min-length="0"
-	          placeholder="Search users/attributes...">
-	        <md-item-template>
-	          <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
-	        </md-item-template>
-	        <md-not-found>
-	          No matches found for "{{ctrl.searchText}}".
-	        </md-not-found>
-	     </md-autocomplete>
-	</div>-->
-	<!--<md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-search-text-change="intelligentCount(searchText)" md-items="item in intelliCount(searchText)" md-item-text="item.field" md-min-length="1">
-	  <span md-highlight-text="searchText">{{item.field}}</span>
-	</md-autocomplete>-->
 	<script>
 	$('.dropdown-menu').find('input').click(function (e) {
     	e.stopPropagation();
@@ -54,34 +32,6 @@
 		  z-index: 100;
 		}
 	</style>
-	<!--<div class="dropdown dropdown-scroll">
-    <button class="btn btn-default red dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"><i class="ui large search icon"></i></button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-        <li role="presentation">
-            <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-search"></span></span>
-                <input type="text" class="form-control" placeholder="Search users/attributes..." ng-model="query" ng-change="intelligentCount(query)"></input>
-            </div>
-        </li>
-        <li role="presentation" ng-repeat='countResult in intelliCount.output' ng-click="advancedSearch(query, countResult.field)">{{countResult.field}}   {{countResult.count}}
-        </li>
-    </ul>
-	</div>-->
-	<!--<md-input-container >
-      <label><i class="search icon"></i>Search</label>
-      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)" data-toggle="dropdown">
-    </md-input-container>
-
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-        <li role="presentation">
-            <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-search"></span></span>
-                <input type="text" class="form-control" placeholder="Search users/attributes..." ng-model="query" ng-change="intelligentCount(query)"></input>
-            </div>
-        </li>
-        <li role="presentation" ng-repeat='countResult in intelliCount.output' ng-click="advancedSearch(query, countResult.field)">{{countResult.field}}   {{countResult.count}}
-        </li>
-    </ul>-->
     <div id="containment">
     	<div layout layout-sm="column">
 		    <md-input-container flex>
@@ -116,28 +66,6 @@
 			</md-whiteframe>
 		</div>
 	</div>
-
-		<!--<md-list-item>
-              <div ng-click="toggleSidenav('left');" ui-sref="myProfile">
-                <md-item-content md-ink-ripple layout="row" layout-align="start center">
-                  <div class="inset">
-                    <i class="inverted user icon"></i>
-                  </div>
-                  <div class="inset">My Profile
-                  </div>
-                </md-item-content>
-              </div>
-         </md-list-item>-->
-	    <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" hidden>
-        <li role="presentation" ng-repeat='countResult in intelliCount.output' ng-click="advancedSearch(query, countResult.field)">{{countResult.field}}   {{countResult.count}}
-        </li>-->
-
-
-    <!--<md-autocomplete md-selected-item="selectedItem" ng-init="advancedSearch('','name')"md-selected-item-change="advancedSearch(searchText,selectedItem)" md-search-text="searchText" md-search-text-change="intelligentCount(searchText)" md-items="countResult in intelliCount.output" md-item-text="countResult.field" md-min-length="0" placeholder="Search users/attributes ..." md-no-cache="true">
-	  <span md-highlight-text="searchText">{{countResult.field}} - {{countResult.count}}</span>
-	</md-autocomplete>
-	<br/>-->
-
     <div layout="row" layout-sm="column" layout-align="space-around" ng-show="loading">
     	<md-progress-circular class="md-primary" md-mode="indeterminate"></md-progress-circular>
     </div>
@@ -155,7 +83,7 @@
 			      <span class="card-title grey-text text-darken-4">{{person.users.stringAttributes.name}}</span>
 			      <p>{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
 			      <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
-			      <p><a href="#">{{person.users.login.email}}</a></p>
+			      <p><a ng-href="mailto:{{person.users.login.email}}?subject=Hello!"><i class="inbox icon"></i>{{person.users.login.email}}</a></p>
 			    </div>
 			</div>
 			    <div class="card-reveal">
@@ -168,134 +96,10 @@
 				      <p ng-if="person.users.stringAttributes.skype"> Skype: {{person.users.stringAttributes.skype}}</p>
 				      <p ng-if="person.users.arrayAttributes.hobbies">Hobbies: {{person.users.arrayAttributes.hobbies}}</p>
 				      <p ng-if="person.users.arrayAttributes.expertise">Expertise: {{person.users.arrayAttributes.expertise}}</p>
-				      <a ng-href="mailto:{{person.users.login.email}}" target="_self">{{person.users.login.email}}</a>
+				      <p><a ng-href="mailto:{{person.users.login.email}}?subject=Hello!">{{person.users.login.email}}</a></p>
 				  </div>
 			    </div>
 			</div>
 		</div>
 	</div>
- 	<!--<md-card>
-      <img ng-src="{{person.users.picSRC}}" class="md-card-image">
-      <md-card-content>
-        <h2 class="md-title">{{person.users.stringAttributes.name}}</h2>
-        <p>
-          {{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}
-        </p>
-        <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
-		<a><i class="inbox icon"></i>{{person.users.login.email}}</a>
-      </md-card-content>
-      <div class="md-actions" layout="row" layout-align="end center">
-        <md-button>Action 1</md-button>
-        <md-button>Action 2</md-button>
-      </div>
-  	</div>
-    </md-card>-->
-<!--<md-grid-list md-cols-sm="2" md-cols-md="4" md-cols-lg="8" md-cols-gt-lg="12" ...>
-  	<md-grid-tile>
-  		<div >
-	  		<md-grid-tile-header>
-				<h3>{{person.users.stringAttributes.name}}</h3>
-			</md-grid-tile-header>
-			<md-grid-tile-footer>
-    			<p>{{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}<p>
-    			</p><strong>{{person.users.stringAttributes.jobTitle}}<strong></p>
-  			</md-grid-tile-footer>
-		</div>
-	</md-grid-tile>
-</md-grid-list>-->
-<!--<md-grid-list
-        md-cols-sm="1" md-cols-md="2" md-cols-gt-md="6"
-        md-row-height-gt-md="1:1" md-row-height="2:2"
-        md-gutter="12px" md-gutter-gt-sm="8px" >
-    <md-grid-tile class="gray"
-        md-rowspan="3" md-colspan="2" md-colspan-sm="1">
-      <md-grid-tile-footer>
-        <h3>#1: (3r x 2c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
-    <md-grid-tile class="green">
-      <md-grid-tile-footer>
-        <h3>#2: (1r x 1c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
-    <md-grid-tile class="yellow">
-      <md-grid-tile-footer>
-        <h3>#3: (1r x 1c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
-    <md-grid-tile class="blue"
-        md-rowspan="2">
-      <md-grid-tile-footer>
-        <h3>#4: (2r x 1c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
-    <md-grid-tile class="red"
-        md-rowspan="2" md-colspan="2" md-colspan-sm="1">
-      <md-grid-tile-footer>
-        <h3>#5: (2r x 2c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
-    <md-grid-tile class="green"
-        md-rowspan="2" >
-      <md-grid-tile-footer>
-        <h3>#6: (2r x 1c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
-  </md-grid-list>
-</div>-->
-	<!--<md-grid-list
-        md-cols-gt-md="12" md-cols-sm="3" md-cols-md="8"
-        md-row-height-gt-md="1:1" md-row-height="4:3"
-        md-gutter-gt-md="16px" md-gutter-gt-sm="8px" md-gutter="4px">
-      <md-grid-tile
-          ng-repeat="tile in appCtrl.colorTiles"
-          ng-style="{
-            'background': tile.color
-          }"
-          md-colspan-gt-sm="{{tile.colspan}}"
-          md-rowspan-gt-sm="{{tile.rowspan}}">
-      </md-grid-tile>
-    </md-grid-list>-->
-	<!--
- 	<div class="ui container">
- 	<div class="ui cards">
-	<div ng-repeat="person in searchData.peopleResults track by $index">
-		<div class="card">
-		  <div class="image">
-		    <img ng-src="{{person.users.picSRC}}">
-		    <span class="title">{{person.users.stringAttributes.name}}</span>
-		  </div>
-		  <div class="content">
-		    <p>{{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}</p>
-		    <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
-		    <a><i class="inbox icon"></i>{{person.users.login.email}}</a>
-		  </div>
-		 </div>
-	</div>
-	</div>
-</div>-->
-	
-	<!--<div class="ui four cards">
-		<div ng-repeat="person in searchData.peopleResults track by $index">
-			<div class="ui card">
-			  <div class="content">
-			  	<a class="header">{{person.users.stringAttributes.name}}</a>
-			    <div class="meta">{{person.users.dropdownAttributes.division}} - {{person.users.dropdownAttributes.baseOffice}}
-			    </div>
-			    <div class="right floated ui mini image">
-			    <img  ng-src="{{person.users.picSRC}}">
-				</div>
-			    <div class="description">
-			      {{person.users.stringAttributes.jobTitle}}
-			    </div>
-			  </div>
-			  <div class="extra content">
-			    <a>
-			      <i class="inbox icon"></i>{{person.users.login.email}}
-			    </a>
-			  </div>
-			</div>
-		</div>
-		</div>
-	</div>-->
 </div>

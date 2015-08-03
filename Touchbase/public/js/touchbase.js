@@ -447,7 +447,17 @@ touchbase.controller('signOutController', function ($scope, $http, $window) {
 
 });
 
-touchbase.controller('statisticsController', function ($scope) {
+touchbase.controller('statisticsController', function ($scope, $http, $window) {
+
+	$scope.getGraphData = function() {
+		$http({method: "GET", url: "/api/graphData", headers:{'Authorization':'Bearer '+localStorage.sessionID}})
+			.success (function(result) {
+				console.log(result);
+			})
+			.error (function(result) {
+				console.log(error);
+			});
+	}
 
     // Chart.js Data
     $scope.data = {
