@@ -23,33 +23,6 @@ Session.create = function(userID, callback) {
     	callback(null, sessionModel);
     });
 };
-    	/*var checkInsert = N1qlQuery.fromString("SELECT * FROM "+userBucketName+" WHERE sessionID = $1");
-    	var waiting=true;
-    	var i=0;
-    	console.log(checkInsert);
-    	callback(null, sessionModel);*/
-    	/*async.until(
-    		function() {
-    			return waiting;
-	    	},
-	    	function(cb){
-	    		console.log(i + ": " + checkInsert);
-	    		userBucket.query(checkInsert, [sessionModel.sessionID], function (error, result) {
-	    			if (error) {
-	    				return callback(error, null);
-	    			}
-	    			if (result.length === 1) {
-	    				waiting = false;
-	    				cb(error);
-	    			}
-	    			i++;
-	    		});
-	    	}, function(err) {
-	    		if (err) {
-	    			callback(err, null);
-	    		}
-	    		callback(null, sessionModel);
-	    	}*/
 
 Session.auth = function (req, res, next) {
 	console.log('req.body: ' + JSON.stringify(req.body));
@@ -71,6 +44,7 @@ Session.auth = function (req, res, next) {
 			return;
 		}
 	}
+	/*
 	userBucket.get(sessionID, function (error, result) {
 		if(error) {
 			console.log('session expired: ' + error);
@@ -86,22 +60,24 @@ Session.auth = function (req, res, next) {
 		req.userID = result.value.userID;
 		console.log('userID: '+req.userID);
 		next();
+	});*/
+	var getSession = N1qlQuery.fromString("SELECT userID FROM `" + userBucketName + "` USE KEYS($1)");
+	userBucket.query(getSession, [sessionID], function (error, result) {
+		if(error) {
+			callback(error, null);
+			console.log('session expired: '+error);
+			return;
+		}
+		console.log(result);
+		if (!result[0]) {
+			console.log("Session expired, please login again.");
+			res.send({currentSession: false});
+			// SHOULD JUST CHANGE TO res.redirect('/public/index.html');
+			return;
+		}
+		req.userID = result[0].userID;
+		next();
 	});
-		/*var getSession = N1qlQuery.fromString("SELECT userID FROM `" + userBucketName + "` WHERE type = \"session\" AND sessionID = $1");
-		userBucket.query(getSession, [sessionArray[1]], function (error, result) {
-			if(error) {
-				callback(error, null);
-    			return;
-			}
-			if (!result[0]) {
-				console.log("Session expired, please login again.");
-				res.send({currentSession: false});
-				// SHOULD JUST CHANGE TO res.redirect('/public/index.html');
-				return;
-			}
-			req.userID = result[0].userID;
-			next();
-		});*/
 };
 
 /*Session.remove = function(sessionID, callback) {

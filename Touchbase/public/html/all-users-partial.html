@@ -88,7 +88,7 @@
 		      <label><i class="search icon"></i>Search</label>
 		      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)" data-toggle="dropdown">
 		    </md-input-container>
-				<span class = "btn-floating btn-large md-primary" ng-click="getAllUsers()">
+				<span class = "btn-floating btn-large md-primary" ng-click="getAllUsers()" style="white-space:nowrap;">
 		        	<i class="users icon"></i>
 		        	<md-tooltip>All Users</md-tooltip>
 		     	<span>
@@ -100,11 +100,11 @@
 					<div ng-repeat="countResult in intelliCount.output">
 						<md-list-item>
 							<div ng-click="advancedSearch(searchText, countResult.field); searchHide();">
-							  <md-item-content md-ink-ripple layout="row" layout-align="start center">
+							  <md-item-content md-ink-ripple layout="column">
 							    <div class="md-list-item-text">
-								    <strong>{{countResult.field}}</strong>
+								    <strong flex="66">{{countResult.field}}</strong>
 								    <span flex></span>
-								    <strong>{{countResult.count}}</strong>
+								    <strong flex>{{countResult.count}}</strong>
 							    </div>
 							  </md-item-content>
 							</div>
@@ -163,12 +163,12 @@
 				      <div class="card-title grey-text text-darken-4">{{person.users.stringAttributes.name}} 
 	 			  </div>
 				      <br/>
-				      <p>{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
-				      <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
-				      <p>Skype: {{person.users.stringAttributes.skype}}</p>
-				      <p>Hobbies: {{person.users.arrayAttributes.hobbies}}</p>
-				      <p>Expertise: {{person.users.arrayAttributes.expertise}}</p>
-				      <p><a href="#">{{person.users.login.email}}</a></p>
+				      <p ng-if="person.users.dropdownAttributes.division || person.users.dropdownAttributes.baseOffice">{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
+				      <p ><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
+				      <p ng-if="person.users.stringAttributes.skype"> Skype: {{person.users.stringAttributes.skype}}</p>
+				      <p ng-if="person.users.arrayAttributes.hobbies">Hobbies: {{person.users.arrayAttributes.hobbies}}</p>
+				      <p ng-if="person.users.arrayAttributes.expertise">Expertise: {{person.users.arrayAttributes.expertise}}</p>
+				      <a ng-href="mailto:{{person.users.login.email}}" target="_self">{{person.users.login.email}}</a>
 				  </div>
 			    </div>
 			</div>

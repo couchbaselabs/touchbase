@@ -30,9 +30,9 @@
   <div layout="row" layout-sm="column" layout-align="space-around" ng-show="postLoading">
       <md-progress-circular md-mode="indeterminate"></md-progress-circular>
   </div>
-  <h2 class="md-title text center md-primary"><strong>My Posts<strong></h2>
-  <br/>
   <div ng-init="getMyPosts()">
+  <h2 class="md-title text center md-primary" ng-if="publishData.output[0]"><strong>My Posts</strong></h2>
+  <br/>
   <div ng-repeat="post in publishData.output">
     <div class="col-sm-4">
       <div class="card small">

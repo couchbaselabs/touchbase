@@ -45,8 +45,9 @@ touchbase.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider
 		$mdThemingProvider.theme('red')
         	.primaryPalette('red', {
             'default': '800' }) // by default use shade 900 from the grey palette for primary intentions
-        	.accentPalette('blue')
-        	.warnPalette('red')
+        	.accentPalette('amber',  {
+        	'default': '600' })
+        	.warnPalette('red');
 		/*$mdThemingProvider.theme('default')
     		.primaryPalette('red')
     		
@@ -325,6 +326,7 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 					return (result.data);
 				});*/
 		}
+
 	};
 
 	$scope.advancedSearch = function(string, someField) {
@@ -372,6 +374,11 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 		    }, function() {
 		      $scope.alert = 'You cancelled the dialog.';
 		    });
+	};
+
+	$scope.mail = function(email) {
+		console.log(email);
+		$window.location.href = ('mailto:'+email);
 	};
 
 
@@ -468,6 +475,8 @@ touchbase.controller('statisticsController', function ($scope) {
         }
       ]
     };
+
+     
 
     // Chart.js Options
     $scope.options =  {
