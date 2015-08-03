@@ -45,7 +45,7 @@ signUp.controller('loginController', function ($scope, $http, $window, $timeout)
 
 	$scope.loginAuth = function (someObject) {
 		// this will require a name and password in the object to check login
-		$http({method: "GET", url: "/api/loginAuth", params: someObject})
+		$http({method: "POST", url: "/api/loginAuth", data: someObject})
 			.success(function(result) {
 				console.log(result);
 				localStorage.sessionID = result.sessionID;

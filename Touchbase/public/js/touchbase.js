@@ -312,6 +312,7 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 							console.log('failed');
 						}
 						$scope.intelliCount.output=result;
+						console.log(result);
 	    				return result;
 	  				})
 	  				.error (function(result) {
@@ -327,7 +328,7 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 
 	$scope.advancedSearch = function(string, someField) {
 		var tempObj={};
-		eval("tempObj." + someField + "= \"" + string+"\";");
+		eval("tempObj." + someField + "= \"" + string + "\";");
 		$http({method: "GET", url: "/api/advancedSearch", params: tempObj, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
 				if (result.currentSession==false) {

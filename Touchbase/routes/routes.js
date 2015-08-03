@@ -17,14 +17,14 @@ var appRouter = function(app) {
         });
     });
     
-    app.get("/api/loginAuth", function(req, res, next) {
-        if(!req.query.email) {
+    app.post("/api/loginAuth", function(req, res, next) {
+        if(!req.body.email) {
             return next(JSON.stringify({"status": "error", "message": "A username must be provided"}));
         }
-        if(!req.query.password) {
+        if(!req.body.password) {
             return next(JSON.stringify({"status": "error", "message": "A password must be provided"}));
         }
-        User.advancedSearch(req.query, function(error, user) {
+        User.advancedSearch(req.body, function(error, user) {
             if(error) {
                 return res.status(400).send(error);
             }
@@ -34,7 +34,7 @@ var appRouter = function(app) {
             if (x.length === 0) {
                 return res.status(400).send('The username entered does not exist');   
             }
-            if(!User.validatePassword(req.query.password, user[0].users.login.password)) {
+            if(!User.validatePassword(req.body.password, user[0].users.login.password)) {
                 return res.status(400).send("The password entered is invalid");
             }
             User.addLoginTime(user[0].users.uuid, function(error, result) {

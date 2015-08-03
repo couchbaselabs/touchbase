@@ -40,8 +40,21 @@
 		background-color: grey;
 		color: white;
 		}
+
+
+
+		#containment {
+  			position: relative;
+  			z-index: 10;
+		}
+
+		#contained {
+		  position: absolute;
+		  top: 70px;
+		  z-index: 100;
+		}
 	</style>
-	<div class="dropdown dropdown-scroll">
+	<!--<div class="dropdown dropdown-scroll">
     <button class="btn btn-default red dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"><i class="ui large search icon"></i></button>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
         <li role="presentation">
@@ -53,20 +66,74 @@
         <li role="presentation" ng-repeat='countResult in intelliCount.output' ng-click="advancedSearch(query, countResult.field)">{{countResult.field}}   {{countResult.count}}
         </li>
     </ul>
-	</div>
-	<md-input-container >
-      <!-- Use floating label instead of placeholder -->
+	</div>-->
+	<!--<md-input-container >
       <label><i class="search icon"></i>Search</label>
-      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)">
+      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)" data-toggle="dropdown">
     </md-input-container>
 
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation">
+            <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-search"></span></span>
+                <input type="text" class="form-control" placeholder="Search users/attributes..." ng-model="query" ng-change="intelligentCount(query)"></input>
+            </div>
+        </li>
+        <li role="presentation" ng-repeat='countResult in intelliCount.output' ng-click="advancedSearch(query, countResult.field)">{{countResult.field}}   {{countResult.count}}
+        </li>
+    </ul>-->
+    <div id="containment">
+	    <md-input-container >
+	      <label><i class="search icon"></i>Search</label>
+	      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)" data-toggle="dropdown">
+	    </md-input-container>
+	    <md-whiteframe class="md-whiteframe-z4" id="contained">
+			<md-list>
+				<div ng-repeat="countResult in intelliCount.output">
+					<md-list-item>
+						<div ng-click="advancedSearch(searchText, countResult.field)">
+						  <md-item-content md-ink-ripple layout="row" layout-align="start center">
+						    <div class="md-list-item-text">
+							      <strong>{{countResult.field}}</strong>
+							      <strong>{{countResult.count}}</strong>
+						    </div>
+						  </md-item-content>
+						</div>
+					</md-list-item>
+				<md-divider></md-divider>
+				</div>
+			</md-list>
+		</md-whiteframe>
+	</div>
+
+		<!--<md-list-item>
+              <div ng-click="toggleSidenav('left');" ui-sref="myProfile">
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                  <div class="inset">
+                    <i class="inverted user icon"></i>
+                  </div>
+                  <div class="inset">My Profile
+                  </div>
+                </md-item-content>
+              </div>
+         </md-list-item>-->
+	    <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" hidden>
+        <li role="presentation" ng-repeat='countResult in intelliCount.output' ng-click="advancedSearch(query, countResult.field)">{{countResult.field}}   {{countResult.count}}
+        </li>-->
+
+
+    <!--<md-autocomplete md-selected-item="selectedItem" ng-init="advancedSearch('','name')"md-selected-item-change="advancedSearch(searchText,selectedItem)" md-search-text="searchText" md-search-text-change="intelligentCount(searchText)" md-items="countResult in intelliCount.output" md-item-text="countResult.field" md-min-length="0" placeholder="Search users/attributes ..." md-no-cache="true">
+	  <span md-highlight-text="searchText">{{countResult.field}} - {{countResult.count}}</span>
+	</md-autocomplete>
+	<br/>-->
+
     <div layout="row" layout-sm="column" layout-align="space-around" ng-show="loading">
-    	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    	<md-progress-circular class="md-primary" md-mode="indeterminate"></md-progress-circular>
     </div>
 	
  	<div ng-repeat="person in searchData.peopleResults track by $index">
  		<div class="col-sm-4">
-	 		<div class="card small">
+	 		<div class="card small" style="z-index: 10;">
 	 			<span class= "text right">
 	 				<i class="plus icon activator"></i>
 	 			</span>
