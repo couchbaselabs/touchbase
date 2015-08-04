@@ -31,6 +31,12 @@
 		  top: 70px;
 		  z-index: 100;
 		}
+
+		#contained-button {
+			position: absolute;
+			top:7px;
+			right: 2px;
+		}
 	</style>
     <div id="containment">
     	<div layout layout-sm="column">
@@ -38,10 +44,9 @@
 		      <label><i class="search icon"></i>Search</label>
 		      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)" data-toggle="dropdown">
 		    </md-input-container>
-				<span class = "btn-floating btn-large md-primary" ng-click="getAllUsers()" style="white-space:nowrap;">
-		        	<i class="users icon"></i>
-		        	<md-tooltip>All Users</md-tooltip>
-		     	<span>
+			<span class = "btn-floating btn-large md-primary" ng-click="getAllUsers()" style="white-space:nowrap;" id="contained-button">
+	        	<i class="users icon"></i>
+	     	</span>
 		</div>
 	    <div id="contained" ng-if="!searchHide">
 	    	<md-whiteframe class="md-whiteframe-z4" layout layout-align="center center" style="background:#ffffff;">
@@ -83,7 +88,7 @@
 			      <span class="card-title grey-text text-darken-4">{{person.users.stringAttributes.name}}</span>
 			      <p>{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
 			      <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
-			      <p><a ng-href="mailto:{{person.users.login.email}}?subject=Hello!"><i class="inbox icon"></i>{{person.users.login.email}}</a></p>
+			      <p><a ng-href="mailto:{{person.users.login.email}}?subject=Hello!">{{person.users.login.email}}</a></p>
 			    </div>
 			</div>
 			    <div class="card-reveal">

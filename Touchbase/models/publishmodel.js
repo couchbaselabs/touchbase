@@ -58,7 +58,10 @@ Publish.search = function(params, callback) {
 };
 
 Publish.remove = function(params, callback) {
-	publishBucket.remove(params.publishID, function(err, result) {
+	console.log(params);
+	var deleteQuery = N1qlQuery.fromString('DELETE FROM '+publishBucketName+' USE KEYS ($1)');
+	console.log(deleteQuery);
+	publishBucket.query(deleteQuery, [params.publishID], function(err, result) {
 		if (err) {
 			console.log(err);
 			callback(err, null);

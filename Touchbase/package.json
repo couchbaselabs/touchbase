@@ -16,6 +16,7 @@
     "morgan": "~1.2.2",
     "multer": "~0.1.8",
     "node-forge": "^0.6.30",
+    "nodemailer": "^1.4.0",
     "semantic-ui-grid": "~2.0.7",
     "semantic-ui-icon": "~2.0.7",
     "uuid": "^2.0.1"

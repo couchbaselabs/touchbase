@@ -65,8 +65,10 @@ signUp.controller('loginController', function ($scope, $http, $window, $timeout)
             return str.indexOf(suffix, str.length - suffix.length) !== -1;
         }
 		if (!someString || !(endsWith(someString, 'couchbase.com'))) {
-			$scope.errors.emailError = "Please enter a valid couchbase.com email address."; 
-			$scope.noError = false;
+			$scope.errors.emailError = "Please enter a valid couchbase.com email address.";
+		}
+		else {
+			$scope.errors.emailError = "";
 		}
 	};
 

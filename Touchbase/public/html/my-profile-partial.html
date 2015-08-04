@@ -55,6 +55,7 @@
               <p>{{post.users_publishments.timeDisp}}</p>
               <p><a ng-href="{{post.users_publishments.hyperlink}}"><i class="external icon"></i> {{post.users_publishments.title}}</a></p>
             </div>
+            <md-button class="md-accent text-center" ng-click="deletePost(post.users_publishments.publishID)">Delete</md-button>
         </div>
           <div class="card-reveal">
           <div class="text-center">

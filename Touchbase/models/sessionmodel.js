@@ -4,6 +4,15 @@ var userBucket			= require("../app").userBucket;
 var userBucketName		= require("../config").couchbase.userBucket;
 var N1qlQuery 			= require('couchbase').N1qlQuery;
 var async      			= require("async");
+var nodemailer			= require("nodemailer");
+
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'gmail.user@gmail.com',
+        pass: 'userpass'
+    }
+});
 
 function Session() {};
 
@@ -107,6 +116,22 @@ Session.findUser = function (sessionID, callback) {
 		callback(null, result[0].userID);
 	})
 };
+
+Session.makeValidation = function (userID, callback) {
+	var verifyModel = {
+		type: "verify",
+		userID: userID,
+		sessionID: (uuid.v4()+"_verify"),
+		expiry: 86400
+	};
+	var mailOptions = {
+	    from: 'Fred Foo ✔ <foo@blurdybloop.com>', // sender address
+	    to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
+	    subject: 'Hello ✔', // Subject line
+	    text: 'Hello world ✔', // plaintext body
+	    html: '<b>Hello world ✔</b>' // html body
+	};
+}
 
 
 

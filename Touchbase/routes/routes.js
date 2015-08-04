@@ -94,6 +94,16 @@ var appRouter = function(app) {
         });
     });
 
+    app.delete("/api/deletePost", Session.auth, function (req, res, next) {
+        Publish.remove(req.query, function (error, result) {
+            if (error) {
+                return res.status(400).send(error);
+            }
+            console.log(result);
+            res.json(result);
+        });
+    });
+
     app.post("/api/uploadAttempt", Session.auth, function (req, res, next) {
         console.log(JSON.stringify(req.body));
         console.log(JSON.stringify(req.files));

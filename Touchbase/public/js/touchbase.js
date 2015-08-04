@@ -188,6 +188,21 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 			});
 	};
 
+	$scope.deletePost = function(publishID) {
+		var r = confirm("Are you sure you want to delete this post?");
+		if (r == true) {
+			$http({method: "DELETE", url: "/api/deletePost", params: {'publishID': publishID}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
+				.success(function(result) {
+					console.log('success post deleted: '+result);
+				})
+				.error(function(result) {
+					console.log(result);
+				});
+		} else {
+		    console.log("user cancelled post delete");
+		}
+	};
+
 });
 
 touchbase.controller('publishController', function ($scope, $http, $window, $mdDialog) {
@@ -507,7 +522,7 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
           data: $scope.activeTotal
         },
         {
-          label: 'Distinct Logins',
+          label: 'Unique User Logins',
           fillColor: 'rgba(151,187,205,0.2)',
           strokeColor: 'rgba(151,187,205,1)',
           pointColor: 'rgba(151,187,205,1)',

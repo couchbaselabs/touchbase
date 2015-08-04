@@ -34,23 +34,23 @@ Statistics.graph = function(callback) {
 					var logTime = moment(result[i].logins[j]);
 					var daysDifference = currentTime.diff(logTime, 'days');
 					if (daysDifference>=0 && daysDifference <7) {
-						if (!graphObj.weekTotal[daysDifference]) {
-							graphObj.weekTotal[daysDifference] = 1;
+						if (!graphObj.weekTotal[7-daysDifference]) {
+							graphObj.weekTotal[7-daysDifference] = 1;
 						}
 						else {
-							graphObj.weekTotal[daysDifference]++; 
+							graphObj.weekTotal[7-daysDifference]++; 
 						} 
-						weekDistinctBuffer[daysDifference] = 1;
+						weekDistinctBuffer[7-daysDifference] = 1;
 					}
 					var hoursDifference = currentTime.diff(logTime, 'hours');
 					if (hoursDifference>=0 && hoursDifference <24) {
-						if (!graphObj.dayTotal[hoursDifference]) {
-							graphObj.dayTotal[hoursDifference] = 1;
+						if (!graphObj.dayTotal[24-hoursDifference]) {
+							graphObj.dayTotal[24-hoursDifference] = 1;
 						}
 						else {
-							graphObj.dayTotal[hoursDifference]++; 
+							graphObj.dayTotal[24-hoursDifference]++; 
 						}
-						dayDistinctBuffer[hoursDifference] = 1;
+						dayDistinctBuffer[24-hoursDifference] = 1;
 					}
 				}
 				if (dayDistinctBuffer) {
@@ -80,9 +80,9 @@ Statistics.graph = function(callback) {
 				var day = moment().isoWeekday();
 				var dayCounter = 0;
 				while (dayCounter<7) {
-					var index = day+dayCounter-1;
-					if (index >=7) {
-						index = index-7;
+					var index = 7-(day+dayCounter);
+					if (index <0) {
+						index = index+7;
 					}
 					graphObj.xWeek[dayCounter] = week[index];
 					dayCounter ++;
@@ -91,7 +91,7 @@ Statistics.graph = function(callback) {
 				var hourCounter = 0;
 				while (hourCounter<24) {
 					// console.log("currentHour: "+ currentHour+ "hourCounter: "+hourCounter);
-					var indi = currentHour+hourCounter;
+					var indi = 24-currentHour+hourCounter;
 					if (indi >=24) {
 						indi -=24;
 					}
@@ -103,12 +103,12 @@ Statistics.graph = function(callback) {
 			else {
 				console.log('user has no logins');
 			}
-			graphObj.xWeek.reverse();
-			graphObj.weekTotal.reverse();
-			graphObj.weekDistinct.reverse();
-			graphObj.xDay.reverse();
-			graphObj.dayTotal.reverse();
-			graphObj.dayDistinct.reverse();
+			//graphObj.xWeek.reverse();
+			// graphObj.weekTotal.reverse();
+			// graphObj.weekDistinct.reverse();
+			// graphObj.xDay.reverse();
+			//graphObj.dayTotal.reverse();
+			//graphObj.dayDistinct.reverse();
 		}
 		callback(null, graphObj);
 	});
