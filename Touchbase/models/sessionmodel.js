@@ -5,14 +5,7 @@ var userBucketName		= require("../config").couchbase.userBucket;
 var N1qlQuery 			= require('couchbase').N1qlQuery;
 var async      			= require("async");
 var nodemailer			= require("nodemailer");
-
-var transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-        user: 'gmail.user@gmail.com',
-        pass: 'userpass'
-    }
-});
+var sgTransport 		= require('nodemailer-sendgrid-transport');
 
 function Session() {};
 
@@ -89,17 +82,6 @@ Session.auth = function (req, res, next) {
 	});
 };
 
-/*Session.remove = function(sessionID, callback) {
-	userBucket.remove(sessionID, function(error, result) {				HANDLE THIS ON FRONT-END (sessionModel will delete in 1 hr anyways)
-																		simply delete the cookie upon logout
-		if(error) {
-			callback(error, null);
-			return;
-		}
-		callback(null, result);
-	});
-}; */
-
 // interim solution until figure out auth with Nic
 Session.findUser = function (sessionID, callback) {
 	var findUser = N1qlQuery.fromString('SELECT userID FROM `'+userBucketName+'` WHERE sessionID=$1 AND type=\"session\"');
@@ -117,21 +99,75 @@ Session.findUser = function (sessionID, callback) {
 	})
 };
 
-Session.makeValidation = function (userID, callback) {
+Session.makeVerification = function (userDoc, callback) {
 	var verifyModel = {
 		type: "verify",
-		userID: userID,
+		userID: userDoc.uuid,
 		sessionID: (uuid.v4()+"_verify"),
 		expiry: 86400
 	};
-	var mailOptions = {
-	    from: 'Fred Foo ✔ <foo@blurdybloop.com>', // sender address
-	    to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
-	    subject: 'Hello ✔', // Subject line
-	    text: 'Hello world ✔', // plaintext body
-	    html: '<b>Hello world ✔</b>' // html body
+	var options = {
+	  auth: {
+	    api_user: '',
+	    api_key: ''
+	  }
 	};
-}
+	var client = nodemailer.createTransport(sgTransport(options));
+	var email = {
+	  	from: 'pranav.mayuram@couchbase.com',
+	  	to: userDoc.login.email,
+	  	subject: 'Verify Your Touchbase Account',
+	  	html: '<h5>Please Verify Your Account</h5><br/><a href="http://localhost:3000/api/verify/'+verifyModel.sessionID+'">Click to Verify</a>'
+	};
+	userBucket.insert(verifyModel.sessionID, verifyModel, {expiry: verifyModel.expiry}, function (error, result) {
+		if (error) {
+    		callback(error, null);
+    		return;
+    	}
+    	console.log(JSON.stringify(verifyModel));
+    	console.log('email: '+email);
+    	client.sendMail(email, function(err, info){
+		    if (err){
+		      console.log(err);
+		    }
+		    else {
+		      console.log('Message sent: ' + info.response);
+		      callback(null, verifyModel);
+		    }
+		});
+    });
+};
+
+Session.verify = function(verifyID, callback) {
+	var findValidation = N1qlQuery.fromString('SELECT * FROM '+userBucketName+' USE KEYS($1)');
+	userBucket.query(findValidation, [verifyID], function (error, result) {
+		if (error) {
+    		callback(error, null);
+    		return;
+    	}
+    	console.log(result);
+    	var userID = result[0].users.userID;
+    	var updateUserValidation = N1qlQuery.fromString('UPDATE '+userBucketName+' USE KEYS($1) SET login.emailVerified=true');
+    	console.log(updateUserValidation);
+    	userBucket.query(updateUserValidation, [userID], function (err, update) {
+    		if (err) {
+	    		callback(err, null);
+	    		console.log(err);
+	    		return;
+    		}
+    		console.log(update);
+    		var deleteVerify = N1qlQuery.fromString('DELETE FROM '+userBucketName+' USE KEYS ($1)');
+    		userBucket.query(deleteVerify, [verifyID], function (error, deleteMessage) {
+    			if (error) {
+		    		callback(error, null);
+		    		return;
+	    		}
+	    		console.log(deleteMessage);
+	    		callback(null, 'verifySession successfully deleted, and userModel updated');
+    		});
+		});
+	});
+};
 
 
 

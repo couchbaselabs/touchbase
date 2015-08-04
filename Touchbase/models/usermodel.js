@@ -25,7 +25,7 @@ User.create = function(params, callback) {
 	var currentTime = new Date().toISOString();	
 	var stringToArray = function(anyString) {
 		if (typeof anyString === "undefined") {
-			return anyString;
+			return "";
 		}
 		else {
 			var tempArray=anyString.split(",");
@@ -49,7 +49,7 @@ User.create = function(params, callback) {
 	        password: forge.md.sha1.create().update(params.login.password).digest().toHex(),
 	        administrator: false,
 	        hasPicture: false,
-	        emailVerified: true
+	        emailVerified: false
 	    },
 	    stringAttributes: {
 	    	skype: params.stringAttributes.skype,
@@ -80,7 +80,7 @@ User.create = function(params, callback) {
     		callback(err, null);
     		return;
     	}
-    	callback(null, {message: "success", data: result, userID: userDoc.uuid});
+    	callback(null, {message: "success", data: result, userID: userDoc.uuid, userDoc: userDoc});
     });
 };
 
@@ -169,7 +169,7 @@ User.validatePassword = function(rawPassword, hashedPassword) {
 
 User.addLoginTime = function(uuid, callback) {
 	var currentTime = new Date().toISOString();
-	var addLoginTime = N1qlQuery.fromString("UPDATE " + userBucketName + " SET timeTracker.loginTimes=ARRAY_PREPEND($1, timeTracker.loginTimes) WHERE META(" + userBucketName + ").id =$2");
+	var addLoginTime = N1qlQuery.fromString("UPDATE " + userBucketName + " SET timeTracker.loginTimes=ARRAY_PREPEND($1, timeTracker.loginTimes) USE KEYS($2)");
 	console.log("addLoginTime: " + addLoginTime);
     userBucket.query(addLoginTime, [currentTime, uuid], function (err, result) {
     	if (err) {

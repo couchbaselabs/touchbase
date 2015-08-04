@@ -18,6 +18,15 @@ var appRouter = function(app) {
         });
     });
 
+    app.get("/api/verify/:verificationID", function(req, res) {
+        Session.verify(req.params.verificationID, function (error, result) {
+            if (error) {
+                return res.status(400).send(error);
+            }
+            res.json(result); 
+        });
+    });
+
     app.get("/api/createPrimaryIndexes", function(req, res) {
         User.createPrimaryIndexes(function (error, result) {
             if(error) {
@@ -46,6 +55,9 @@ var appRouter = function(app) {
             }
             if(!User.validatePassword(req.body.password, user[0].users.login.password)) {
                 return res.status(400).send("The password entered is invalid");
+            }
+            if (!user[0].users.login.emailVerified) {
+                return res.status(400).send({emailVerified: false});
             }
             User.addLoginTime(user[0].users.uuid, function(error, result) {
                 if(error) {
@@ -129,9 +141,9 @@ var appRouter = function(app) {
         var endsWith = function (str, suffix) {
             return str.indexOf(suffix, str.length - suffix.length) !== -1;
         }
-        if (!endsWith(req.body.login.email, 'couchbase.com')) {
+        /*if (!endsWith(req.body.login.email, 'couchbase.com')) {
             return next(JSON.stringify({"status": "error", "message": "Email must end with \"couchbase.com\""}));   
-        }
+        }*/
         if(!req.body.stringAttributes.name) {
             return next(JSON.stringify({"status": "error", "message": "A name must be provided"}));
         }
@@ -149,7 +161,7 @@ var appRouter = function(app) {
             return next(JSON.stringify({"status": "error", "message": "Password did not match confirmation password"}));
         }
         // replace with advancedSearch
-        User.advancedSearch(req.body.login, function(error, user) {
+        User.advancedSearch(req.body.login, function (error, user) {
             if(error) {
                 return res.status(400).send(error);
             }
@@ -160,7 +172,7 @@ var appRouter = function(app) {
                 if (error) {
                     return res.status(400).send(error);
                 }
-                Session.create(result.userID, function(err, resp) {
+                Session.makeVerification(result.userDoc, function (err, resp) {
                     if (err) {
                         return res.status(400).send(err);
                     }

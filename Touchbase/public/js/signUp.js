@@ -56,7 +56,7 @@ signUp.controller('loginController', function ($scope, $http, $window, $timeout)
 			.error(function(result) {
 				$scope.errors.emailError = "This username password combination is incorrect.";
 				$scope.noError = false;
-				console.log("ERROR IN LOGIN: " + result);
+				console.log("ERROR IN LOGIN: " + JSON.stringify(result));
 			});
 	};
 
