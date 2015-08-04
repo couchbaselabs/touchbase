@@ -7,7 +7,8 @@
     <md-card>
       <md-card-content>
         <div class="text center">
-          <img class=" img-circle" ng-src="{{myData.users.picSRC}}" width="150" border="3">
+          <img class=" img-circle" ng-src="{{myData.users.picSRC}}" width="150" border="3"> <br/>
+          <md-button class="md-accent" href="../#/pictureUpload">Edit/Add Picture</md-button>
           <h2 class="md-title">{{myData.users.stringAttributes.name}}</h2>
         </div>
         <div layout="column" layout-margin>
@@ -22,7 +23,7 @@
 
       </md-card-content>
       <div class="md-actions" layout="row" layout-align="center center">
-        <md-button class="md-primary">Edit Profile</md-button>
+        <md-button class="md-accent">Edit Profile</md-button>
       </div>
     </md-card>
   </md-content>

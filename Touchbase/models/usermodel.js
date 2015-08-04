@@ -24,7 +24,7 @@ User.createPrimaryIndexes = function(callback) {
 User.create = function(params, callback) {
 	var currentTime = new Date().toISOString();	
 	var stringToArray = function(anyString) {
-		if (typeof anyString === "undefined") {
+		if (typeof anyString === "undefined" || !anyString) {
 			return "";
 		}
 		else {
@@ -40,6 +40,12 @@ User.create = function(params, callback) {
 			return resultArray;
 		}
 	};
+	if (!params.arrayAttributes.hobbies) {
+		params.arrayAttributes.hobbies = "";
+	}
+	if (!params.arrayAttributes.expertise) {
+		params.arrayAttributes.expertise="";
+	}
 	// uuid, login, & timeTracker will remain constant; only the attributes can be changed
     var userDoc = {
     	// should add a type here, ex. type: "user"
@@ -167,13 +173,14 @@ User.validatePassword = function(rawPassword, hashedPassword) {
     }
 };
 
-User.addLoginTime = function(uuid, callback) {
+User.addLoginTime = function(userID, callback) {
 	var currentTime = new Date().toISOString();
-	var addLoginTime = N1qlQuery.fromString("UPDATE " + userBucketName + " SET timeTracker.loginTimes=ARRAY_PREPEND($1, timeTracker.loginTimes) USE KEYS($2)");
+	var addLoginTime = N1qlQuery.fromString("UPDATE " + userBucketName + " USE KEYS($2) SET timeTracker.loginTimes=ARRAY_PREPEND($1, timeTracker.loginTimes)");
 	console.log("addLoginTime: " + addLoginTime);
-    userBucket.query(addLoginTime, [currentTime, uuid], function (err, result) {
+    userBucket.query(addLoginTime, [currentTime, userID], function (err, result) {
     	if (err) {
-    		callback(error, null);
+    		console.log(err);
+    		callback(err, null);
     		return;
     	}
     	callback(null, {message: "success", data: result});

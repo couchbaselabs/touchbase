@@ -23,7 +23,8 @@ var appRouter = function(app) {
             if (error) {
                 return res.status(400).send(error);
             }
-            res.json(result); 
+            console.log(result); 
+            res.redirect('../../../index.html');
         });
     });
 
@@ -57,7 +58,7 @@ var appRouter = function(app) {
                 return res.status(400).send("The password entered is invalid");
             }
             if (!user[0].users.login.emailVerified) {
-                return res.status(400).send({emailVerified: false});
+                return res.status(400).send("The username (email) entered is not yet verified, please verify before logging in.");
             }
             User.addLoginTime(user[0].users.uuid, function(error, result) {
                 if(error) {

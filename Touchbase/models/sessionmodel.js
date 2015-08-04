@@ -131,6 +131,7 @@ Session.makeVerification = function (userDoc, callback) {
 		      console.log(err);
 		    }
 		    else {
+		      console.log('woot!');
 		      console.log('Message sent: ' + info.response);
 		      callback(null, verifyModel);
 		    }

@@ -25,6 +25,11 @@ signUp.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 			templateUrl: 'html/picture-partial.html'
 		})
 
+		.state('verify',  {
+			url: '/verify',
+			templateUrl: 'html/verify-partial.html'
+		})
+
 		$mdThemingProvider.theme('red')
         	.primaryPalette('red', {
             'default': '800' })
@@ -54,8 +59,7 @@ signUp.controller('loginController', function ($scope, $http, $window, $timeout)
 				console.log('localStorage: '+ JSON.stringify(localStorage));
 			})
 			.error(function(result) {
-				$scope.errors.emailError = "This username password combination is incorrect.";
-				$scope.noError = false;
+				$scope.errors.emailError = result;
 				console.log("ERROR IN LOGIN: " + JSON.stringify(result));
 			});
 	};
@@ -83,11 +87,9 @@ signUp.controller('registerController', function ($scope, $http, $window, $state
 		// this will require a formData type object which contains all entries needed for the form to create an account
 		$http({method: "POST", url: "/api/registerUser", data: someObject})
 			.success(function(result) {
-				localStorage.sessionID = result.sessionID;
-				localStorage.expiry = result.expiry;
 				console.log('localStorage: '+ JSON.stringify(localStorage));
 				//$scope.formData = {};
-				$state.go('pictureUpload');
+				$state.go('verify');
 			})
 			.error(function(result) {
 				console.log("ERROR IN REGISTER: " + JSON.stringify(result[0]));
