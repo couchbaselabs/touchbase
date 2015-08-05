@@ -40,12 +40,21 @@ User.create = function(params, callback) {
 			return resultArray;
 		}
 	};
-	if (!params.arrayAttributes.hobbies) {
+	if (!params.arrayAttributes) {
+		params.arrayAttributes = {};
+	}
+	if (!params.dropdownAttributes) {
+		params.dropdownAttributes = {};
+	}
+	if (!params.stringAttributes) {
+		params.stringAttributes = {};
+	}
+	/*if (!params.arrayAttributes.hobbies) {
 		params.arrayAttributes.hobbies = "";
 	}
 	if (!params.arrayAttributes.expertise) {
 		params.arrayAttributes.expertise="";
-	}
+	}*/
 	// uuid, login, & timeTracker will remain constant; only the attributes can be changed
     var userDoc = {
     	// should add a type here, ex. type: "user"
@@ -243,7 +252,12 @@ User.advancedSearch = function(params, callback) {
 		advancedQuery += ("AND uuid = \"" + params.userID + "\" ");
 	}
 	// var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice + " " + userID);
-	advancedQuery += "AND type IS MISSING ORDER BY stringAttributes.name";
+	if (params.loginAuth) {
+		advancedQuery+= "ORDER BY stringAttributes.name";
+	}
+	else {
+		advancedQuery += "AND login.emailVerified=true ORDER BY stringAttributes.name";
+	}
 	var advancedQueryN1ql = N1qlQuery.fromString(advancedQuery);
 	console.log(advancedQueryN1ql);
 	userBucket.query(advancedQueryN1ql, function (error, result) {
@@ -268,7 +282,7 @@ User.intelligentCount = function(params, callback) {
 			intelliQuery += 'UNION ALL ';
 		}
 		if (arrayName) {
-			intelliQuery += ('SELECT COUNT(*) as count, \"'+arrayName+'\" AS field FROM '+userBucketName+' where ANY blah IN '+ userBucketName + '.arrayAttributes.' + arrayName + ' SATISFIES LOWER(blah) LIKE LOWER(\"%'+params.searchTerm+'%\") END ');
+			intelliQuery += ('SELECT COUNT(*) as count, \"'+arrayName+'\" AS field FROM '+userBucketName+' where ANY blah IN '+ userBucketName + '.arrayAttributes.' + arrayName + ' SATISFIES LOWER(blah) LIKE LOWER(\"%'+params.searchTerm+'%\") END AND login.emailVerified=true ');
 		}
 	}
 	var stringName = '';
@@ -278,7 +292,7 @@ User.intelligentCount = function(params, callback) {
 			intelliQuery += 'UNION ALL ';
 		}
 		if (stringName) {
-			intelliQuery+= ('SELECT COUNT(*) as count, \"'+stringName+'\" AS field FROM '+userBucketName+' where LOWER(stringAttributes.'+stringName+') LIKE LOWER(\"%'+params.searchTerm+'%\") ');
+			intelliQuery+= ('SELECT COUNT(*) as count, \"'+stringName+'\" AS field FROM '+userBucketName+' where LOWER(stringAttributes.'+stringName+') LIKE LOWER(\"%'+params.searchTerm+'%\") AND login.emailVerified=true ');
 		}
 	}
 	var dropdownName = '';
@@ -288,10 +302,10 @@ User.intelligentCount = function(params, callback) {
 			intelliQuery += 'UNION ALL ';
 		}
 		if (dropdownName) {
-			intelliQuery+= ('SELECT COUNT(*) as count, \"'+dropdownName+'\" AS field FROM '+userBucketName+' where dropdownAttributes.'+dropdownName+' = \"'+params.searchTerm+'\" ');
+			intelliQuery+= ('SELECT COUNT(*) as count, \"'+dropdownName+'\" AS field FROM '+userBucketName+' where dropdownAttributes.'+dropdownName+' = \"'+params.searchTerm+'\" AND login.emailVerified=true ');
 		}
 	}
-	intelliQuery += 'ORDER BY count DESC, field';
+	intelliQuery += ' ORDER BY count DESC, field';
 	var intelliQueryN1ql = N1qlQuery.fromString(intelliQuery);
 	console.log(intelliQueryN1ql);
 	userBucket.query(intelliQueryN1ql, function(error, result) {

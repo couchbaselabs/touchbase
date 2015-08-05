@@ -32,7 +32,10 @@ signUp.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
 		$mdThemingProvider.theme('red')
         	.primaryPalette('red', {
-            'default': '800' })
+            'default': '800' }) // by default use shade 900 from the grey palette for primary intentions
+        	.accentPalette('amber',  {
+        	'default': '600' })
+        	.warnPalette('red');
              // by default use shade 900 from the grey palette for primary intentions
 		/*$mdThemingProvider.theme('default')
     		.primaryPalette('red')
@@ -49,6 +52,7 @@ signUp.controller('loginController', function ($scope, $http, $window, $timeout)
 	$scope.noError = true;
 
 	$scope.loginAuth = function (someObject) {
+		someObject.loginAuth = true;
 		// this will require a name and password in the object to check login
 		$http({method: "POST", url: "/api/loginAuth", data: someObject})
 			.success(function(result) {

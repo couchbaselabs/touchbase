@@ -10,6 +10,27 @@ var Email 				= require("./emailmodel");
 
 function Session() {};
 
+Session.pathToLogin = function (req) {
+	console.log(req.originalUrl);
+	console.log(req.headers.host);
+	var urlPath = req.originalUrl;
+	var exitString = "";
+	function generateExit (str) {
+		var path = "";
+		for (i=0; i<str.length; i++) {
+			if (str[i] === "/") {
+				path+="../";
+
+			}
+		}
+		path+="index.html";
+		return path;
+	}
+	exitString = generateExit(urlPath);
+	console.log(exitString);
+	return exitString;
+};
+
 Session.create = function(userID, callback) {
 	var sessionModel = {
 		type: "session",
@@ -43,7 +64,6 @@ Session.auth = function (req, res, next) {
 		}
 		else {
 			console.log('error with: ' + token);
-			res.send('error in Session.auth with Bearer token');
 			return;
 		}
 	}
@@ -74,7 +94,8 @@ Session.auth = function (req, res, next) {
 		console.log(result);
 		if (!result[0]) {
 			console.log("Session expired, please login again.");
-			res.send({currentSession: false});
+			res.redirect(req.protocol + '://' + req.headers.host + '/');
+			// res.send({currentSession: false});
 			// SHOULD JUST CHANGE TO res.redirect('/public/index.html');
 			return;
 		}
@@ -115,7 +136,7 @@ Session.makeVerification = function (userDoc, callback) {
 	};
 	var client = nodemailer.createTransport(sgTransport(options));
 	var email = {
-	  	from: 'pranav.mayuram@couchbase.com',
+	  	from: 'Touchbase <touchbase-noreply@couchbase.com>',
 	  	to: userDoc.login.email,
 	  	subject: 'Verify Your Touchbase Account',
 	  	//html: '<h5>Please Verify Your Account</h5><br/><a href="http://localhost:3000/api/verify/'+verifyModel.sessionID+'">Click to Verify</a>'
