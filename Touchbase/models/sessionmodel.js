@@ -95,8 +95,6 @@ Session.auth = function (req, res, next) {
 		if (!result[0]) {
 			console.log("Session expired, please login again.");
 			res.redirect(req.protocol + '://' + req.headers.host + '/');
-			// res.send({currentSession: false});
-			// SHOULD JUST CHANGE TO res.redirect('/public/index.html');
 			return;
 		}
 		req.userID = result[0].userID;
