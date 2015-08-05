@@ -10,51 +10,6 @@
     });
 </script>
 
-<!--<div ng-controller="pictureController" ng-init="getSessionInfo()">
-  <script>
-    function redirect() {
-      window.location.href=('nav.html');
-      return false;
-    }
-  </script>
-  <div layout = "column" layout-align="center center">
-  <div class="column">
-      <img src="icons/touchbaseThumb.png" class="image">
-      <h5 class="text-center">Touchbase | Upload Picture</h5>
-    <form name="uploadForm" id = "uploadForm" action="/api/uploadAttempt" method="post" enctype="multipart/form-data">
-              <br />
-              <md-button class="md-raised md-primary" id="divUpload"><i class="inverted crop icon"></i> Choose Image to Crop</md-button>
-              <div class="ui blue labeled icon button" id="divUpload">
-                Choose Image for Crop
-                <i class="white inverted upload icon"></i>
-              </div>
-              <input type="file" onchange="angular.element(this).scope().onFile(this.files[0])" id="hidde-new-file" name="userPhoto" value="Grey Button" accept="image/*" style="display: none"required/>
-                <br />
-                <br />
-                <div ng-if="dataUrl" class="img-container">
-                  <img ng-if="dataUrl" ng-src="{{dataUrl}}" width="300"
-                       ng-cropper
-                       ng-cropper-show="showEvent"
-                       ng-cropper-hide="hideEvent"
-                       ng-cropper-options="options">
-                </div>
-                <br />
-                <br />
-                <div class="preview-container">
-                  <img ng-if="preview.dataUrl" ng-src="{{preview.dataUrl}}">
-                </div>
-              <a type="button" class="ui grey button" href="nav.html">No Thanks</a>
-              <input type="hidden" value="{{sessionInfo.sessionID}}" name="sessionID" >
-              <input type="hidden" value="{{cropDim}}" name="cropDim" >
-              <a href="nav.html">
-                <input class="ui green button" ng-click="finalCropCheck();" type="submit" value="Upload Picture" name="submit"/>
-              </a>
-          </div>
-      <button class="ui fluid large blue submit button" ng-click="registerUser(formData)"> Upload </button>
-      <a class="ui fluid large blue submit button" href="nav.html"> No Thanks </a>
-    </form>
-</div>-->
-
 <div ng-controller="pictureController" ng-init="getSessionInfo()">
   <div class="vertical-center">
     <div class="container">
@@ -95,10 +50,9 @@
               <input id="hidde-final" type="submit" value="Upload Image" ng-click="finalCropCheck();" class="md-primary md-raised" style="display: none">
             </div>
           </form>
-                
-                <!--<md-select ng-model="size" placeholder="Size" class="ng-valid md-default-theme ng-touched ng-dirty ng-valid-parse" tabindex="0" aria-disabled="false" role="combobox" aria-expanded="false" id="select_99" aria-invalid="false" aria-label="Size"><md-select-label class="md-select-label" id="select_label_96"><span>medium (14-inch)</span><span class="md-select-icon" aria-hidden="true"></span></md-select-label></md-select>-->
         </md-content>
       </div>
+      <br/>
     </div>
   </div>
 </div>

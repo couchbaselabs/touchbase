@@ -67,7 +67,7 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 		    			return callback(error, null);
 		    		}
 		    		var base64data = new Buffer(data, 'binary').toString('base64');
-		    		pictureBucket.upsert((userID+"_picMulterNode"), base64data, function(issue, res) {
+		    		pictureBucket.upsert((userID+"_picMulterNode"), base64data, function(issue, resultz) {
 		    			if(issue) {
 		    				return callback(issue, null);
 		    			}
@@ -85,7 +85,7 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 								}
 							});
 						});
-		    			callback(null, {message: "success", data: res});
+		    			callback(null, {message: "success", data: resultz});
 		    		});
 		    	});
 		});

@@ -18,6 +18,7 @@ app.use(morgan('dev'));
 app.use(express.static(__dirname + '/'));
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/uploads'));
+app.use(express.static(__dirname + '/icons'));
 app.use(express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/node_modules'));
 app.use(express.static(__dirname + '/bower_components/angular-cookies'));

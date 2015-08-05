@@ -173,7 +173,10 @@ var appRouter = function(app) {
                 if (error) {
                     return res.status(400).send(error);
                 }
-                Session.makeVerification(result.userDoc, function (err, resp) {
+                var pathInfo = {};
+                pathInfo.protocol = req.protocol;
+                pathInfo.host = req.headers.host;
+                Session.makeVerification(pathInfo, result.userDoc, function (err, resp) {
                     if (err) {
                         return res.status(400).send(err);
                     }

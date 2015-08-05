@@ -121,7 +121,7 @@ Session.findUser = function (sessionID, callback) {
 	})
 };
 
-Session.makeVerification = function (userDoc, callback) {
+Session.makeVerification = function (pathInfo, userDoc, callback) {
 	var verifyModel = {
 		type: "verify",
 		userID: userDoc.uuid,
@@ -139,8 +139,7 @@ Session.makeVerification = function (userDoc, callback) {
 	  	from: 'Touchbase <touchbase-noreply@couchbase.com>',
 	  	to: userDoc.login.email,
 	  	subject: 'Verify Your Touchbase Account',
-	  	//html: '<h5>Please Verify Your Account</h5><br/><a href="http://localhost:3000/api/verify/'+verifyModel.sessionID+'">Click to Verify</a>'
-	  	html: Email.create(verifyModel)
+	  	html: Email.create(pathInfo, verifyModel)
 	};
 	userBucket.insert(verifyModel.sessionID, verifyModel, {expiry: verifyModel.expiry}, function (error, result) {
 		if (error) {
