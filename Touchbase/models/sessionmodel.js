@@ -6,6 +6,7 @@ var N1qlQuery 			= require('couchbase').N1qlQuery;
 var async      			= require("async");
 var nodemailer			= require("nodemailer");
 var sgTransport 		= require('nodemailer-sendgrid-transport');
+var Email 				= require("./emailmodel");
 
 function Session() {};
 
@@ -117,7 +118,8 @@ Session.makeVerification = function (userDoc, callback) {
 	  	from: 'pranav.mayuram@couchbase.com',
 	  	to: userDoc.login.email,
 	  	subject: 'Verify Your Touchbase Account',
-	  	html: '<h5>Please Verify Your Account</h5><br/><a href="http://localhost:3000/api/verify/'+verifyModel.sessionID+'">Click to Verify</a>'
+	  	//html: '<h5>Please Verify Your Account</h5><br/><a href="http://localhost:3000/api/verify/'+verifyModel.sessionID+'">Click to Verify</a>'
+	  	html: Email.create(verifyModel)
 	};
 	userBucket.insert(verifyModel.sessionID, verifyModel, {expiry: verifyModel.expiry}, function (error, result) {
 		if (error) {
@@ -147,6 +149,10 @@ Session.verify = function(verifyID, callback) {
     		return;
     	}
     	console.log(result);
+    	if (!result[0]) {
+    		callback(null, 'email already verified/verification expired, please login again');
+    		return;
+    	}
     	var userID = result[0].users.userID;
     	var updateUserValidation = N1qlQuery.fromString('UPDATE '+userBucketName+' USE KEYS($1) SET login.emailVerified=true');
     	console.log(updateUserValidation);

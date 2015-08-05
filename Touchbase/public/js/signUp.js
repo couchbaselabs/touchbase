@@ -87,7 +87,7 @@ signUp.controller('registerController', function ($scope, $http, $window, $state
 		// this will require a formData type object which contains all entries needed for the form to create an account
 		$http({method: "POST", url: "/api/registerUser", data: someObject})
 			.success(function(result) {
-				console.log('localStorage: '+ JSON.stringify(localStorage));
+				console.log(result);
 				//$scope.formData = {};
 				$state.go('verify');
 			})
