@@ -59,7 +59,6 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 				}
 				console.log(value);
 			})
-			.autoOrient()
 			.crop(cropDim.width, cropDim.height, cropDim.x, cropDim.y)
 			.scale(200, 200)
 			.quality(50)
