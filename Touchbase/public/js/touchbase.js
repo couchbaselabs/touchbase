@@ -467,11 +467,11 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
 	$scope.graphData={};
 
 	$scope.loading = true;
-	$scope.getGraphData = function() {
-		$http({method: "GET", url: "/api/graphData", headers:{'Authorization':'Bearer '+localStorage.sessionID}})
+	$scope.getGraphData = function(timeUnit) {
+		$http({method: "GET", url: "/api/graphData", params:{'timeUnit': timeUnit}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success (function(result) {
 				console.log(result);
-				$scope.graphData = result;
+				/*$scope.graphData = result;
 				$scope.viewData('day');
 				$scope.activeX= $scope.graphData.xDay;
 			$scope.activeTotal= $scope.graphData.dayTotal;
@@ -485,17 +485,17 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
 				if (!$scope.activeDistinct[i]) {
 					$scope.activeDistinct[i] = 0;
 				}
-			}
-			console.log($scope.activeX);
-			$scope.loading = false;
-			})
-			.error (function(result) {
-				console.log(error);
-			});
+			}*/
+				$scope.viewData(result);
+				$scope.loading = false;
+				})
+				.error (function(result) {
+					console.log(error);
+				});
 	};
 
-	$scope.viewData = function(type) {
-		if (type === 'week') {
+	$scope.viewData = function(obj) {
+		/*if (type === 'week') {
 			$scope.activeX=$scope.graphData.xWeek;
 			$scope.activeTotal=$scope.graphData.weekTotal;
 			$scope.activeDistinct=$scope.graphData.weekDistinct;
@@ -507,11 +507,12 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
 			$scope.activeDistinct= $scope.graphData.dayDistinct;
 			$scope.type = 'Daily';
 			console.log($scope.activeX);
-		}
-		$scope.data = {
-      labels: $scope.activeX,
+		}*/
+
+	$scope.data = {
+      labels: obj.x,
       datasets: [
-        {
+        /*{
           label: 'Total Logins',
           fillColor: 'rgba(220,220,220,0.2)',
           strokeColor: 'rgba(220,220,220,1)',
@@ -520,16 +521,16 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
           pointHighlightFill: '#fff',
           pointHighlightStroke: 'rgba(220,220,220,1)',
           data: $scope.activeTotal
-        },
+        },*/
         {
-          label: 'Unique User Logins',
+          label: 'Total User Logins',
           fillColor: 'rgba(151,187,205,0.2)',
           strokeColor: 'rgba(151,187,205,1)',
           pointColor: 'rgba(151,187,205,1)',
           pointStrokeColor: '#fff',
           pointHighlightFill: '#fff',
           pointHighlightStroke: 'rgba(151,187,205,1)',
-          data: $scope.activeDistinct
+          data: obj.logins
         }
       ]
     };
@@ -586,8 +587,8 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
 
       //String - A legend template
       legendTemplate : '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
-    };
 	};
+};
 
 });
 

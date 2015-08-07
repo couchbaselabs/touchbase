@@ -9,6 +9,13 @@ var morgan 			= require('morgan');
 var multer  		= require('multer');
 var fs 				= require('fs');
 var gm 				= require('gm');
+var https 			= require('https');
+var http 			= require('http');
+
+var options = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+};
 
 // use commands
 app.use(bodyParser.urlencoded({extended:true, limit: '4mb'}));
@@ -44,9 +51,20 @@ module.exports.publishBucket = cluster.openBucket(config.couchbase.publishBucket
 
 var routes = require("./routes/routes.js")(app);
 
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(options, app);
+httpServer.listen(config.couchbase.TouchbasePort);
+httpsServer.listen(8443);
+/*https.createServer({
+    key: options.key,
+    cert: options.cert
+}, app).listen(443);*/
+
+//http.createServer(app).listen(80);
+//https.createServer(options, app).listen(443);
 // startup our app at http://localhost:3000
-var port = process.env.PORT || config.couchbase.TouchbasePort;
-app.listen(port);               
+//var port = process.env.PORT || config.couchbase.TouchbasePort;
+//app.listen(3000);               
 
 // inform user of IP                     
 console.log('View Touchbase at localhost:' + config.couchbase.TouchbasePort);

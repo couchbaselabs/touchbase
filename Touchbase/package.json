@@ -11,6 +11,8 @@
     "express": "~4.7.2",
     "gm": "*",
     "gulp": "~3.9.0",
+    "http": "0.0.0",
+    "https": "^1.0.0",
     "method-override": "~2.1.2",
     "moment": "^2.10.6",
     "morgan": "~1.2.2",

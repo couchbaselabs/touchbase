@@ -16,17 +16,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.7/components/icon.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.7/components/grid.min.css"/>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="moment/min/moment.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.7/components/button.min.css"/>    
     <link href="./ng-cropper/dist/ngCropper.all.css" rel="stylesheet">
     <script src="./ng-cropper/dist/ngCropper.all.js"></script>
     <script src="js/touchbase.js"></script>
     <script src="Chart.js/Chart.min.js"></script>
     <script src="tc-angular-chartjs/dist/tc-angular-chartjs.min.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 
     <style>
-      html, body
+            html, body
       * {
         font-family: "Lato";
       }
@@ -60,7 +59,7 @@
         <md-button ng-click="toggleSidenav('left')" class="md-icon-button">
           <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
         </md-button>
-        <img src="icons/touchbaseTextCaps.png" width="150"/>
+        <h2><strong>TOUCHBASE</strong></h2>
         <span flex></span>
         <img src="icons/touchbaseLogo.png" width="31">
       </div>
@@ -70,7 +69,7 @@
         <header class="nav-header text-center">
             <br/>
             <img src="icons/touchbaseLogo.png" width="70"alt="">
-            <div class="docs-logotype md-heading"><img src="icons/touchbaseTextCaps.png" width="150"/></div>
+            <div class="docs-logotype md-heading"><h5><strong><font color="white">TOUCHBASE</font></strong></h5></div>
         </header>
         <md-content style="background:transparent" flex>
           <md-list md-default-theme>
@@ -153,6 +152,7 @@
         <div layout="column" flex id="content">
             <md-content layout="column" flex class="md-padding">
                 <div ui-view></div>
+                <br/>
             </md-content>
         </div>
     </div>

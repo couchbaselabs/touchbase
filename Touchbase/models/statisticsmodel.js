@@ -107,11 +107,78 @@ Statistics.graph = function(callback) {
 			//graphObj.weekTotal.reverse();
 			//graphObj.weekDistinct.reverse();
 			//graphObj.xDay.reverse();
-			//graphObj.dayTotal.reverse();
-			//graphObj.dayDistinct.reverse();
+			graphObj.dayTotal.reverse();
+			graphObj.dayDistinct.reverse();
  		}
  		callback(null, graphObj);
  	});
+};
+
+
+Statistics.newGraph = function (timeUnit, callback) {
+	var graphObj = {};
+	var dayQuery = N1qlQuery.fromString("SELECT DATE_DIFF_STR(STR_TO_UTC(NOW_STR()), time, \"hour\") AS deltaTime, COUNT(*) AS countTime from users UNNEST timeTracker.loginTimes AS time GROUP BY DATE_DIFF_STR(STR_TO_UTC(NOW_STR()), time, \"hour\") HAVING DATE_DIFF_STR(STR_TO_UTC(NOW_STR()), time, \"hour\") < 24 ORDER BY deltaTime");
+	var weekQuery = N1qlQuery.fromString("SELECT DATE_DIFF_STR(STR_TO_UTC(NOW_STR()), time, \"day\") AS deltaTime, COUNT(*) AS countTime from users UNNEST timeTracker.loginTimes AS time GROUP BY DATE_DIFF_STR(STR_TO_UTC(NOW_STR()), time, \"day\") HAVING DATE_DIFF_STR(STR_TO_UTC(NOW_STR()), time, \"day\") < 7 ORDER BY deltaTime");
+	if (timeUnit === 'day') {
+		userBucket.query(dayQuery, function (error, result) {
+			if (error) {
+	 			console.log(error);
+	 			return callback(error, null);
+	 		}
+	 		graphObj.logins = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
+	 		graphObj.x = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
+	 		var hoursX = ['12am', '1am', '2am', '3am', '4am', '5am', '6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm'];
+	 		var counter = 0;
+	 		var starter = moment().hour();
+	 		console.log(starter);
+	 		while (counter < 24) {
+	 			var index = 0;
+	 			if ((starter-counter) < 0) {
+	 				index = (starter-counter) + 24;
+	 			}
+	 			else {
+	 				index = starter-counter;
+	 			}
+	 			graphObj.x[23-counter] = hoursX[index];
+	 			counter++;
+	 		}
+	 		for (i=0; i<result.length; i++) {
+	 			graphObj.logins[23-result[i].deltaTime] = result[i].countTime;
+	 		}
+	 		return callback(null, graphObj);
+		});
+	}
+	else if (timeUnit === 'week') {
+		userBucket.query(weekQuery, function (error, result) {
+			if (error) {
+	 			console.log(error);
+	 			return callback(error, null);
+	 		}
+	 		graphObj.logins = Array.apply(null, Array(7)).map(Number.prototype.valueOf,0);
+	 		graphObj.x = Array.apply(null, Array(7)).map(Number.prototype.valueOf,0);
+	 		var weekX = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	 		var counter = 0;
+	 		var starter = moment().day();
+	 		while (counter < 7) {
+	 			var index = 0;
+	 			if ((starter-counter) < 0) {
+	 				index = (starter-counter) + 7;
+	 			}
+	 			else {
+	 				index = starter-counter;
+	 			}
+	 			graphObj.x[6-counter] = weekX[index];
+	 			counter++;
+	 		}
+	 		for (i=0; i<result.length; i++) {
+	 			graphObj.logins[6-result[i].deltaTime] = result[i].countTime;
+	 		}
+	 		return callback(null, graphObj);
+		});
+	}
+	else {
+		return callback('please enter a valid timeUnit', null);
+	}
 };
 
 module.exports = Statistics;

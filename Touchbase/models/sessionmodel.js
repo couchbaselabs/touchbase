@@ -94,7 +94,9 @@ Session.auth = function (req, res, next) {
 		console.log(result);
 		if (!result[0]) {
 			console.log("Session expired, please login again.");
-			res.redirect(req.protocol + '://' + req.headers.host + '/');
+			var path = req.protocol + '://' + req.headers.host + '/index.html#/login';
+			console.log(path);
+			res.redirect(path);
 			return;
 		}
 		req.userID = result[0].userID;

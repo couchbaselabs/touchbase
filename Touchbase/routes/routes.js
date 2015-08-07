@@ -10,7 +10,7 @@ var async       = require("async");
 var appRouter = function(app) {
 
     app.get("/api/graphData", Session.auth, function(req, res, next) {
-        Statistics.graph(function (error, result) {
+        Statistics.newGraph(req.query.timeUnit, function (error, result) {
             if (error) {
                 return res.status(400).send(error);
             }

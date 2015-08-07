@@ -35,6 +35,9 @@ function Picture() { };
 
 
 Picture.attempt = function(userID, params, fileInfo, callback) {
+	if (!fileInfo) {
+		return callback(null, 'blah');
+	}
 	if (fileInfo.extension != 'png' && fileInfo.extension != 'jpg' && fileInfo.extension != 'jpeg' && fileInfo.extension != 'gif') {
 		return callback(null, {status: 400, message: "ERROR: please use a valid image format (jpg, jpeg, png, gif)"});
 	}

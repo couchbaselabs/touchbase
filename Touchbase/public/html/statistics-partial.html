@@ -1,4 +1,4 @@
-<div ng-controller="statisticsController" ng-init="getGraphData()">
+<div ng-controller="statisticsController" ng-init="getGraphData('day')">
 	<style>
 	.tc-chart-js-legend {
 	  list-style-type: none;
@@ -32,8 +32,8 @@
 		      <md-card-content>
 		      </md-card-content>
 		      <div class="md-actions" layout="row" layout-align="end center">
-		        <md-button class="md-primary" ng-click="viewData('day')">Daily View</md-button>
-		        <md-button class="md-primary" ng-click="viewData('week')">Weekly View</md-button>
+		        <md-button class="md-primary" ng-click="getGraphData('day')">Daily View</md-button>
+		        <md-button class="md-primary" ng-click="getGraphData('week')">Weekly View</md-button>
 		      </div>
 	    </md-card>
 	</md-content>
