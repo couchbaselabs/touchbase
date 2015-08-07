@@ -59,12 +59,16 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 				}
 				console.log(value);
 			})
+			.autoOrient()
 			.crop(cropDim.width, cropDim.height, cropDim.x, cropDim.y)
+			.scale(200, 200)
+			.quality(50)
 			.write(fileInfo.path, function(error) {
 				if(error) {
 					console.log(error);
 					return;
 				}
+				
 		    	fs.readFile(fileInfo.path, function(error, data) {
 		    		if(error) {
 		    			return callback(error, null);
