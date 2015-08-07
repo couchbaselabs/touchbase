@@ -99,6 +99,52 @@ User.create = function(params, callback) {
     });
 };
 
+User.newUpdate = function (userDoc, callback) {
+	var currentTime = new Date().toISOString();	
+	var stringToArray = function(anyString) {
+		if (typeof anyString === "undefined") {
+			return anyString;
+		}
+		else {
+			var tempArray=anyString.split(",");
+			var resultArray=[];
+			for (i=0; i<tempArray.length; i++) {
+				var str = tempArray[i];
+				resultArray[i]= str.trim();
+				if (resultArray[i]=="") {
+					resultArray.splice(i, 1);
+				}
+			}
+			return resultArray;
+		}
+	};
+	if (!userDoc.arrayAttributes) {
+		userDoc.arrayAttributes = {};
+	}
+	if (!userDoc.dropdownAttributes) {
+		userDoc.dropdownAttributes = {};
+	}
+	if (!userDoc.stringAttributes) {
+		userDoc.stringAttributes = {};
+	}
+	Object.keys(userDoc.arrayAttributes).forEach(function (key) {
+		userDoc.arrayAttributes[key] = stringToArray(userDoc.arrayAttributes[key]);
+		// use val
+	});
+	var updateUser = N1qlQuery.fromString('UPSERT INTO ' + userBucketName + ' (KEY, VALUE) VALUES ($1, $2)');
+	console.log(updateUser);
+	userBucket.query(updateUser, [userDoc.uuid, userDoc], function (err, result) {
+    	if (err) {
+    		console.log("ERROR IN USERMODEL QUERY: ");
+    		console.log(err);
+    		callback(err, null);
+    		return;
+    	}
+    	console.log('userDoc updated: '+ result);
+    	callback(null, result);
+    });
+};
+
 User.update = function(params, currentDoc, callback) {
 	var currentTime = new Date().toISOString();	
 	var stringToArray = function(anyString) {

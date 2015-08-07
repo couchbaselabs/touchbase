@@ -5,21 +5,21 @@
     <div class="row text-center">
       <img src="icons/touchbaseLogo.png" width="40">
     </div>
-    <h5 class="text-center"> <font color="white">Touchbase | Profile</font> </h5>
+    <h5 class="text-center"> <font color="white">Touchbase | Register</font> </h5>
     <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z4">
         <md-content class="md-padding">
             <div flex-sm="100" flex-gt-sm="80" layout-sm="column">
                 <form name="contactForm" data-ng-submit="registerUser(registerData)">
                   <div layout layout-sm="column">
                     <md-input-container flex>
-                        <label><i class="inbox icon"></i> Email:</label>
+                        <label><i class="inbox icon"></i> Email *:</label>
                         <input type="email" ng-model="registerData.login.email" required name="email" ng-blur="checkEmail(registerData.login.email)">
                         <div ng-messages="contactForm.email.$error" role="alert">
                           <div ng-message="required" ng-hide="!(errors.emailError)">{{errors.emailError}}</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex>
-                        <label><i class="user icon"></i> Name:</label>
+                        <label><i class="user icon"></i> Name *:</label>
                         <input type="text" ng-model="registerData.stringAttributes.name" required name="name" ng-blur="checkName(registerData.stringAttributes.name)">
                         <div ng-messages="contactForm.name.$error" role="alert">
                           <div ng-message="required" ng-hide="!(errors.nameError)">{{errors.nameError}}</div>
@@ -28,14 +28,14 @@
                   </div>
                   <div layout layout-sm="column">
                     <md-input-container flex>
-                        <label><i class="lock icon"></i> Password:</label>
+                        <label><i class="lock icon"></i> Password *:</label>
                         <input type="password" ng-model="registerData.login.password" ng-change="passStrength(registerData.login.password)" ng-blur="passStrength(registerData.login.password)" required>
                         <div ng-messages="contactForm.password.$error" role="alert">
                           <div ng-message="required" ng-hide="!(errors.passwordError)">{{errors.passwordError}}</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex>
-                        <label><i class="lock icon"></i> Confirm Password:</label>
+                        <label><i class="lock icon"></i> Confirm Password *:</label>
                         <input type="password" ng-model="registerData.login.confPassword" ng-blur="checkPass(registerData.login.password, registerData.login.confPassword)" required>
                         <div ng-messages="contactForm.confPassword.$error" role="alert">
                           <div ng-message="required" ng-hide="!(errors.confPasswordError)">{{errors.confPasswordError}}</div>
@@ -91,7 +91,7 @@
  
                     <md-button type="submit" class="md-primary" ng-disable="contactForm.$invalid"
                                ng-class="{'md-raised md-primary': (registerForm.$dirty && registerForm.$valid) }"
-                               aria-label="Save Project">Register</md-button>
+                               aria-label="Save Project">Sign Up</md-button>
                 </form>
                 
                 <!--<md-select ng-model="size" placeholder="Size" class="ng-valid md-default-theme ng-touched ng-dirty ng-valid-parse" tabindex="0" aria-disabled="false" role="combobox" aria-expanded="false" id="select_99" aria-invalid="false" aria-label="Size"><md-select-label class="md-select-label" id="select_label_96"><span>medium (14-inch)</span><span class="md-select-icon" aria-hidden="true"></span></md-select-label></md-select>-->

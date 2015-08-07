@@ -7,23 +7,77 @@
     <md-card>
       <md-card-content>
         <div class="text center">
-          <img class=" img-circle" ng-src="{{myData.users.picSRC}}" width="150" border="3"> <br/>
+          <img class=" img-circle" ng-src="{{myData.picSRC}}" width="150" border="3"> <br/>
           <md-button class="md-accent" href="../#/pictureUpload">Edit/Add Picture</md-button>
-          <h2 class="md-title">{{myData.users.stringAttributes.name}}</h2>
+          <h2 class="md-title">{{myData.stringAttributes.name}}</h2>
         </div>
-        <div layout="column" layout-margin>
-          <p><strong>Email: </strong>{{myData.users.login.email}}</p>
-          <p><strong>Skype: </strong>{{myData.users.stringAttributes.skype}}</p>
-          <p><strong>Job Title: </strong>{{myData.users.stringAttributes.jobTitle}}</p>
-          <p><strong>Base Office: </strong>{{myData.users.dropdownAttributes.baseOffice}}</p>
-          <p><strong>Division: </strong>{{myData.users.dropdownAttributes.division}}</p>
-          <p><strong>Expertise: </strong>{{myData.users.arrayAttributes.expertise}}</p>
-          <p><strong>Hobbies: </strong>{{myData.users.arrayAttributes.hobbies}}</p>
+        <div layout="column" layout-margin ng-if="!update">
+          <p><strong>Email: </strong>{{myData.login.email}}</p>
+          <p><strong>Skype: </strong>{{myData.stringAttributes.skype}}</p>
+          <p><strong>Job Title: </strong>{{myData.stringAttributes.jobTitle}}</p>
+          <p><strong>Base Office: </strong>{{myData.dropdownAttributes.baseOffice}}</p>
+          <p><strong>Division: </strong>{{myData.dropdownAttributes.division}}</p>
+          <p><strong>Expertise: </strong>{{myData.arrayAttributes.expertise}}</p>
+          <p><strong>Hobbies: </strong>{{myData.arrayAttributes.hobbies}}</p>
         </div>
-
+        <div layout="column" layout-margin ng-if="update">
+            <div layout layout-sm="column">
+              <md-input-container flex>
+                  <label><i class="skype icon"></i> Skype:</label>
+                  <input type="text" ng-model="myData.stringAttributes.skype">
+              </md-input-container>
+              <md-input-container flex>
+                  <label><i class="tag icon"></i> Job Title:</label>
+                  <input type="text" ng-model="myData.stringAttributes.jobTitle">
+              </md-input-container>
+            </div>
+            <div layout layout-sm="column"> 
+              <md-input-container flex>
+                <md-select placeholder="Division" ng-model="myData.dropdownAttributes.division">
+                  <md-option>Engineering</md-option>
+                  <md-option>Marketing</md-option>
+                  <md-option>Sales</md-option>
+                  <md-option>Support</md-option>
+                  <md-option>Other Staff</md-option>
+                </md-select>
+              </md-input-container>
+              <md-input-container flex>
+                <md-select placeholder="Base Office" ng-model="myData.dropdownAttributes.baseOffice" tabindex="0" >
+                  <md-option>Mountain View</md-option>
+                  <md-option>San Francisco</md-option>
+                  <md-option>Bangalore</md-option>
+                  <md-option>Manchester</md-option>
+                  <md-option>Other - Remote</md-option>
+                </md-select>
+              </md-input-container>
+            </div>
+            <div layout layout-sm="column">
+              <md-input-container flex>
+                  <label><i class="cubes icon"></i> Expertise: (Comma-separated list - limit 5)</label>
+                  <input type="text" ng-model="myData.arrayAttributes.expertise" ng-blur="checkExpertise(myData.arrayAttributes.expertise)">
+                  <div ng-messages="contactForm.expertise.$error" role="alert">
+                    <div ng-message="required" ng-hide="!(errors.expertiseError)">{{errors.expertiseError}}</div>
+                  </div>
+              </md-input-container>
+            </div>
+            <div layout layout-sm="column">
+              <md-input-container flex>
+                  <label><i class="sun icon"></i> Hobbies: (Comma-separated list - limit 5)</label>
+                  <input type="text" ng-model="myData.arrayAttributes.hobbies" ng-blur="checkHobbies(myData.arrayAttributes.hobbies)">
+                  <div ng-messages="contactForm.email.$error" role="alert">
+                    <div ng-message="required" ng-hide="!(errors.hobbiesError)">{{errors.hobbiesError}}</div>
+                  </div>
+              </md-input-container>
+            </div>
+        </div>
       </md-card-content>
       <div class="md-actions" layout="row" layout-align="center center">
-        <md-button class="md-accent">Edit Profile</md-button>
+        <md-button class="md-accent" ng-if="!update" ng-click="changeUpdate(true)">Edit Profile</md-button>
+      </div>
+      <div class="md-actions" layout="row">
+        <md-button class="md-accent" ng-if="update" ng-click="changeUpdate(false)">Cancel</md-button>
+        <span flex></span>
+        <md-button class="md-primary" ng-if="update" ng-click="updateMyProfile(myData)">Update Profile</md-button>
       </div>
     </md-card>
   </md-content>

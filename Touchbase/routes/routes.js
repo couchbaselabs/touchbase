@@ -186,31 +186,31 @@ var appRouter = function(app) {
         });
     });
 
-    /*app.post("/api/updateUser", Session.Auth, function (req, res, next) {
-        if(!req.body.email) {
+    app.post("/api/updateUser", Session.auth, function (req, res, next) {
+        console.log(req.body);
+        if(!req.body.stringAttributes.name) {
+            return next(JSON.stringify({"status": "error", "message": "A name must be provided"}));
+        }
+        if(!req.body.login.email) {
             return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
         }
         var endsWith = function (str, suffix) {
             return str.indexOf(suffix, str.length - suffix.length) !== -1;
-        }
-        if (!endsWith(req.body.email, 'couchbase.com')) {
+        };
+        if (!endsWith(req.body.login.email, 'couchbase.com')) {
             return next(JSON.stringify({"status": "error", "message": "Email must end with \"couchbase.com\""}));   
         }
-        if(!req.body.name) {
-            return next(JSON.stringify({"status": "error", "message": "A name must be provided"}));
-        }
-        if(!req.body.password) {
+        if(!req.body.login.password) {
             return next(JSON.stringify({"status": "error", "message": "A password must be provided"}));
         }
-        req.body.unchanged.uuid = req.userID;
-        User.update(req.body.changed, req.body.unchanged, function(error, result) {
+        User.newUpdate(req.body, function(error, result) {
             if(error) {
                 return res.status(400).send(error);
             }
             console.log('update worked!');
             res.json(result);
         });
-    });*/
+    });
 
     app.get("/api/emailSearch", function (req, res, next) {
         console.log("in nameSearch Node");

@@ -134,10 +134,11 @@ touchbase.controller('DemoCtrl', function ($timeout, $q, $log, $scope, $http) {
     }
 });
 
-touchbase.controller('profileupdateController', function ($scope, $http, $window) {
+touchbase.controller('profileupdateController', function ($scope, $http, $window, $state) {
 
 	$scope.myData = {};
 	$scope.publishData={};
+	$scope.update = false;
 
 	$scope.getMyProfile = function() {
 		$scope.loading = true;
@@ -147,7 +148,7 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 					console.log('failed');
 				}
 				console.log(result[0]);
-				$scope.myData= result[0];
+				$scope.myData= result[0].users;
 				$scope.loading = false;
 			})
 			.error(function(result) {
@@ -155,14 +156,29 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 			});
 	};
 
-	$scope.updateMyProfile = function() {
-		$http({method: "POST", url: "/api/updateUser", data: $scope.myData , headers:{'Authorization':'Bearer '+localStorage.sessionID}})
+	$scope.changeUpdate = function(bool) {
+		if (bool === true) {
+			$scope.update = true;
+			Object.keys($scope.myData.arrayAttributes).forEach(function (key) {
+			    $scope.myData.arrayAttributes[key] = arrayToString($scope.myData.arrayAttributes[key]);
+			    // use val
+			});
+		}
+		if (bool === false) {
+			$scope.update = false;
+		}
+	}
+
+	$scope.updateMyProfile = function(myData) {
+		myData.picSRC = "";
+		$http({method: "POST", url: "/api/updateUser", data: myData , headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
 				if (result.currentSession==false) {
 					console.log('failed');
 				}
 				console.log(result);
 				console.log('profile updated!');
+				$state.reload();
 			})
 			.error(function(result) {
 				console.log('error in update '+result);
@@ -201,6 +217,56 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 		} else {
 		    console.log("user cancelled post delete");
 		}
+	};
+
+	$scope.checkExpertise = function (someString) {
+		if (!someString) {
+			$scope.errors.expertiseError = "";
+		}
+		else if (stringToArray(someString).length > 5) {
+			$scope.errors.expertiseError = "Please do not enter more than 5 areas of expertise.";
+		}
+		else {
+			$scope.errors.expertiseError = "";
+		}
+	};
+
+	$scope.checkHobbies = function (someString) {
+		if (!someString) {
+			$scope.errors.hobbiesError = "";
+		}
+		else if (stringToArray(someString).length > 5) {
+			$scope.errors.hobbieseError = "Please do not enter more than 5 hobbies.";
+		}
+		else {
+			$scope.errors.expertiseError = "";
+		}
+	};
+
+	var stringToArray = function(anyString) {
+			var tempArray= anyString.split(",");
+			var resultArray=[];
+			for (i=0; i<tempArray.length; i++) {
+				var str = tempArray[i];
+				resultArray[i]= str.trim();
+				if (resultArray[i]=="") {
+					resultArray.splice(i, 1);
+				}
+			}
+			return resultArray;
+	};
+
+	var arrayToString = function (someArray) {
+		var someString = "";
+		for (i=0; i<someArray.length; i++) {
+			if (i === (someArray.length-1)) {
+				someString += (someArray[i]);
+			}
+			else {
+				someString += (someArray[i]+", ");
+			}
+		}
+		return someString;
 	};
 
 });
@@ -486,6 +552,12 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
 					$scope.activeDistinct[i] = 0;
 				}
 			}*/
+				if (timeUnit==='week') {
+					$scope.type= 'Weekly';
+				}
+				else if (timeUnit === 'day') {
+					$scope.type = 'Daily';
+				}
 				$scope.viewData(result);
 				$scope.loading = false;
 				})
@@ -523,7 +595,7 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
           data: $scope.activeTotal
         },*/
         {
-          label: 'Total User Logins',
+          //label: 'Total User Logins',
           fillColor: 'rgba(151,187,205,0.2)',
           strokeColor: 'rgba(151,187,205,1)',
           pointColor: 'rgba(151,187,205,1)',

@@ -1,6 +1,6 @@
 <div ng-controller="statisticsController" ng-init="getGraphData('day')">
 	<style>
-	.tc-chart-js-legend {
+	/*.tc-chart-js-legend {
 	  list-style-type: none;
 	  padding-left: 0px;
 	}
@@ -16,7 +16,7 @@
 	  display:block;
 	  float:left;
 	  margin-right:10px;
-	}
+	}*/
 	</style>
 
 	<div layout="row" layout-sm="column" layout-align="space-around" ng-show="loading">
@@ -25,7 +25,7 @@
 
     <md-content class="md-padding">
 	    <md-card class="md-padding">
-		    <h2 class="md-title text-center">{{type}} Logins</h2>
+		    <h2 class="md-title text-center">{{type}} User Logins</h2>
 		    <div ng-if="!loading">
 		    	<canvas tc-chartjs-line chart-options="options" chart-data="data" auto-legend></canvas>
 		    </div>
