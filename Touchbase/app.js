@@ -4,7 +4,7 @@ var express			= require('express');
 var app 			= express();
 var config 			= require("./config");
 var bodyParser		= require('body-parser');
-var methodOverride 	= require('method-override');
+//var methodOverride 	= require('method-override');
 var morgan 			= require('morgan');
 var multer  		= require('multer');
 var fs 				= require('fs');
@@ -39,7 +39,7 @@ app.use(multer({dest: './uploads/',
 	},
 	limits: {
 	  fieldNameSize: 100,
-	  fileSize: 3000000,
+	  fileSize: 20000000,
 	  files: 1
 	}
 }));

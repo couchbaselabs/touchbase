@@ -205,6 +205,16 @@ signUp.controller('pictureController', function ($scope, $http, $timeout, Croppe
 	* call `angular.element(this).scope().onFile(this.files[0])`
 	* when input's event is fired.
 	*/
+	$scope.errorListen = function() {
+		$http({method: "POST", url: "/api/uploadAttempt"})
+			.success(function(result) {
+				console.log(result.message);
+			})
+			.error(function(result) {
+				alert(result.message);
+			});
+	};
+
 	$scope.getSessionInfo = function () {
 		$scope.sessionInfo.sessionID = localStorage.sessionID;
 		console.log(localStorage.sessionID);

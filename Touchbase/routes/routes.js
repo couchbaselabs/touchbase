@@ -130,7 +130,7 @@ var appRouter = function(app) {
                 return res.status(400).send(error);
             }
             console.log(result);
-            res.redirect('../nav.html');
+            res.send(result);
         });
     });
 

@@ -62,7 +62,7 @@ touchbase.controller('AppCtrl', function ($scope, $mdSidenav){
   };
 });
 
-touchbase.controller('DemoCtrl', function ($timeout, $q, $log, $scope, $http) {
+touchbase.controller('DemoCtrl', function ($timeout, $q, $log, $scope, $http, $window) {
     var self = this;
     self.simulateQuery = false;
     self.isDisabled    = false;
@@ -105,8 +105,8 @@ touchbase.controller('DemoCtrl', function ($timeout, $q, $log, $scope, $http) {
 		console.log($scope.intelliCount.searchTerm);
 		$http({method: "GET", url: "/api/intelligentCount", params: $scope.intelliCount, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
-				if (result.currentSession==false) {
-					console.log('failed');
+				if (result.currentSession===false) {
+					$window.location.href="index.html";
 				}
 				console.log(result);
 				$scope.intelliCount.output = result;
@@ -144,8 +144,8 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 		$scope.loading = true;
 		$http({method: "GET", url: "/api/advancedSearch", params: {'myProfile': true}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
-				if (result.currentSession==false) {
-					console.log('failed');
+				if (result.currentSession===false) {
+					$window.location.href="index.html";
 				}
 				console.log(result[0]);
 				$scope.myData= result[0].users;
@@ -173,8 +173,8 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 		myData.picSRC = "";
 		$http({method: "POST", url: "/api/updateUser", data: myData , headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
-				if (result.currentSession==false) {
-					console.log('failed');
+				if (result.currentSession===false) {
+					$window.location.href="index.html";
 				}
 				console.log(result);
 				console.log('profile updated!');
@@ -189,8 +189,8 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 		$scope.postLoading = true;
 		$http({method: "GET", url: "/api/postSearch", params: {'myProfile': true}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
-				if (result.currentSession==false) {
-					console.log('failed');
+				if (result.currentSession===false) {
+					$window.location.href="index.html";
 				}
 				console.log(result);
 				for (i=0; i<result.length; i++) {
@@ -281,8 +281,8 @@ touchbase.controller('publishController', function ($scope, $http, $window, $mdD
 		postTry.pubType = pubType;
 		$http({method: "POST", url: "/api/publishPost", data: postTry, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
-				if (result.currentSession==false) {
-					console.log('failed');
+				if (result.currentSession===false) {
+					$window.location.href="index.html";
 				}
 				console.log(result);
 			})
@@ -295,8 +295,8 @@ touchbase.controller('publishController', function ($scope, $http, $window, $mdD
 		$scope.loading = true;
 		$http({method: "GET", url: "/api/postSearch", params: {pubType: type}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
-				if (result.currentSession==false) {
-					console.log('failed');
+				if (result.currentSession===false) {
+					$window.location.href="index.html";
 				}
 				console.log(result);
 				for (i=0; i<result.length; i++) {
@@ -347,8 +347,8 @@ function DialogController($scope, $http, $mdDialog) {
 		postTry.pubType = pubType;
 		$http({method: "POST", url: "/api/publishPost", data: postTry, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
-				if (result.currentSession==false) {
-					console.log('failed');
+				if (result.currentSession===false) {
+					$window.location.href="index.html";
 				}
 				console.log(result);
 			})
@@ -391,8 +391,8 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 			console.log($scope.intelliCount.searchTerm);
 			$http({method: "GET", url: "/api/intelligentCount", params: $scope.intelliCount, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 					.success(function (result) {
-						if (result.currentSession==false) {
-							console.log('failed');
+						if (result.currentSession===false) {
+							$window.location.href="index.html";
 						}
 						$scope.intelliCount.output=result;
 						console.log(result);
@@ -412,11 +412,12 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 
 	$scope.advancedSearch = function(string, someField) {
 		var tempObj={};
-		eval("tempObj." + someField + "= \"" + string + "\";");
+		tempObj[someField] = string;
+		console.log(tempObj);
 		$http({method: "GET", url: "/api/advancedSearch", params: tempObj, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
-				if (result.currentSession==false) {
-					console.log('failed');
+				if (result.currentSession===false) {
+					$window.location.href="index.html";
 				}
 				console.log(JSON.stringify(result));
 				$scope.searchData.peopleResults = (result);
@@ -431,8 +432,8 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 		$scope.loading=true;
 		$http({method: "GET", url: "/api/advancedSearch", params: {allUsers: true}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
-				if (result.currentSession==false) {
-					console.log('failed');
+				if (result.currentSession===false) {
+					$window.location.href="index.html";
 				}
 				$scope.searchData.peopleResults = (result);
 				$scope.loading=false;
@@ -488,7 +489,7 @@ function SearchDialogController($scope, $http, $mdDialog) {
 			console.log($scope.intelliCount.searchTerm);
 			$http({method: "GET", url: "/api/intelligentCount", params: $scope.intelliCount, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 					.then(function (result) {
-						$scope.intelliCount.output=result.data;
+						//$scope.intelliCount.output=result.data;
 	    				return result.data;
 	  				});
 				/*
@@ -644,6 +645,8 @@ touchbase.controller('statisticsController', function ($scope, $http, $window) {
 
       //Boolean - Whether to show a stroke for datasets
       datasetStroke : true,
+
+      scaleBeginAtZero: true,
 
       //Number - Pixel width of dataset stroke
       datasetStrokeWidth : 2,

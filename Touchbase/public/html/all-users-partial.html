@@ -3,6 +3,9 @@
 	$('.dropdown-menu').find('input').click(function (e) {
     	e.stopPropagation();
 	});
+	$('.ui.dropdown')
+  	.dropdown()
+	;
 	</script>
 	<style>
 		body {
@@ -30,6 +33,7 @@
 		  position: absolute;
 		  top: 70px;
 		  z-index: 100;
+		  /*width:100%;*/
 		}
 
 		#contained-button {
@@ -37,7 +41,17 @@
 			top:7px;
 			right: 2px;
 		}
+
+		#contained-button2 {
+			position: absolute;
+			top:7px;
+			right: 63px;
+		}
 	</style>
+	<!--<md-autocomplete md-selected-item="selectedItem" ng-init="advancedSearch('','name')"md-selected-item-change="advancedSearch(searchText,selectedItem)" md-search-text="searchText" md-search-text-change="intelligentCount(searchText)" md-items="countResult in intelliCount.output" md-item-text="countResult.field" md-min-length="0" placeholder="Search users/attributes ..." md-no-cache="true">
++	  <span md-highlight-text="searchText">{{countResult.field}} - {{countResult.count}}</span>
++	</md-autocomplete>
++	<br/>-->
     <div id="containment">
     	<div layout layout-sm="column">
 		    <md-input-container flex>
@@ -47,6 +61,11 @@
 			<span class = "btn-floating btn-large md-primary" ng-click="getAllUsers()" style="white-space:nowrap;" id="contained-button">
 	        	<i class="users icon"></i>
 	     	</span>
+	     	<!--<div class="floating dropdown button">
+	     	<span class = "btn-floating btn-large" style="white-space:nowrap;background-color:#C62828" id="contained-button2">
+	        	<i class="filter icon"></i>
+	     	</span>
+	     	</div>-->
 		</div>
 	    <div id="contained" ng-if="!searchHide">
 	    	<md-whiteframe class="md-whiteframe-z4" layout layout-align="center center" style="background:#ffffff;">
@@ -58,13 +77,13 @@
 							  <md-item-content md-ink-ripple layout="column">
 							    <div class="md-list-item-text">
 								    <strong flex="66">{{countResult.field}}</strong>
-								    <span flex></span>
-								    <strong flex>{{countResult.count}}</strong>
+								    <span>&nbsp;</span>
+								    <strong>:: {{countResult.count}}</strong>
 							    </div>
 							  </md-item-content>
 							</div>
 						</md-list-item>
-					<md-divider ng-if="!$last"></md-divider>
+					<md-divider ng-if="!$last" style="width:100$"></md-divider>
 					</div>
 				</md-list>
 			</span>

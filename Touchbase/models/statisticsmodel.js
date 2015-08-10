@@ -12,6 +12,7 @@ var N1qlQuery 			= require('couchbase').N1qlQuery;
 
 function Statistics() { };
 
+/*
 Statistics.graph = function(callback) {
 	// time unit is either days(for a week), or 'hours' (for a day)
 	var graphObj = {'xWeek':[], 'weekTotal':[], 'weekDistinct':[], 'xDay':[], 'dayTotal':[], 'dayDistinct':[]};
@@ -113,7 +114,7 @@ Statistics.graph = function(callback) {
  		callback(null, graphObj);
  	});
 };
-
+*/
 
 Statistics.newGraph = function (timeUnit, callback) {
 	var graphObj = {};

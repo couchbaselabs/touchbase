@@ -60,6 +60,7 @@ User.create = function(params, callback) {
     	// should add a type here, ex. type: "user"
     	uuid: uuid.v4(),
         login: {
+        	type: "user",
 	        email: params.login.email,
 	        password: forge.md.sha1.create().update(params.login.password).digest().toHex(),
 	        administrator: false,
@@ -145,6 +146,7 @@ User.newUpdate = function (userDoc, callback) {
     });
 };
 
+/*
 User.update = function(params, currentDoc, callback) {
 	var currentTime = new Date().toISOString();	
 	var stringToArray = function(anyString) {
@@ -206,6 +208,7 @@ User.update = function(params, currentDoc, callback) {
     	callback(null, {message: "success", data: result, userID: userDocUpdate.uuid});
     });
 };
+*/
 
 User.searchByEmail = function (params, callback) {
 	var searchUsers = N1qlQuery.fromString('SELECT login.email FROM ' + userBucketName + ' WHERE LOWER(login.email) LIKE LOWER($1)');
@@ -245,8 +248,8 @@ User.addLoginTime = function(userID, callback) {
 User.advancedSearch = function(params, callback) {
 	/*var email, name, administrator, hobbies, expertise, division, title, baseOffice, userID;
 	name = administrator = hobbies = expertise = division = title = baseOffice = userID =""; */
-	var advancedQuery = ('SELECT * FROM ' + userBucketName + ' WHERE `e703eab0-3740-424b-8bd3-03ae4ca909df` IS MISSING ');
-	var stringToArray = function(anyString) {
+	var advancedQuery = ('SELECT * FROM ' + userBucketName + ' WHERE login.type="user" ');
+	/*var stringToArray = function(anyString) {
 			var tempArray=anyString.split(",");
 			var resultArray=[];
 			for (i=0; i<tempArray.length; i++) {
@@ -257,12 +260,33 @@ User.advancedSearch = function(params, callback) {
 				}
 			}
 			return resultArray;
+	}*/
+	if (params.userID) {
+		advancedQuery += ("AND uuid = \"" + params.userID + "\" ");
 	}
-	// create the parts of the file you need, using a for loop in the script, and use += to add them to advancedQuery
 	if (params.email) {
 		advancedQuery += ("AND LOWER(login.email) LIKE LOWER(\"%" + params.email + "%\") ");
 	}
 	if (params.administrator) {
+		advancedQuery += ("AND login.administrator = true ");
+	}
+	for (i=0; i<stringAttributes.length;i++) {
+		if (params[stringAttributes[i]]) {
+			advancedQuery += ("AND LOWER(stringAttributes."+stringAttributes[i]+") LIKE LOWER (\"%" + params[stringAttributes[i]] + "%\") ");
+		}
+	}
+	for (j=0; j<arrayAttributes.length; j++) {
+		if (params[arrayAttributes[j]]) {
+			advancedQuery += ("AND ANY blah IN " + userBucketName + ".arrayAttributes." + arrayAttributes[j] + " SATISFIES LOWER(blah) LIKE LOWER(\"%" + params[arrayAttributes[j]] + "%\") END ");
+		}
+	}
+	for (k=0; k<dropdownAttributes.length; k++) {
+		if (params[dropdownAttributes[k]]) {
+			advancedQuery += ("AND dropdownAttributes."+dropdownAttributes[k]+" = \"" + params[dropdownAttributes[k]] + "\" ");
+		}
+	}
+	// create the parts of the file you need, using a for loop in the script, and use += to add them to advancedQuery
+	/*if (params.administrator) {
 		advancedQuery += ("AND login.administrator = true ");
 	}
 	if (params.name) {
@@ -294,9 +318,7 @@ User.advancedSearch = function(params, callback) {
 	if (params.baseOffice) {
 		advancedQuery += ("AND dropdownAttributes.baseOffice = \"" + params.baseOffice + "\" ");
 	}
-	if (params.userID) {
-		advancedQuery += ("AND uuid = \"" + params.userID + "\" ");
-	}
+	*/
 	// var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice + " " + userID);
 	if (params.loginAuth) {
 		advancedQuery+= "ORDER BY stringAttributes.name";

@@ -37,64 +37,78 @@ function Picture() { };
 Picture.attempt = function(userID, params, fileInfo, callback) {
 	if (!fileInfo) {
 		return callback(null, 'blah');
-	}
+	}/*
 	if (fileInfo.extension != 'png' && fileInfo.extension != 'jpg' && fileInfo.extension != 'jpeg' && fileInfo.extension != 'gif') {
 		return callback(null, {status: 400, message: "ERROR: please use a valid image format (jpg, jpeg, png, gif)"});
-	}
+	}*/
 	// check mimetype instead
 	// check with GM NOT multer
 	var cropDim = JSON.parse(params.cropDim);
 	console.log(cropDim);
 	if(done==true) {
-		if (fileInfo.size >= 3000000) {
-			return callback(null, {status: "error", message: "picture too large, was not uploaded"});
-		}
-		gm(fileInfo.path)
-			.format(function(err, value) {
+		if (fileInfo.size >= 5000000) {
+			fs.unlink(fileInfo.path, function (err) {
 				if (err) {
-					return callback(err, null);
+				  	return callback(err, null);
 				}
-				else if(value.toLowerCase() != 'png' && value.toLowerCase() != 'jpg' && value.toLowerCase() != 'jpeg' && value.toLowerCase() != 'gif') {
-					return callback(null, {status: "error", message: "ERROR: please use a valid image format (jpg, jpeg, png, gif)"});
-				}
-				console.log(value);
-			})
-			.crop(cropDim.width, cropDim.height, cropDim.x, cropDim.y)
-			.scale(200, 200)
-			.quality(50)
-			.write(fileInfo.path, function(error) {
-				if(error) {
-					console.log(error);
-					return;
-				}
-				
-		    	fs.readFile(fileInfo.path, function(error, data) {
-		    		if(error) {
-		    			return callback(error, null);
-		    		}
-		    		var base64data = new Buffer(data, 'binary').toString('base64');
-		    		pictureBucket.upsert((userID+"_picMulterNode"), base64data, function(issue, resultz) {
-		    			if(issue) {
-		    				return callback(issue, null);
-		    			}
-		    			fs.unlink(fileInfo.path, function (err) {
+				console.log('deleted file that was too large: '+fileInfo.size);
+				return callback({status: "error", message: "Picture was too large; not uploaded. Please try again."}, null);
+			});
+		}
+		else {
+			gm(fileInfo.path)
+				.format(function(err, value) {
+					if (err) {
+						return callback(err, null);
+					}
+					else if(value.toLowerCase() != 'png' && value.toLowerCase() != 'jpg' && value.toLowerCase() != 'jpeg' && value.toLowerCase() != 'gif') {
+						fs.unlink(fileInfo.path, function (err) {
 							if (err) {
 							  	return callback(err, null);
 							}
-							console.log('successfully deleted /tmp/hello');
-							var updateUserhasPic = N1qlQuery.fromString('UPDATE '+userBucketName+' SET login.hasPicture = true WHERE uuid=$1');
-							console.log(userID);
-							userBucket.query(updateUserhasPic, [userID], function(error, result) {
-								if (error) {
-									console.log(error);
-									return;
-								}
-							});
+							console.log('deleted file that was of wrong format: '+value);
+							return callback({status: "error", message: "Please use a valid image format (jpg, jpeg, png, gif)."}, null);
 						});
-		    			callback(null, {message: "success", data: resultz});
-		    		});
-		    	});
-		});
+					}
+					console.log(value);
+				})
+				.crop(cropDim.width, cropDim.height, cropDim.x, cropDim.y)
+				.scale(200, 200)
+				.quality(50)
+				.write(fileInfo.path, function(error) {
+					if(error) {
+						console.log(error);
+						return;
+					}
+					
+			    	fs.readFile(fileInfo.path, function(error, data) {
+			    		if(error) {
+			    			return callback(error, null);
+			    		}
+			    		var base64data = new Buffer(data, 'binary').toString('base64');
+			    		pictureBucket.upsert((userID+"_picMulterNode"), base64data, function(issue, resultz) {
+			    			if(issue) {
+			    				return callback(issue, null);
+			    			}
+			    			fs.unlink(fileInfo.path, function (err) {
+								if (err) {
+								  	return callback(err, null);
+								}
+								console.log('successfully deleted /tmp/hello');
+								var updateUserhasPic = N1qlQuery.fromString('UPDATE '+userBucketName+' SET login.hasPicture = true WHERE uuid=$1');
+								console.log(userID);
+								userBucket.query(updateUserhasPic, [userID], function(error, result) {
+									if (error) {
+										console.log(error);
+										return;
+									}
+									console.log({message: "success", data: resultz});
+								});
+							});
+			    		});
+			    	});
+			});
+		}
   	}
 };
 
