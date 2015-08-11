@@ -46,7 +46,7 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 	var cropDim = JSON.parse(params.cropDim);
 	console.log(cropDim);
 	if(done==true) {
-		if (fileInfo.size >= 5000000) {
+		if (fileInfo.size >= 7500000) {
 			fs.unlink(fileInfo.path, function (err) {
 				if (err) {
 				  	return callback(err, null);

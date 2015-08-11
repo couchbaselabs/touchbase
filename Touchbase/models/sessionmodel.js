@@ -3,7 +3,6 @@ var forge 				= require("node-forge");
 var userBucket			= require("../app").userBucket;
 var userBucketName		= require("../config").couchbase.userBucket;
 var N1qlQuery 			= require('couchbase').N1qlQuery;
-var async      			= require("async");
 var nodemailer			= require("nodemailer");
 var sgTransport 		= require('nodemailer-sendgrid-transport');
 var Email 				= require("./emailmodel");

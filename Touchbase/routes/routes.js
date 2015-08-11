@@ -213,7 +213,7 @@ var appRouter = function(app) {
     });
 
     app.get("/api/emailSearch", function (req, res, next) {
-        console.log("in nameSearch Node");
+        console.log("in emailSearch Node");
         if (!req.query.email) {
             console.log("no req.query.email recognized");
             return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
