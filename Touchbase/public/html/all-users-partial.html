@@ -47,11 +47,18 @@
 			top:7px;
 			right: 63px;
 		}
+		.circular {
+			width: 150px;
+			height: 150px;
+			border-radius: 75px;
+			-webkit-border-radius: 75px;
+			-moz-border-radius: 75px;
+		}
 	</style>
-	<!--<md-autocomplete md-selected-item="selectedItem" ng-init="advancedSearch('','name')"md-selected-item-change="advancedSearch(searchText,selectedItem)" md-search-text="searchText" md-search-text-change="intelligentCount(searchText)" md-items="countResult in intelliCount.output" md-item-text="countResult.field" md-min-length="0" placeholder="Search users/attributes ..." md-no-cache="true">
-+	  <span md-highlight-text="searchText">{{countResult.field}} - {{countResult.count}}</span>
-+	</md-autocomplete>
-+	<br/>-->
+	<!--<md-autocomplete md-selected-item="selectedItem" ng-init="advancedSearch('','name')" md-selected-item-change="advancedSearch(searchText,selectedItem)" md-search-text="searchText" md-search-text-change="intelligentCount(searchText)" md-items="countResult in intelliCount.output" md-item-text="countResult.field" md-min-length="0" placeholder="Search users/attributes ..." md-no-cache="true">
+	  <span md-highlight-text="searchText">{{countResult.field}} - {{countResult.count}}</span>
+	</md-autocomplete>
+	<br/>-->
     <div id="containment">
     	<div layout layout-sm="column">
 		    <md-input-container flex>
@@ -83,7 +90,7 @@
 							  </md-item-content>
 							</div>
 						</md-list-item>
-					<md-divider ng-if="!$last" style="width:100$"></md-divider>
+					<md-divider ng-if="!$last" style="width:100%"></md-divider>
 					</div>
 				</md-list>
 			</span>
@@ -102,7 +109,7 @@
 	 			</span>
 	 			<br/>
 	 			<div class="text center activator waves-effect waves-block waves-light">
-			    	<img class="activator img-circle" ng-src="{{person.users.picSRC}}" width="150" border="3">
+			    	<img class="activator circular" ng-src="{{person.users.picSRC}}" width="150" border="3">
 			    <div class="card-content waves-effect waves-block waves-light">
 			      <span class="card-title grey-text text-darken-4">{{person.users.stringAttributes.name}}</span>
 			      <p>{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>

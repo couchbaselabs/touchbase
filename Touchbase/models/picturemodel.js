@@ -72,9 +72,10 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 					}
 					console.log(value);
 				})
+				.autoOrient()
 				.crop(cropDim.width, cropDim.height, cropDim.x, cropDim.y)
 				.scale(200, 200)
-				.quality(50)
+				.quality(80)
 				.write(fileInfo.path, function(error) {
 					if(error) {
 						console.log(error);
@@ -102,7 +103,7 @@ Picture.attempt = function(userID, params, fileInfo, callback) {
 										console.log(error);
 										return;
 									}
-									console.log({message: "success", data: resultz});
+									callback(null, {message: "success", data: resultz});
 								});
 							});
 			    		});

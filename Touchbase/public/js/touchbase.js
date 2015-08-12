@@ -77,6 +77,10 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 				}
 				console.log(result[0]);
 				$scope.myData= result[0].users;
+				Object.keys($scope.myData.arrayAttributes).forEach(function (key) {
+				    $scope.myData.arrayAttributes[key] = arrayToString($scope.myData.arrayAttributes[key]);
+				    // use val
+				});
 				$scope.loading = false;
 			})
 			.error(function(result) {
@@ -87,10 +91,10 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 	$scope.changeUpdate = function(bool) {
 		if (bool === true) {
 			$scope.update = true;
-			Object.keys($scope.myData.arrayAttributes).forEach(function (key) {
+			/*Object.keys($scope.myData.arrayAttributes).forEach(function (key) {
 			    $scope.myData.arrayAttributes[key] = arrayToString($scope.myData.arrayAttributes[key]);
 			    // use val
-			});
+			});*/
 		}
 		if (bool === false) {
 			$scope.update = false;
@@ -316,11 +320,6 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 	  				.error (function(result) {
 	  					console.log(result);
 	  				});
-				/*
-				.then(function(result) {
-					console.log(result.data);
-					return (result.data);
-				});*/
 		}
 
 	};
@@ -343,6 +342,20 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 			});
 	};
 
+	var arrayToString = function (someArray) {
+		var someString = "";
+		for (i=0; i<someArray.length; i++) {
+			if (i === (someArray.length - 1)) {
+				someString += (someArray[i]);
+			}
+			else {
+				someString += (someArray[i]+", ");
+			}
+		}
+		console.log(someString);
+		return someString;
+	};
+
 	$scope.getAllUsers = function() {
 		$scope.loading=true;
 		$http({method: "GET", url: "/api/advancedSearch", params: {allUsers: true}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
@@ -350,7 +363,30 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 				if (result.currentSession===false) {
 					$window.location.href="index.html";
 				}
+				console.log(result);
+				/*console.log(result.length);
+				console.log(result[0].users);
+				for (i=0; i<result.length; i++) {
+					console.log(i);
+					console.log(result[i].users.arrayAttributes);
+					if (result[i].users.arrayAttributes) {
+						Object.keys(result[i].users.arrayAttributes).forEach(function (key) {
+							if (result[i].users.arrayAttributes.hasOwnProperty(key)) {
+						    	result[i].users.arrayAttributes[key] = arrayToString(result[i].users.arrayAttributes[key]);
+						    	console.log(key);
+						    	// use val
+						    	if (i === result.length -1) {
+						    		$scope.searchData.peopleResults = (result);
+						    	}
+						    }
+						});
+					}
+				}*/
 				$scope.searchData.peopleResults = (result);
+				/*Object.keys($scope.myData.arrayAttributes).forEach(function (key) {
+				    $scope.myData.arrayAttributes[key] = arrayToString($scope.myData.arrayAttributes[key]);
+				    // use val
+				});*/
 				$scope.loading=false;
 			})
 			.error(function(result) {

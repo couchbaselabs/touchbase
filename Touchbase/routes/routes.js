@@ -125,12 +125,12 @@ var appRouter = function(app) {
                 return res.status(400).send(error);
             }*/
         console.log(req.userID);
-        Picture.attempt (req.userID, req.body, req.files.userPhoto, function(error, result) {
+        Picture.attempt (req.userID, req.body, req.files.userPhoto, function (error, result) {
             if (error) {
                 return res.status(400).send(error);
             }
             console.log(result);
-            res.send(result);
+            res.redirect('../nav.html');
         });
     });
 
