@@ -31,7 +31,7 @@
 
 		#contained {
 		  position: absolute;
-		  top: 70px;
+		  top: 72px;
 		  z-index: 100;
 		  /*width:100%;*/
 		}
@@ -82,10 +82,10 @@
 						<md-list-item>
 							<div ng-click="advancedSearch(searchText, countResult.field); searchHide();">
 							  <md-item-content md-ink-ripple layout="column">
-							    <div class="md-list-item-text">
-								    <strong flex="66">{{countResult.field}}</strong>
-								    <span>&nbsp;</span>
-								    <strong>:: {{countResult.count}}</strong>
+							    <div class="md-list-item-text" style="width:250px">
+								    <span><strong>{{countResult.field}}</strong></span>
+								    <span flex></span>
+								    <span style="float:right"><strong> count :: {{countResult.count}}</strong></span>
 							    </div>
 							  </md-item-content>
 							</div>

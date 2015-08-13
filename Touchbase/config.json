@@ -5,5 +5,21 @@
         "pictureBucket": "users_pictures",
         "publishBucket": "users_publishments",
         "TouchbasePort": 3000
+    },
+    "dataModel": {
+    	"projectName": "Touchbase",
+		"arrayVars" : ["Expertise","Hobbies"],
+		"stringVars": ["Name","Job Title","Email", "Skype"],
+		"dropDownVars": [
+			{
+				"varname": "Base Office",
+				"options": ["Mountain View","San Francisco","Bangalore","Manchester","Other - Remote"]
+			},
+			{
+				"varname": "Division",
+				"options": ["Engineering","Sales","Marketing","Support","Other Staff"]
+			}
+		],
+		"pubTypes": ["Github", "Couchbase in the News"]
     }
 }

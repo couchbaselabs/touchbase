@@ -371,14 +371,12 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 					console.log(result[i].users.arrayAttributes);
 					if (result[i].users.arrayAttributes) {
 						Object.keys(result[i].users.arrayAttributes).forEach(function (key) {
-							if (result[i].users.arrayAttributes.hasOwnProperty(key)) {
 						    	result[i].users.arrayAttributes[key] = arrayToString(result[i].users.arrayAttributes[key]);
 						    	console.log(key);
 						    	// use val
 						    	if (i === result.length -1) {
 						    		$scope.searchData.peopleResults = (result);
 						    	}
-						    }
 						});
 					}
 				}*/

@@ -223,12 +223,7 @@ User.searchByEmail = function (params, callback) {
 };
 
 User.validatePassword = function(rawPassword, hashedPassword) {
-    if (forge.md.sha1.create().update(rawPassword).digest().toHex() === hashedPassword) {
-    	return true;
-    }
-    else {
-    	return false;
-    }
+    return (forge.md.sha1.create().update(rawPassword).digest().toHex() === hashedPassword); 
 };
 
 User.addLoginTime = function(userID, callback) {
