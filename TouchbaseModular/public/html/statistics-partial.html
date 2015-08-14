@@ -1,0 +1,42 @@
+<div ng-controller="statisticsController" ng-init="getGraphData('day')">
+	<style>
+	/*.tc-chart-js-legend {
+	  list-style-type: none;
+	  padding-left: 0px;
+	}
+	.tc-chart-js-legend li {
+	  display: block;
+	  float: left;
+	  clear:both;
+	  padding:10px;
+	}
+	.tc-chart-js-legend li span {
+	  width:25px;
+	  height:25px;
+	  display:block;
+	  float:left;
+	  margin-right:10px;
+	}*/
+	</style>
+
+	<div layout="row" layout-sm="column" layout-align="space-around" ng-show="loading">
+    	<md-progress-circular class="md-primary" md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <md-content class="md-padding">
+	    <md-card class="md-padding">
+		    <h2 class="md-title text-center">{{type}} User Logins</h2>
+		    <div ng-if="!loading">
+		    	<canvas tc-chartjs-line chart-options="options" chart-data="data" auto-legend></canvas>
+		    </div>
+		      <md-card-content>
+		      </md-card-content>
+		      <div class="md-actions" layout="row" layout-align="end center">
+		        <md-button class="md-primary" ng-click="getGraphData('day')">Daily View</md-button>
+		        <md-button class="md-primary" ng-click="getGraphData('week')">Weekly View</md-button>
+		      </div>
+	    </md-card>
+	</md-content>
+
+
+</div>

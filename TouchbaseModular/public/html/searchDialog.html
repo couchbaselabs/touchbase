@@ -1,0 +1,30 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Intelligent Search</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="icons/ic_clear_black_24px.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+  <md-input-container >
+      <!-- Use floating label instead of placeholder -->
+      <label><i class="search icon"></i>Search</label>
+      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)">
+  </md-input-container>
+  <md-list>
+    <md-list-item ng-repeat="countResult in intelliCount.output" ng-click="advancedSearch(countResult.field)">
+      <span class="text left">{{countResult.field}}</span><span class="text right">{{countResult.count}}</span>
+    </md-list-item>
+  </md-list>
+    <span flex></span>
+    <div>
+    <md-button ng-click="cancel()" class="md-primary">
+     Cancel
+    </md-button>
+    </div>
+    </form>
+  </md-dialog-content>
+</md-dialog>

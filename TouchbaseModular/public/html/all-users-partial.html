@@ -1,0 +1,144 @@
+<div ng-controller="searchController" ng-init="getAllUsers()">
+	<script>
+	$('.dropdown-menu').find('input').click(function (e) {
+    	e.stopPropagation();
+	});
+	$('.ui.dropdown')
+  	.dropdown()
+	;
+	</script>
+	<style>
+		body {
+		    position: relative
+		}
+		#aFloat {
+		z-index: 1000;
+		position: absolute;
+
+		width: 200px;
+		height: 100px;
+
+		background-color: grey;
+		color: white;
+		}
+
+
+
+		#containment {
+  			position: relative;
+  			z-index: 100;
+		}
+
+		#contained {
+		  position: absolute;
+		  top: 72px;
+		  z-index: 100;
+		  /*width:100%;*/
+		}
+
+		#contained-button {
+			position: absolute;
+			top:7px;
+			right: 2px;
+		}
+
+		#contained-button2 {
+			position: absolute;
+			top:7px;
+			right: 63px;
+		}
+		.circular {
+			width: 150px;
+			height: 150px;
+			border-radius: 75px;
+			-webkit-border-radius: 75px;
+			-moz-border-radius: 75px;
+		}
+	</style>
+	<!--<md-autocomplete md-selected-item="selectedItem" ng-init="advancedSearch('','name')" md-selected-item-change="advancedSearch(searchText,selectedItem)" md-search-text="searchText" md-search-text-change="intelligentCount(searchText)" md-items="countResult in intelliCount.output" md-item-text="countResult.field" md-min-length="0" placeholder="Search users/attributes ..." md-no-cache="true">
+	  <span md-highlight-text="searchText">{{countResult.field}} - {{countResult.count}}</span>
+	</md-autocomplete>
+	<br/>-->
+    <div id="containment">
+    	<div layout layout-sm="column">
+		    <md-input-container flex>
+		      <label><i class="search icon"></i>Search</label>
+		      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)" data-toggle="dropdown">
+		    </md-input-container>
+			<span class = "btn-floating btn-large md-primary" ng-click="getAllUsers()" style="white-space:nowrap;" id="contained-button">
+	        	<i class="users icon"></i>
+	     	</span>
+	     	<!--<div class="floating dropdown button">
+	     	<span class = "btn-floating btn-large" style="white-space:nowrap;background-color:#C62828" id="contained-button2">
+	        	<i class="filter icon"></i>
+	     	</span>
+	     	</div>-->
+		</div>
+	    <div id="contained" ng-if="!searchHide">
+	    	<md-whiteframe class="md-whiteframe-z4" layout layout-align="center center" style="background:#ffffff;">
+	    	<span>
+				<md-list>
+					<div ng-repeat="countResult in intelliCount.output">
+						<md-list-item>
+							<div ng-click="advancedSearch(searchText, countResult.field); searchHide();">
+							  <md-item-content md-ink-ripple layout="column">
+							    <div class="md-list-item-text" style="width:250px">
+								    <span><strong>{{countResult.field}}</strong></span>
+								    <span flex></span>
+								    <span style="float:right" ng-if="countResult.count"><strong> count :: {{countResult.count}}</strong></span>
+							    </div>
+							  </md-item-content>
+							</div>
+						</md-list-item>
+					<md-divider ng-if="!$last" style="width:100%"></md-divider>
+					</div>
+				</md-list>
+			</span>
+			</md-whiteframe>
+		</div>
+	</div>
+    <div layout="row" layout-sm="column" layout-align="space-around" ng-show="loading">
+    	<md-progress-circular class="md-primary" md-mode="indeterminate"></md-progress-circular>
+    </div>
+	
+ 	<div ng-repeat="person in searchData.peopleResults track by $index">
+ 		<div class="col-sm-4">
+	 		<div class="card small" style="z-index: 10;">
+	 			<span class= "text right">
+	 				<i class="plus icon activator"></i>
+	 			</span>
+	 			<br/>
+	 			<div class="text center activator waves-effect waves-block waves-light">
+			    	<img class="activator circular" ng-src="{{person.users.picSRC}}" width="150" border="3">
+			    <div class="card-content waves-effect waves-block waves-light">
+			      <span class="card-title grey-text text-darken-4">{{person.users.stringAttributes.name}}</span>
+			      <p>{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
+			      <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
+			      <p><a ng-href="mailto:{{person.users.login.email}}?subject=Hello!">{{person.users.login.email}}</a></p>
+			    </div>
+			</div>
+			    <div class="card-reveal">
+	 			  <div class="text-center">
+				      <div class="card-title grey-text text-darken-4">{{person.users.stringAttributes.name}}</div>
+				      <br/>
+				      <div ng-repeat="attribute in dataModel.stringAttributes" ng-if="person.users.stringAttributes[attribute]">
+				      	<strong>{{attribute}} :  </strong>{{person.users.stringAttributes[attribute]}}
+				      </div>
+				      <div ng-repeat="attribute in dataModel.arrayAttributes" ng-if="person.users.arrayAttributes[attribute]">
+				      	<strong>{{attribute}} :  </strong>{{person.users.arrayAttributes[attribute]}}
+				      </div>
+				      <div ng-repeat="attribute in dataModel.dropdownAttributes" ng-if="person.users.dropdownAttributes[attribute.varname]">
+				      	<strong>{{attribute.varname}} :  </strong>{{person.users.dropdownAttributes[attribute.varname]}}
+				      </div>
+				      <!--<p ng-if="person.users.dropdownAttributes.division || person.users.dropdownAttributes.baseOffice">{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
+				      <p ><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
+				      <p ng-if="person.users.stringAttributes.skype"> Skype: {{person.users.stringAttributes.skype}}</p>
+				      <p ng-if="person.users.arrayAttributes.hobbies">Hobbies: {{person.users.arrayAttributes.hobbies}}</p>
+				      <p ng-if="person.users.arrayAttributes.expertise">Expertise: {{person.users.arrayAttributes.expertise}}</p>-->
+				      <p><a ng-href="mailto:{{person.users.login.email}}?subject=Hello!">{{person.users.login.email}}</a></p>
+				  </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,268 @@
+<script type="text/javascript">
+  $(document)
+      .ready(function() {
+        $("#upload").on("click", function() {
+          $('#hidde-new-file').click(); 
+      });
+        $("#divFinal").on("click", function() {
+          $('#hidde-final').click();
+      });
+    });
+</script>
+<style>
+.button {
+      display: inline-block;
+      position: relative;
+      width: 120px;
+      height: 32px;
+      line-height: 32px;
+      border-radius: 2px;
+      font-size: 0.9em;
+      background-color: #fff;
+      color: #646464;
+    }
+    
+    .button > paper-ripple {
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    
+    .button.narrow {
+      width: 60px;
+    }
+    
+    .button.grey {
+      background-color: #eee;
+    }
+    
+    .button.blue {
+      background-color: #4285f4;
+      color: #fff;
+    }
+    
+    .button.red {
+      background-color: #C62828;
+      color: #fff;
+    }
+    
+    .button.raised {
+      transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: 0.2s;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    }
+    
+    .button.raised:active {
+      box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+      transition-delay: 0s;
+    }
+    
+    /* Icon Button */
+    .icon-button {
+      position: relative;
+      display: inline-block;
+      width: 56px;
+      height: 56px;
+    }
+    
+    .icon-button > core-icon {
+      margin: 16px;
+      transition: -webkit-transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .icon-button:hover > core-icon {
+      -webkit-transform: scale(1.2);
+      transform: scale(1.2);
+    }
+    
+    .icon-button > paper-ripple {
+      overflow: hidden;
+      color: #646464;
+    }
+    
+    .icon-button.red > core-icon::shadow path {
+      fill: #C62828;
+    }
+    
+    .icon-button.red > paper-ripple {
+      color: #C62828;
+    }
+    
+    .icon-button.blue > core-icon::shadow path {
+      fill: #4285f4;
+    }
+    
+    .icon-button.blue > paper-ripple {
+      color: #4285f4;
+    }
+    
+    /* FAB */
+    .fab {
+      position: relative;
+      display: inline-block;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      color: #fff;
+      overflow: hidden;
+      transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: 0.2s;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    }
+    
+    .fab.red {
+      background-color: #C62828;
+    }
+    
+    .fab.blue {
+      background-color: #4285f4;
+    }
+    
+    .fab.green {
+      background-color: #0f9d58;
+    }
+    
+    .fab:active {
+      box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+      transition-delay: 0s;
+    }
+    
+    .fab > core-icon {
+      margin: 16px;
+    }
+    
+    .fab > core-icon::shadow path {
+      fill: #fff;
+    }
+    
+    /* Menu */
+    .menu {
+      display: inline-block;
+      width: 180px;
+      background-color: #fff;
+      box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .item {
+      position: relative;
+      height: 48px;
+      line-height: 48px;
+      color: #646464;
+      font-size: 0.9em;
+    }
+    
+    .menu.blue > .item {
+      color: #4285f4;
+    }
+    
+    /* Card, Dialog */
+    .card, .dialog {
+      position: relative;
+      display: inline-block;
+      width: 300px;
+      height: 240px;
+      vertical-align: top;
+      background-color: #fff;
+      box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
+    }
+    
+    .dialog {
+      box-sizing: border-box;
+      padding: 16px;
+    }
+    
+    .dialog > .content {
+      height: 170px;
+      font-size: 0.9em;
+    }
+    
+    .dialog > .content > .title {
+      font-size: 1.3em;
+    }
+    
+    .dialog > .button {
+      width: 90px;
+      float: right;
+    }
+    
+    .card.image {
+      background: url(http://lorempixel.com/300/240/nature/);
+      color: #fff;
+    }
+    
+    /* Misc */
+    .center {
+      text-align: center;
+    }
+    
+    .label {
+      padding: 0 16px;
+    }
+    
+    .label-blue {
+      color: #4285f4; 
+    }
+    
+    .label-red {
+      color: #C62828; 
+    }
+</style>
+
+<div ng-controller="pictureController" ng-init="getSessionInfo()">
+  <div class="vertical-center">
+    <div class="container">
+    <div class="row text-center">
+      <img src="icons/touchbaseLogo.png" width="40">
+    </div>
+    <h5 class="text-center"> <font color="white">Touchbase | Picture Upload</font> </h5>
+    <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z2">
+        <md-content class="md-padding">
+          <br/>
+          <form name="uploadForm" id = "uploadForm" action="/api/uploadAttempt" method="post" enctype="multipart/form-data">
+            <div class="text-center">
+              <div id="upload" style="background-color:#C62828" class="button raised" md-ink-ripple><i class="inverted crop icon"></i><font color="white">SELECT PIC</font></div>
+              <br/>
+            Limit 7.5MB
+            </div>
+            <br/>
+            <input type="file" onchange="angular.element(this).scope().onFile(this.files[0])" id="hidde-new-file" name="userPhoto" value="Grey Button" accept="image/*" style="display: none" required/>
+
+            <div ng-if="dataUrl" class="img-container">
+              <img ng-if="dataUrl" ng-src="{{dataUrl}}" width="300"
+                   ng-cropper
+                   ng-cropper-show="showEvent"
+                   ng-cropper-hide="hideEvent"
+                   ng-cropper-options="options">
+            </div>
+            <br />
+            <br />
+            <div ng-if="!dataUrl">
+              <br/>
+              <br/>
+              <br/>
+              <br/>
+            </div>
+            <div class="preview-container">
+              <img ng-if="preview.dataUrl" ng-src="{{preview.dataUrl}}">
+            </div>
+
+            <div layout="row" layout-align="center center">
+              <md-button type="button" class="md-raised grey" href="nav.html">Cancel</md-button>
+              <input type="hidden" value="{{sessionInfo.sessionID}}" name="sessionID" >
+              <input type="hidden" value="{{cropDim}}" name="cropDim" >
+
+              <div id="divFinal">
+                <md-button class="md-raised blue" ng-if="dataUrl"><i class="inverted upload icon"></i> Upload Image</md-button>
+              </div><!--
+              <div id="mkf">
+                <md-button class="md-primary" ng-if="!dataUrl"><i class="inverted upload icon"></i> Upload Image</md-button>
+              </div>-->
+              <input id="hidde-final" type="submit" value="Upload Image" ng-click="finalCropCheck();" ng-disable="uploadForm.$invalid" class="md-primary md-raised" style="display: none">
+            </div>
+          </form>
+        </md-content>
+      </div>
+      <br/>
+    </div>
+  </div>
+</div>
