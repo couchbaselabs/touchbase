@@ -1,0 +1,193 @@
+<div ng-controller="registerController">
+  <div layout="column" layout-align="center center">
+    <div class="container">
+    <br/>
+    <div class="row text-center">
+      <img src="icons/touchbaseLogo.png" width="40">
+    </div>
+    <h5 class="text-center"> <font color="white">{{dataModel.projectName}} | Register</font> </h5>
+    <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z4">
+        <md-content class="md-padding">
+            <div flex-sm="100" flex-gt-sm="80" layout-sm="column">
+                <form name="contactForm" data-ng-submit="registerUser(registerData)">
+                  <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label><i class="inbox icon"></i> Email *:</label>
+                        <input type="email" ng-model="registerData.login.email" required name="email" ng-blur="checkEmail(registerData.login.email)">
+                        <div ng-messages="contactForm.email.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.emailError)">{{errors.emailError}}</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label><i class="user icon"></i> Name *:</label>
+                        <input type="text" ng-model="registerData.stringAttributes.name" required name="name" ng-blur="checkName(registerData.stringAttributes.name)">
+                        <div ng-messages="contactForm.name.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.nameError)">{{errors.nameError}}</div>
+                        </div>
+                    </md-input-container>
+                  </div>
+                  <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label><i class="lock icon"></i> Password *:</label>
+                        <input type="password" ng-model="registerData.login.password" ng-change="passStrength(registerData.login.password)" ng-blur="passStrength(registerData.login.password)" required>
+                        <div ng-messages="contactForm.password.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.passwordError)">{{errors.passwordError}}</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label><i class="lock icon"></i> Confirm Password *:</label>
+                        <input type="password" ng-model="registerData.login.confPassword" ng-blur="checkPass(registerData.login.password, registerData.login.confPassword)" required>
+                        <div ng-messages="contactForm.confPassword.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.confPasswordError)">{{errors.confPasswordError}}</div>
+                        </div>
+                    </md-input-container>
+                  </div>
+                  <div layout layout-sm="column">
+                    <div ng-repeat="attribute in dataModel.stringAttributes" flex>
+                      <md-input-container>
+                        <label>{{attribute}}:</label>
+                        <input type="text" ng-model="registerData.stringAttributes[attribute]">
+                      </md-input-container>
+                    </div>
+                  </div>
+                  <div layout layout-sm="column"> 
+                    <div ng-repeat="attribute in dataModel.dropdownAttributes" flex>
+                      <md-input-container>
+                        <md-select placeholder="{{attribute.varname}}" ng-model="registerData.dropdownAttributes[attribute.varname]">
+                          <md-option ng-repeat="option in attribute.options">{{option}}</md-option>
+                        </md-select>
+                      </md-input-container>
+                    </div>
+                  </div>
+                  <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label><i class="cubes icon"></i> Expertise: (Comma-separated list - limit 5)</label>
+                        <input type="text" ng-model="registerData.arrayAttributes.expertise" ng-blur="checkExpertise(registerData.arrayAttributes.expertise)">
+                        <div ng-messages="contactForm.expertise.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.expertiseError)">{{errors.expertiseError}}</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label><i class="sun icon"></i> Hobbies: (Comma-separated list - limit 5)</label>
+                        <input type="text" ng-model="registerData.arrayAttributes.hobbies" ng-blur="checkHobbies(registerData.arrayAttributes.hobbies)">
+                        <div ng-messages="contactForm.email.$error" role="alert">
+                          <div ng-message="required" ng-hide="!(errors.hobbiesError)">{{errors.hobbiesError}}</div>
+                        </div>
+                    </md-input-container>
+                  </div>
+ 
+                    <md-button type="submit" class="md-primary" ng-disable="contactForm.$invalid"
+                               ng-class="{'md-raised md-primary': (registerForm.$dirty && registerForm.$valid) }"
+                               aria-label="Save Project">Sign Up</md-button>
+                </form>
+                
+                <!--<md-select ng-model="size" placeholder="Size" class="ng-valid md-default-theme ng-touched ng-dirty ng-valid-parse" tabindex="0" aria-disabled="false" role="combobox" aria-expanded="false" id="select_99" aria-invalid="false" aria-label="Size"><md-select-label class="md-select-label" id="select_label_96"><span>medium (14-inch)</span><span class="md-select-icon" aria-hidden="true"></span></md-select-label></md-select>-->
+            </div>
+        </md-content>
+      </div>
+      <br/>
+      <span>{{registerData}}</span>
+      <div class="text center">
+                  <p><font color="white">Already Registered?</font></p>
+                  <md-button class="md-raised md-default" ui-sref="login"><font color="md-primary">Login</font></md-button>
+                </div>
+      </div>
+    </div>
+  </div>
+<!--
+
+  <div class="column">
+    <h2 class="ui white inverted header">
+      <img src="icons/touchbaseLogo.png" class="image">
+      <div class="content">
+        Touchbase | Register
+      </div>
+    </h2>
+    <form class="ui form">
+      <div class="ui stacked segment">
+        <div class="two fields">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="name" placeholder="Name *" ng-model="formData.stringAttributes.name"> 
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="inbox icon"></i>
+              <input type="email" name="email" placeholder="Email *" ng-model="formData.login.email">
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="password" placeholder="Password *" ng-model="formData.login.password">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="confirmPassword" placeholder="Confirm Password *" ng-model="formData.login.confPassword">
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="skype icon"></i>
+              <input type="text" name="skypeID" placeholder="Skype ID" ng-model="formData.stringAttributes.skype">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="tag icon"></i>
+              <input type="text" name="jobTitle" placeholder="Job Title" ng-model="formData.stringAttributes.jobTitle">
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <select class="ui search selection dropdown" id="search-select" ng-model="formData.dropdownAttributes.division">
+              <md-option value="">Division</md-option>
+              <md-option>Engineering</md-option>
+              <md-option>Marketing</md-option>
+              <md-option>Sales</md-option>
+              <md-option>Support</md-option>
+              <md-option>Other Staff</md-option>
+            </select>
+          </div>
+          <div class="field">
+            <select class="ui search selection dropdown" id="search-select" ng-model="formData.dropdownAttributes.baseOffice">
+              <md-option value=""><i class="location arrow icon"></i>Base Office</md-option>
+              <md-option>Mountain View</md-option>
+              <md-option>San Francisco</md-option>
+              <md-option>Bangalore</md-option>
+              <md-option>Manchester</md-option>
+              <md-option>Other - Remote</md-option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="sun icon"></i>
+            <input type="text" name="hobbies" placeholder="Hobbies | Comma-separated (i.e. Hiking, Travel...)" ng-model="formData.arrayAttributes.hobbies">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="cubes icon"></i>
+            <input type="text" name="expertise" placeholder="Expertise | Comma-separated (i.e. GoLang, N1QL...)" ng-model="formData.arrayAttributes.expertise">
+          </div>
+        </div>
+        <button class="ui fluid large blue submit button" ng-click="registerUser(formData)"> Sign Up </button>
+      </div>
+      <div class="ui error message"></div>
+    </form>
+    <div class="ui message">
+      Already Registered?  </br>
+      <a class="ui red button" ui-sref="login">Login</a>
+    </div>
+  </div>
+</div>-->

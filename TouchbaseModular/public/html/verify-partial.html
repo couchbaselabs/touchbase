@@ -1,0 +1,23 @@
+<div ng-controller="loginController"> 
+  <div class="vertical-center">
+    <div class="container">
+    <div class="row text-center">
+      <img src="icons/touchbaseLogo.png" width="40"></img>
+    </div>
+    <h5 class="text-center"><font color="white">{{dataModel.projectName}} | Verify</font> </h5>
+    <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z4">
+        <md-content class="md-padding">
+            <div flex-sm="100" flex-gt-sm="80" layout-sm="column">
+                <br/>
+                <br/>
+                <p class="text-center"> <font color="green">Success!</font></p>
+                <p class="text-center">Your {{dataModel.projectName}} account has been created, and an email has been sent to you.</p>
+                <p class="text-center">Please verify your email address and then login!</p>
+                <br/>
+                <md-button class="text-center md-primary" ui-sref="login">Login</md-button>
+            </div>
+        </md-content>
+      </div>
+      </div>
+    </div>
+</div>

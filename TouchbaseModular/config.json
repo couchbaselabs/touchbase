@@ -1,0 +1,26 @@
+{
+    "couchbase": {
+        "server": "127.0.0.1:8091",
+        "userBucket": "users",
+        "pictureBucket": "users_pictures",
+        "publishBucket": "users_publishments",
+        "TouchbasePort": 3000
+    },
+    "dataModel": {
+    	"projectName": "Touchbase",
+    	"primary": "Name",
+		"arrayAttributes" : ["Expertise","Hobbies"],
+		"stringAttributes": ["Job Title", "Skype"],
+		"dropdownAttributes": [
+			{
+				"varname": "Base Office",
+				"options": ["Mountain View","San Francisco","Bangalore","Manchester","Other - Remote"]
+			},
+			{
+				"varname": "Division",
+				"options": ["Engineering","Sales","Marketing","Support","Other Staff"]
+			}
+		],
+		"pubTypes": ["Github", "Couchbase in the News"]
+    }
+}
