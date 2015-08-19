@@ -4,7 +4,19 @@ var stringAttributes 	= ["skype", "name", "jobTitle"];
 var arrayAttributes		= ["hobbies", "expertise"];
 var dropdownAttributes	= ["baseOffice", "division"];
 
-touchbase.config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+touchbase.provider ("setApp", function () {
+	this.$get = function($http) {
+		$http({method: "GET", url: "/api/setConfig"})
+			.success(function(result) {
+				return {value: result.dataModel};
+			})
+			.error(function(result) {
+				console.log(result);
+			});
+	}
+});
+
+touchbase.config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider, setAppProvider) {
 
 	$urlRouterProvider.otherwise('/myProfile');
 	

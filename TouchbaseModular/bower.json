@@ -22,5 +22,8 @@
     "ngImgCrop": "~0.3.2",
     "tc-angular-chartjs": "~1.0.12",
     "angular-form-for": "~4.1.0"
+  },
+  "resolutions": {
+    "angular": "~1.x"
   }
 }

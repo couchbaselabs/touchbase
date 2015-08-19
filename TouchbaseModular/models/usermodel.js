@@ -1,8 +1,12 @@
-var uuid 			= require("uuid");
-var forge 			= require("node-forge");
-var userBucket		= require("../app").userBucket;
-var userBucketName	= require("../config").couchbase.userBucket;
-var N1qlQuery 		= require('couchbase').N1qlQuery;
+var uuid 				= require("uuid");
+var forge 				= require("node-forge");
+var userBucket			= require("../app").userBucket;
+var userBucketName		= require("../config").couchbase.userBucket;
+var pictureBucket		= require("../app").pictureBucket;
+var pictureBucketName	= require("../config").couchbase.pictureBucket;
+var publishBucket		= require("../app").publishBucket;
+var publishBucketName	= require("../config").couchbase.publishBucket;
+var N1qlQuery 			= require('couchbase').N1qlQuery;
 
 var stringAttributes 	= ["skype", "name", "jobTitle"];
 var arrayAttributes		= ["hobbies", "expertise"];
@@ -11,13 +15,28 @@ var dropdownAttributes	= ["baseOffice", "division"];
 function User() { };
 
 User.createPrimaryIndexes = function(callback) {
-	var indexOnUsers = ("CREATE PRIMARY INDEX ON " + userBucketName);
-    userBucket.query(indexOnUsers, function (err, result) {
+	var indexCreator = function(bucketname) {
+		var indexOnUsers = ("CREATE PRIMARY INDEX ON " + bucketname);
+		return indexOnUsers;
+	}; 
+    userBucket.query(indexCreator(userBucketName), function (err, result) {
 		if (err) {
     		callback(error, null);
     		return;
     	}
-    	callback(null, {message: "success", data: result});
+    	userBucket.query(indexCreator(pictureBucketName), function (err, result) {
+			if (err) {
+	    		callback(error, null);
+	    		return;
+	    	}
+	    	userBucket.query(indexCreator(publishBucketName), function (err, result) {
+				if (err) {
+		    		callback(error, null);
+		    		return;
+		    	}
+    			callback(null, 'Primary Indexes Created');
+    		});
+    	});
 	});
 };
 

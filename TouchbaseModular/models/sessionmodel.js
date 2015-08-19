@@ -66,23 +66,6 @@ Session.auth = function (req, res, next) {
 			return;
 		}
 	}
-	/*
-	userBucket.get(sessionID, function (error, result) {
-		if(error) {
-			console.log('session expired: ' + error);
-			res.redirect('../index.html');				// make this an absolute path once there is an actual domain
-			return;
-		}
-		console.log(result);
-		if (!result.value) {
-			console.log("Session expired, please login again.");
-			res.send({currentSession: false});
-			return;
-		}
-		req.userID = result.value.userID;
-		console.log('userID: '+req.userID);
-		next();
-	});*/
 	var getSession = N1qlQuery.fromString("SELECT userID FROM `" + userBucketName + "` USE KEYS($1)");
 	userBucket.query(getSession, [sessionID], function (error, result) {
 		if(error) {

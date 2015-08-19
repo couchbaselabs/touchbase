@@ -33,7 +33,7 @@ var appRouter = function(app) {
             if(error) {
                 return res.status(400).send(error);
             }
-            res.json(result);
+            res.send(result);
         });
     });
     
