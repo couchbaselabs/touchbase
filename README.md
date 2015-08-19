@@ -111,3 +111,7 @@ The process of using 'https' protocol is rather simple using a self-signed cert,
 ### Conclusion
 
 Hopefully you find this application helpful, especially the use of N1QL and Couchbase Server 4.0 with Node.js. Please file any errors/questions here, and they will be answered as soon as possible!
+
+### License
+
+<a href="LICENSE.md">MIT</a>
