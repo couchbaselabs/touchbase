@@ -1,4 +1,5 @@
-# Touchbase
+# Touchbase                 <img src="TouchbaseModular/icons/Touchbase_red.png" align="center" width="75">
+
 An opensource NoSQL social network platform using Couchbase Server 4.0 (featuring N1QL), as well as Express, Angular and Node (the JavaScript web stack). The UI is created primarily using Angular Material Design, as well as parts of Bootstrap, Semantic UI and Materialize CSS.
 
 ### Getting the Project
@@ -62,6 +63,7 @@ This will now install all the components specified in the 'bower.json' file that
 All of these components will be downloaded into the 'bower_components' folder and can also be accessed through 'require' statements, or ````<script src="filepath">```` tags in HTML to access the necessary files.
 
 ### Installing GraphicsMagick
+GraphicsMagick is used by Touchbase to allow images to be altered as the user sees fit. In the current implementation of the application, the image is cropped, scaled down, then reduced in quality and then sent to be uploaded to Couchbase.
 If you looked into the 'package.json' file, you may see that we downloaded 'gm' which is the node module for GraphicsMagick. 
 Therefore, it may seem odd that we still have to install GraphicsMagick. 
 The reason for this is simply that the node module 'gm' simply accesses GraphicsMagick binaries that the system has in a simple way for Node.js. 
@@ -83,11 +85,29 @@ Instructions to install with other Linux systems (could also be done with OSX/Ce
 ###### Windows
 Instructions to install with Windows could be found at http://www.graphicsmagick.org/INSTALL-windows.html.
 
-#### Running the app
-Most setup is complete at this point. Simply go into the folder within Couch411 called "TouchbaseModular".
-This is a newer version of the application, which is currently experimental.
+### Sendgrid API
+The Sendgrid Web API was used along with the Nodemailer package to send email verification to all users. Please create an account at https://sendgrid.com/free?mc=SendGrid%20Documentation. 
 
-Once in this folder, use the command **node app.js** (or nodemon if you prefer), to run the project.
+The Nodemailer Sengrid API method was used to ensure that the emails do not go to users' trash bins, and it also allows statistics about the emails to be tracked directly from the Sendgrid dashboard.
+Enter your Sendgrid username and password to the 'config.json' file after you create your account. This will allow for all emails to be sent safely through one's account. These changes will be reflected in the 'sessionmodel.js' file in the 'Session.makeVerification' function.
 
-The console will now have a message saying "View Touchbase at localhost:3000".
-Redirect your browser to this location, and view the project.
+### Running the app
+***This is project-specific. Navigate to your project directory to run these commands in your command line. If you don't have the project downloaded, check 'Getting the Project'***
+
+Most setup is complete at this point. First, navigate into 'TouchbaseModular'.
+
+Once in this folder, use the command ````$ node app.js```` (or nodemon if you prefer), to run the project.
+
+The console will now have a message saying "View Touchbase at localhost:3000" (maybe a different port depending on 'config.json' file).
+Redirect your browser to this location, and view the project! Congratulations on your custom app :)
+
+### Post Launch
+###### Logs
+In many other web servers, the logs are found in a certain file, however, Node.js prints directly to the 'STDERR' and 'STDOUT' on the console. This can be configured differently if desired as mentioned at  http://stackoverflow.com/questions/8393636/node-log-in-a-file-instead-of-the-console.
+
+###### HTTPS
+The process of using 'https' protocol is rather simple using a self-signed cert, and that is how the current system is implemented. Using CA signed certs is still **EXPERIMENTAL** and should be live shortly. This will be updated in the near future as it is an important security measure.
+
+### Conclusion
+
+Hopefully you find this application helpful, especially the use of N1QL and Couchbase Server 4.0 with Node.js. Please file any errors/questions here, and they will be answered as soon as possible!
