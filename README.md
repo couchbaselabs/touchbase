@@ -1,7 +1,7 @@
 # Touchbase
-An opensource NoSQL social network platform using Couchbase server, as well as Express, Angular and Node (the JavaScript stack). The UI is created using Angular Material Design, and parts of Bootstrap, Semantic UI and Materialize CSS.
+An opensource NoSQL social network platform using Couchbase Server 4.0 (featuring N1QL), as well as Express, Angular and Node (the JavaScript web stack). The UI is created primarily using Angular Material Design, as well as parts of Bootstrap, Semantic UI and Materialize CSS.
 
-#### Bucket Setup
+### Bucket Setup
 First off, download Couchbase Server 4.0 from http://www.couchbase.com/preview/couchbase-server-4-0.
 All the install instructions provided should make this simple and painless.
 
@@ -18,6 +18,39 @@ Now get into your CBQ shell, and run these three commands:
 
 If you changed your bucket names in 'config.json, change them accordingly for these commands.
 An experimental API endpoint is still in the works to create all setup indexes simply by accessing the endpoint.
+
+### Node.js Setup
+The first thing to do is install 'Node.js'. There are a few ways of doing this.
+* Use a package manager. Instructions can be found at https://github.com/joyent/node/wiki/installing-node.js-via-package-manager.
+* This can also be done using a standard browser installation at https://nodejs.org/download/
+
+This should come automatically with NPM, but if not this can be downloaded as a separate installation. 
+The instructions for this can be seen in the package manager link provided above.
+
+### Installing Node Modules and Bower Components
+
+######NPM
+Once NPM (node package manager) is properly available, run one simple command:
+
+````$ npm install````
+
+Then, this will install all modules that were specified for the project in the 'package.json' file.
+All of these modules will be put into the 'node_modules' folder and then be accessed in the back-end javascript files using 'require' statements, or ````<script src="filepath">```` tags in HTML to access the necessary files.
+
+######Bower
+Now run another command with NPM:
+
+````$ npm install -g bower````
+
+This will install another package manager that other necessary components can be downloaded with.
+
+After installing bower, run this command:
+
+````$ bower install````
+
+This will now install all the components specified in the 'bower.json' file that were included in the project.
+All of these components will be downloaded into the 'bower_components' folder and can also be accessed through 'require' statements, or ````<script src="filepath">```` tags in HTML to access the necessary files.
+
 
 #### Running the app
 Most setup is complete at this point. Simply go into the folder within Couch411 called "TouchbaseModular".
