@@ -1,6 +1,15 @@
 # Touchbase
 An opensource NoSQL social network platform using Couchbase Server 4.0 (featuring N1QL), as well as Express, Angular and Node (the JavaScript web stack). The UI is created primarily using Angular Material Design, as well as parts of Bootstrap, Semantic UI and Materialize CSS.
 
+### Getting the Project
+The simplest way to get Touchbase is simply to clone it to wherever you choose. Keep track of this directory, as you will have to navigate to it in the future. The clone link can be seen in the bottom right corner of the home page for Touchbase. 
+
+Simply navigate to the directory in your shell where you want to keep the project folder and run: 
+
+````$ git clone https://github.com/couchbaselabs/touchbase.git````
+
+This will now create the folder in that directory, and you can enter the folder, and then one level deeper into 'TouchbaseModular'. Here is where you will need to navigate when doing anything specific to your project.
+
 ### Bucket Setup
 First off, download Couchbase Server 4.0 from http://www.couchbase.com/preview/couchbase-server-4-0.
 All the install instructions provided should make this simple and painless.
@@ -20,14 +29,15 @@ If you changed your bucket names in 'config.json, change them accordingly for th
 An experimental API endpoint is still in the works to create all setup indexes simply by accessing the endpoint.
 
 ### Node.js Setup
-The first thing to do is install 'Node.js'. There are a few ways of doing this.
+There are a few ways of installing Node.js:
 * Use a package manager. Instructions can be found at https://github.com/joyent/node/wiki/installing-node.js-via-package-manager.
 * This can also be done using a standard browser installation at https://nodejs.org/download/
 
-This should come automatically with NPM, but if not this can be downloaded as a separate installation. 
+Node.js should come automatically with NPM (node package manager), but if not this can be downloaded as a separate installation.
 The instructions for this can be seen in the package manager link provided above.
 
 ### Installing Node Modules and Bower Components
+***This is project-specific. Navigate to your project directory to run these commands in your command line. If you don't have the project downloaded, check 'Getting the Project'***
 
 ######NPM
 Once NPM (node package manager) is properly available, run one simple command:
@@ -51,6 +61,27 @@ After installing bower, run this command:
 This will now install all the components specified in the 'bower.json' file that were included in the project.
 All of these components will be downloaded into the 'bower_components' folder and can also be accessed through 'require' statements, or ````<script src="filepath">```` tags in HTML to access the necessary files.
 
+### Installing GraphicsMagick
+If you looked into the 'package.json' file, you may see that we downloaded 'gm' which is the node module for GraphicsMagick. 
+Therefore, it may seem odd that we still have to install GraphicsMagick. 
+The reason for this is simply that the node module 'gm' simply accesses GraphicsMagick binaries that the system has in a simple way for Node.js. 
+We still have to download these binaries, and this will vary by OS.
+
+###### Mac OSX
+The simplest way for Mac is to use homebrew and execute a simple command:
+
+````$ brew install graphicsMagick````
+
+If you do not have homebrew, simply go to http://brew.sh and install it.
+
+###### CentOS
+Using CentOS to download GraphicsMagick can be a bit difficult, however there is a simple 'gist' that has the commands necessary to install it using 'yum' commands. It assumes that your machine has 'yum' as this should come stock with all CentOS machines. The 'gist' can be found at https://gist.github.com/paul91/9008409
+
+###### Other Linux
+Instructions to install with other Linux systems (could also be done with OSX/CentOS) could be found at http://www.graphicsmagick.org/INSTALL-unix.html. 
+
+###### Windows
+Instructions to install with Windows could be found at http://www.graphicsmagick.org/INSTALL-windows.html.
 
 #### Running the app
 Most setup is complete at this point. Simply go into the folder within Couch411 called "TouchbaseModular".
