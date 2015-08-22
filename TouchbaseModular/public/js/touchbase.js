@@ -217,6 +217,7 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 		}
 		if (bool === false) {
 			$scope.update = false;
+			$state.reload();
 		}
 	}
 

@@ -9,66 +9,46 @@
         <div class="text center">
           <img class=" img-circle" ng-src="{{myData.picSRC}}" width="150" border="3"> <br/>
           <md-button class="md-accent" href="../#/pictureUpload">Edit/Add Picture</md-button>
-          <h2 class="md-title">{{myData.stringAttributes.name}}</h2>
+          <h2 class="md-title"><strong>{{myData[dataModel.primaryAttribute]}}</strong></h2>
         </div>
         <div layout="column" layout-margin ng-if="!update">
+          <div ng-repeat="attribute in dataModel.stringAttributes" ng-if="myData.stringAttributes[attribute]">
+            <p><strong>{{attribute}} :  </strong>{{myData.stringAttributes[attribute]}}</p>
+          </div>
+          <div ng-repeat="attribute in dataModel.arrayAttributes" ng-if="myData.arrayAttributes[attribute]">
+            <p><strong>{{attribute}} :  </strong>{{myData.arrayAttributes[attribute]}}</p>
+          </div>
+          <div ng-repeat="attribute in dataModel.dropdownAttributes" ng-if="myData.dropdownAttributes[attribute.varname]">
+            <p><strong>{{attribute.varname}} :  </strong>{{myData.dropdownAttributes[attribute.varname]}}</p>
+          </div>
           <p><strong>Email: </strong>{{myData.login.email}}</p>
-          <p><strong>Skype: </strong>{{myData.stringAttributes.skype}}</p>
-          <p><strong>Job Title: </strong>{{myData.stringAttributes.jobTitle}}</p>
-          <p><strong>Base Office: </strong>{{myData.dropdownAttributes.baseOffice}}</p>
-          <p><strong>Division: </strong>{{myData.dropdownAttributes.division}}</p>
-          <p><strong>Expertise: </strong>{{myData.arrayAttributes.expertise}}</p>
-          <p><strong>Hobbies: </strong>{{myData.arrayAttributes.hobbies}}</p>
         </div>
         <div layout="column" layout-margin ng-if="update">
-            <div layout layout-sm="column">
-              <md-input-container flex>
-                  <label><i class="skype icon"></i> Skype:</label>
-                  <input type="text" ng-model="myData.stringAttributes.skype">
-              </md-input-container>
-              <md-input-container flex>
-                  <label><i class="tag icon"></i> Job Title:</label>
-                  <input type="text" ng-model="myData.stringAttributes.jobTitle">
+          <div layout layout-sm="column">
+            <div ng-repeat="attribute in dataModel.stringAttributes" flex>
+              <md-input-container>
+                <label>{{attribute}}:</label>
+                <input type="text" ng-model="myData.stringAttributes[attribute]">
               </md-input-container>
             </div>
-            <div layout layout-sm="column"> 
-              <md-input-container flex>
-                <md-select placeholder="Division" ng-model="myData.dropdownAttributes.division">
-                  <md-option>Engineering</md-option>
-                  <md-option>Marketing</md-option>
-                  <md-option>Sales</md-option>
-                  <md-option>Support</md-option>
-                  <md-option>Other Staff</md-option>
-                </md-select>
-              </md-input-container>
-              <md-input-container flex>
-                <md-select placeholder="Base Office" ng-model="myData.dropdownAttributes.baseOffice" tabindex="0" >
-                  <md-option>Mountain View</md-option>
-                  <md-option>San Francisco</md-option>
-                  <md-option>Bangalore</md-option>
-                  <md-option>Manchester</md-option>
-                  <md-option>Other - Remote</md-option>
+          </div>
+          <div layout layout-sm="column"> 
+            <div ng-repeat="attribute in dataModel.dropdownAttributes" flex>
+              <md-input-container>
+                <md-select placeholder="{{attribute.varname}}" ng-model="myData.dropdownAttributes[attribute.varname]">
+                  <md-option ng-repeat="option in attribute.options">{{option}}</md-option>
                 </md-select>
               </md-input-container>
             </div>
-            <div layout layout-sm="column">
-              <md-input-container flex>
-                  <label><i class="cubes icon"></i> Expertise: (Comma-separated list - limit 5)</label>
-                  <input type="text" ng-model="myData.arrayAttributes.expertise" ng-blur="checkExpertise(myData.arrayAttributes.expertise)">
-                  <div ng-messages="contactForm.expertise.$error" role="alert">
-                    <div ng-message="required" ng-hide="!(errors.expertiseError)">{{errors.expertiseError}}</div>
-                  </div>
+          </div>
+          <div layout layout-sm="column">
+            <div ng-repeat="attribute in dataModel.arrayAttributes" flex>
+              <md-input-container>
+                <label>{{attribute}} (Comma-separated list, limit 5) :</label>
+                <input type="text" ng-model="myData.arrayAttributes[attribute]" ng-blur="checkArray(myData.arrayAttributes[attribute])">
               </md-input-container>
             </div>
-            <div layout layout-sm="column">
-              <md-input-container flex>
-                  <label><i class="sun icon"></i> Hobbies: (Comma-separated list - limit 5)</label>
-                  <input type="text" ng-model="myData.arrayAttributes.hobbies" ng-blur="checkHobbies(myData.arrayAttributes.hobbies)">
-                  <div ng-messages="contactForm.email.$error" role="alert">
-                    <div ng-message="required" ng-hide="!(errors.hobbiesError)">{{errors.hobbiesError}}</div>
-                  </div>
-              </md-input-container>
-            </div>
+          </div>
         </div>
       </md-card-content>
       <div class="md-actions" layout="row" layout-align="center center">

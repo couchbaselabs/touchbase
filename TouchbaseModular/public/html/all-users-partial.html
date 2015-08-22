@@ -111,7 +111,7 @@
 	 			<div class="text center activator waves-effect waves-block waves-light">
 			    	<img class="activator circular" ng-src="{{person.users.picSRC}}" width="150" border="3">
 			    <div class="card-content waves-effect waves-block waves-light">
-			      <span class="card-title grey-text text-darken-4">{{person.users.stringAttributes.name}}</span>
+			      <span class="card-title grey-text text-darken-4">{{person.users[dataModel.primaryAttribute]}}</span>
 			      <p>{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
 			      <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
 			      <p><a ng-href="mailto:{{person.users.login.email}}?subject=Hello!">{{person.users.login.email}}</a></p>
@@ -119,7 +119,7 @@
 			</div>
 			    <div class="card-reveal">
 	 			  <div class="text-center">
-				      <div class="card-title grey-text text-darken-4">{{person.users.stringAttributes.name}}</div>
+				      <div class="card-title grey-text text-darken-4">{{person.users[dataModel.primaryAttribute]}}</div>
 				      <br/>
 				      <div ng-repeat="attribute in dataModel.stringAttributes" ng-if="person.users.stringAttributes[attribute]">
 				      	<strong>{{attribute}} :  </strong>{{person.users.stringAttributes[attribute]}}

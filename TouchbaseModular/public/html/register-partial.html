@@ -12,15 +12,15 @@
                 <form name="contactForm" data-ng-submit="registerUser(registerData)">
                   <div layout layout-sm="column">
                     <md-input-container flex>
-                        <label><i class="inbox icon"></i> Email *:</label>
+                        <label><i class="inbox icon"></i> Email* :</label>
                         <input type="email" ng-model="registerData.login.email" required name="email" ng-blur="checkEmail(registerData.login.email)">
                         <div ng-messages="contactForm.email.$error" role="alert">
                           <div ng-message="required" ng-hide="!(errors.emailError)">{{errors.emailError}}</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex>
-                        <label><i class="user icon"></i> Name *:</label>
-                        <input type="text" ng-model="registerData.stringAttributes.name" required name="name" ng-blur="checkName(registerData.stringAttributes.name)">
+                        <label><i class="user icon"></i> {{dataModel.primaryAttribute}}* :</label>
+                        <input type="text" ng-model="registerData[dataModel.primaryAttribute]" required name="name" ng-blur="checkName(registerData[dataModel.primaryAttribute])">
                         <div ng-messages="contactForm.name.$error" role="alert">
                           <div ng-message="required" ng-hide="!(errors.nameError)">{{errors.nameError}}</div>
                         </div>
@@ -28,14 +28,14 @@
                   </div>
                   <div layout layout-sm="column">
                     <md-input-container flex>
-                        <label><i class="lock icon"></i> Password *:</label>
-                        <input type="password" ng-model="registerData.login.password" ng-change="passStrength(registerData.login.password)" ng-blur="passStrength(registerData.login.password)" required>
+                        <label><i class="lock icon"></i> Password* :</label>
+                        <input type="password" ng-model="registerData.login.password" ng-blur="passStrength(registerData.login.password)" ng-blur="passStrength(registerData.login.password)" required>
                         <div ng-messages="contactForm.password.$error" role="alert">
                           <div ng-message="required" ng-hide="!(errors.passwordError)">{{errors.passwordError}}</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex>
-                        <label><i class="lock icon"></i> Confirm Password *:</label>
+                        <label><i class="lock icon"></i> Confirm Password* :</label>
                         <input type="password" ng-model="registerData.login.confPassword" ng-blur="checkPass(registerData.login.password, registerData.login.confPassword)" required>
                         <div ng-messages="contactForm.confPassword.$error" role="alert">
                           <div ng-message="required" ng-hide="!(errors.confPasswordError)">{{errors.confPasswordError}}</div>
@@ -60,20 +60,12 @@
                     </div>
                   </div>
                   <div layout layout-sm="column">
-                    <md-input-container flex>
-                        <label><i class="cubes icon"></i> Expertise: (Comma-separated list - limit 5)</label>
-                        <input type="text" ng-model="registerData.arrayAttributes.expertise" ng-blur="checkExpertise(registerData.arrayAttributes.expertise)">
-                        <div ng-messages="contactForm.expertise.$error" role="alert">
-                          <div ng-message="required" ng-hide="!(errors.expertiseError)">{{errors.expertiseError}}</div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label><i class="sun icon"></i> Hobbies: (Comma-separated list - limit 5)</label>
-                        <input type="text" ng-model="registerData.arrayAttributes.hobbies" ng-blur="checkHobbies(registerData.arrayAttributes.hobbies)">
-                        <div ng-messages="contactForm.email.$error" role="alert">
-                          <div ng-message="required" ng-hide="!(errors.hobbiesError)">{{errors.hobbiesError}}</div>
-                        </div>
-                    </md-input-container>
+                    <div ng-repeat="attribute in dataModel.arrayAttributes" flex>
+                      <md-input-container>
+                        <label>{{attribute}} (Comma-separated list, limit 5) :</label>
+                        <input type="text" ng-model="registerData.arrayAttributes[attribute]" ng-blur="checkArray(registerData.arrayAttributes[attribute])">
+                      </md-input-container>
+                    </div>
                   </div>
  
                     <md-button type="submit" class="md-primary" ng-disable="contactForm.$invalid"
@@ -86,7 +78,7 @@
         </md-content>
       </div>
       <br/>
-      <span>{{registerData}}</span>
+      <span><font color="white">{{registerData}}</font></span>
       <div class="text center">
                   <p><font color="white">Already Registered?</font></p>
                   <md-button class="md-raised md-default" ui-sref="login"><font color="md-primary">Login</font></md-button>

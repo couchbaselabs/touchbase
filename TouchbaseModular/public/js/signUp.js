@@ -162,7 +162,7 @@ signUp.controller('registerController', function ($scope, $http, $window, $state
 
 	$scope.checkName = function (someString) {
 		if (!someString) {
-			$scope.errors.nameError = "A name is required!";
+			$scope.errors.nameError = "This is required!";
 		} else {
 			$scope.errors.nameError = "";
 		}
@@ -199,24 +199,12 @@ signUp.controller('registerController', function ($scope, $http, $window, $state
 			return resultArray;
 	};
 
-	$scope.checkExpertise = function (someString) {
+	$scope.checkArray = function (someString) {
 		if (!someString) {
 			$scope.errors.expertiseError = "";
 		}
 		else if (stringToArray(someString).length > 5) {
-			$scope.errors.expertiseError = "Please do not enter more than 5 areas of expertise.";
-		}
-		else {
-			$scope.errors.expertiseError = "";
-		}
-	};
-
-	$scope.checkHobbies = function (someString) {
-		if (!someString) {
-			$scope.errors.hobbiesError = "";
-		}
-		else if (stringToArray(someString).length > 5) {
-			$scope.errors.hobbieseError = "Please do not enter more than 5 hobbies.";
+			$scope.errors.expertiseError = "Please do not enter more than 5 items.";
 		}
 		else {
 			$scope.errors.expertiseError = "";

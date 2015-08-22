@@ -6,6 +6,8 @@ var N1qlQuery 			= require('couchbase').N1qlQuery;
 var nodemailer			= require("nodemailer");
 var sgTransport 		= require('nodemailer-sendgrid-transport');
 var Email 				= require("./emailmodel");
+var sendGridInfo		= require("../config.json").SendGrid;
+console.log('sendGridInfo: ' + sendGridInfo);
 
 function Session() {};
 
@@ -104,8 +106,8 @@ Session.makeVerification = function (pathInfo, userDoc, callback) {
 	};
 	var options = {
 	  auth: {
-	    api_user: '',
-	    api_key: ''
+	    api_user: sendGridInfo.username,
+	    api_key: sendGridInfo.password
 	  }
 	};
 	var client = nodemailer.createTransport(sgTransport(options));

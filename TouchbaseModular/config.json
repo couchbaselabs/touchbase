@@ -6,8 +6,12 @@
         "publishBucket": "users_publishments",
         "TouchbasePort": 3000
     },
+    "SendGrid": {
+    	"username" : "",
+    	"password" : ""
+    },
     "dataModel": {
-    	"projectName": "TOUCHBASE",
+    	"projectName": "Touchbase",
     	"colorHex": "",
     	"primaryAttribute": "Name",
 		"arrayAttributes" : ["Expertise","Hobbies"],

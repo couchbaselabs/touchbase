@@ -12,6 +12,7 @@ var configData 			= require("../config.json").dataModel;
 var stringAttributes 	= configData.stringAttributes;
 var arrayAttributes		= configData.arrayAttributes;
 var dropdownAttributes	= configData.dropdownAttributes;
+var primaryAttribute	= configData.primaryAttribute;
 
 function User() { };
 
@@ -47,6 +48,7 @@ User.createPrimaryIndexes = function(callback) {
 
 User.create = function(params, callback) {
 	var currentTime = new Date().toISOString();	
+	console.log('params: ' + params);
 	var stringToArray = function(anyString) {
 		if (typeof anyString === "undefined" || !anyString) {
 			return "";
@@ -107,9 +109,10 @@ User.create = function(params, callback) {
     	userDoc.arrayAttributes[arrayAttributes[j]] = stringToArray(params.arrayAttributes[arrayAttributes[j]]);
     }
     for (k=0; k<dropdownAttributes.length; k++) {
-    	userDoc.dropdownAttributes[dropdownAttributes[k]] = params.dropdownAttributes[dropdownAttributes[k]];
+    	userDoc.dropdownAttributes[dropdownAttributes[k].varname] = params.dropdownAttributes[dropdownAttributes[k].varname];
     }
-    console.log(JSON.stringify(userDoc));
+    userDoc[primaryAttribute] = params[primaryAttribute];
+    console.log(userDoc);
     var insertUser = N1qlQuery.fromString('INSERT INTO ' + userBucketName + ' (KEY, VALUE) VALUES ($1, $2)');
     console.log(insertUser);
     userBucket.query(insertUser, [userDoc.uuid, userDoc], function (err, result) {
