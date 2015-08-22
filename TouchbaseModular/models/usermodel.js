@@ -7,34 +7,39 @@ var pictureBucketName	= require("../config").couchbase.pictureBucket;
 var publishBucket		= require("../app").publishBucket;
 var publishBucketName	= require("../config").couchbase.publishBucket;
 var N1qlQuery 			= require('couchbase').N1qlQuery;
+var configData 			= require("../config.json").dataModel;
 
-var stringAttributes 	= ["skype", "name", "jobTitle"];
-var arrayAttributes		= ["hobbies", "expertise"];
-var dropdownAttributes	= ["baseOffice", "division"];
+var stringAttributes 	= configData.stringAttributes;
+var arrayAttributes		= configData.arrayAttributes;
+var dropdownAttributes	= configData.dropdownAttributes;
 
 function User() { };
 
 User.createPrimaryIndexes = function(callback) {
 	var indexCreator = function(bucketname) {
-		var indexOnUsers = ("CREATE PRIMARY INDEX ON " + bucketname);
+		var indexOnUsers = N1qlQuery.fromString("CREATE PRIMARY INDEX ON " + bucketname);
+		console.log(indexOnUsers);
 		return indexOnUsers;
 	}; 
     userBucket.query(indexCreator(userBucketName), function (err, result) {
 		if (err) {
-    		callback(error, null);
+    		callback((userBucketName + err), null);
     		return;
     	}
+    	console.log(result);
     	userBucket.query(indexCreator(pictureBucketName), function (err, result) {
 			if (err) {
-	    		callback(error, null);
+	    		callback((pictureBucketName + err), null);
 	    		return;
 	    	}
+	    	console.log(result);
 	    	userBucket.query(indexCreator(publishBucketName), function (err, result) {
 				if (err) {
-		    		callback(error, null);
+		    		callback((publishBucketName + err), null);
 		    		return;
 		    	}
-    			callback(null, 'Primary Indexes Created');
+		    	console.log(result);
+    			callback(null, 'Primary Indexes Created!');
     		});
     	});
 	});
@@ -79,6 +84,9 @@ User.create = function(params, callback) {
     	// should add a type here, ex. type: "user"
     	uuid: uuid.v4(),
     	password: forge.md.sha1.create().update(params.login.password).digest().toHex(),
+    	stringAttributes: {},
+    	arrayAttributes: {},
+    	dropdownAttributes: {},
         login: {
         	type: "user",
 	        email: params.login.email,

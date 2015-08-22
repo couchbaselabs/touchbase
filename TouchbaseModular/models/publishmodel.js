@@ -10,13 +10,15 @@ Publish.create = function(params, callback) {
 	var currentTime = new Date().toISOString();
 	var publishDoc = {
 		time: currentTime,
+		type : "post",
 		pubType: params.pubType,
 		publishID: (uuid.v4() + "_pub_" + params.pubType),
 		title: params.title,
 		author: params.author,
 		authorID: params.authorID,
 		hyperlink: params.webpage,
-		blurb: params.blurb
+		blurb: params.blurb,
+		imagePath: params.imagePath
 	}
 	console.log(publishDoc);
 	var insertPub = N1qlQuery.fromString('INSERT INTO ' + publishBucketName + ' (KEY, VALUE) VALUES ($1, $2)');
@@ -31,7 +33,7 @@ Publish.create = function(params, callback) {
 };
 
 Publish.search = function(params, callback) {
-	var pubQuery = "SELECT * FROM "+publishBucketName+" WHERE `e703eab0-3740-424b-8bd3-03ae4ca909df` IS MISSING ";
+	var pubQuery = "SELECT * FROM "+publishBucketName+" WHERE type='post' ";
 	if (params.pubType) {
 		pubQuery+= ("AND pubType = \""+params.pubType+"\" ");
 	}

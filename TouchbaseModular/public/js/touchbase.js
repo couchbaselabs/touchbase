@@ -4,7 +4,53 @@ var stringAttributes 	= ["skype", "name", "jobTitle"];
 var arrayAttributes		= ["hobbies", "expertise"];
 var dropdownAttributes	= ["baseOffice", "division"];
 
-touchbase.provider ("setApp", function () {
+var $stateProviderRef = null;
+var $urlRouterProviderRef = null;
+
+
+/*aModule.config(['$locationProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider',
+    function($locationProvider, $stateProvider, $urlRouterProvider, $httpProvider) {
+
+      // XSRF token naming
+      $httpProvider.defaults.xsrfHeaderName = 'x-dt-csrf-header';
+      $httpProvider.defaults.xsrfCookieName = 'X-CSRF-TOKEN';
+
+      //$httpProvider.interceptors.push('httpInterceptor');
+      
+      $stateProvider
+        .state('home', {
+          url: "/home",
+          templateUrl: 'tpl.html',
+        })
+      $stateProvider
+        .state('authenticated', {
+          template: '<ui-view />',
+        })
+      $stateProvider
+        .state('login', {
+          url: '/login',
+          templateUrl: 'html/XXX/loginForm.html',
+          controller: 'AController'
+        })
+        .state('sAgree', {
+          url: '/serviceAgreement',
+          templateUrl: 'html/xxx/s.html',
+          controller: 'SController'
+        });
+      $urlRouterProvider.deferIntercept();
+
+      $urlRouterProvider.otherwise('/login');
+
+      $locationProvider.html5Mode({
+        enabled: false
+      });
+      $stateProviderRef = $stateProvider;
+      $urlRouterProviderRef = $urlRouterProvider;
+      
+}]); */
+
+
+/*touchbase.provider ("setApp", function () {
 	this.$get = function($http) {
 		$http({method: "GET", url: "/api/setConfig"})
 			.success(function(result) {
@@ -14,11 +60,30 @@ touchbase.provider ("setApp", function () {
 				console.log(result);
 			});
 	}
-});
+});*/
 
-touchbase.config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider, setAppProvider) {
+/*touchbase.run(function ($rootScope, $state, $stateParams) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+	$rootScope.dataModel = {
+    	"projectName": "Touchbase",
+		"arrayAttributes" : ["expertise","hobbies"],
+		"stringAttributes": ["jobTitle", "skype"],
+		"dropdownAttributes": [
+			{
+				"varname": "baseOffice",
+				"options": ["Mountain View","San Francisco","Bangalore","Manchester","Other - Remote"]
+			},
+			{
+				"varname": "division",
+				"options": ["Engineering","Sales","Marketing","Support","Other Staff"]
+			}
+		],
+		"pubTypes": ["Github", "Couchbase in the News"]
+    };
+});*/
 
-	$urlRouterProvider.otherwise('/myProfile');
+touchbase.config(function ($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider) {
 	
 	$stateProvider
 	
@@ -37,14 +102,10 @@ touchbase.config(function ($stateProvider, $urlRouterProvider, $mdThemingProvide
 			templateUrl: 'html/all-users-partial.html'
 		})
 
-		.state('allGit', {
-			url: '/allGit',
-			templateUrl: 'html/all-git-partial.html'
-		})
-
-		.state('allNews', {
-			url: '/allNews',
-			templateUrl: 'html/all-couchNews-partial.html'
+		.state('posts', {
+			url: '/posts/{pubType}',
+			templateUrl: 'html/all-posts-partial.html',
+			params: {'imagePath': null}
 		})
 
 		.state('statistics', {
@@ -54,37 +115,64 @@ touchbase.config(function ($stateProvider, $urlRouterProvider, $mdThemingProvide
 			// OR could have just one html page
 		})
 
-		$mdThemingProvider.theme('red')
-        	.primaryPalette('red', {
-            'default': '800' }) // by default use shade 900 from the grey palette for primary intentions
-        	.accentPalette('amber',  {
-        	'default': '600' })
-        	.warnPalette('red');
-		/*$mdThemingProvider.theme('default')
-    		.primaryPalette('red')
-    		
-    		.dark();*/
-    	$mdThemingProvider.setDefaultTheme('red');
+	$urlRouterProvider.otherwise('/myProfile');
+
+	$mdThemingProvider.theme('red')
+    	.primaryPalette('red', {
+        'default': '800' }) // by default use shade 900 from the grey palette for primary intentions
+    	.accentPalette('amber',  {
+    	'default': '600' })
+    	.warnPalette('red');
+	/*$mdThemingProvider.theme('default')
+		.primaryPalette('red')
+		
+		.dark();*/
+	$mdThemingProvider.setDefaultTheme('red');
 
 });
 
-touchbase.run(function ($rootScope) {
-	$rootScope.dataModel = {
-    	"projectName": "Touchbase",
-		"arrayAttributes" : ["expertise","hobbies"],
-		"stringAttributes": ["jobTitle", "skype"],
-		"dropdownAttributes": [
-			{
-				"varname": "baseOffice",
-				"options": ["Mountain View","San Francisco","Bangalore","Manchester","Other - Remote"]
-			},
-			{
-				"varname": "division",
-				"options": ["Engineering","Sales","Marketing","Support","Other Staff"]
-			}
-		],
-		"pubTypes": ["Github", "Couchbase in the News"]
+touchbase.run(function ($q, $rootScope, $http, $urlRouter) {
+    
+    $http({method: "GET", url: "/api/getConfig"})
+  		.success(function(result) {
+  			$rootScope.dataModel = result;
+  		})
+  		.error(function(result) {
+  			console.log(error);
+  		});
+
+    /*var $state = $rootScope.$state;
+    var makeVar = function(string) {
+    	string.replace(/ /g, "-");
+    	return string;
     };
+    
+    $http({method: "GET", url: "/api/getConfig"})
+      .success(function(data) {
+      	$rootScope = data;
+        angular.forEach(data.pubTypes, function(value, key) {
+          
+          var newStateName = makeVar(value.type);
+          var getExistingState = $state.get(newStateName);
+
+          if(getExistingState !== null){
+            return; 
+          }
+          
+          var state = {
+            "url": "/posts/{newStateName}",
+            "templateUrl": 'html/all-couchNews-partial.html'
+          };
+
+          $stateProviderRef.state(newStateName, state);
+        });
+        // Configures $urlRouter's listener *after* your custom listener
+
+        $urlRouter.sync();
+        $urlRouter.listen();
+        
+      });
+  	}*/
 });
 
 touchbase.controller('AppCtrl', function ($scope, $mdSidenav){
@@ -237,29 +325,14 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 
 });
 
-touchbase.controller('publishController', function ($scope, $http, $window, $mdDialog) {
+touchbase.controller('publishController', function ($scope, $http, $window, $mdDialog, $stateParams) {
 
 	$scope.publishData={};
 
-	$scope.publishTry = function(someObject, pubType) {
-		var postTry = someObject;
-		console.log(someObject);
-		postTry.pubType = pubType;
-		$http({method: "POST", url: "/api/publishPost", data: postTry, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
-			.success(function(result) {
-				if (result.currentSession===false) {
-					$window.location.href="index.html";
-				}
-				console.log(result);
-			})
-			.error(function(result) {
-				console.log("ERROR : " + result);
-			});
-	};
-
-	$scope.getAllPosts = function(type) {
+	$scope.getAllPosts = function() {
 		$scope.loading = true;
-		$http({method: "GET", url: "/api/postSearch", params: {pubType: type}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
+		console.log($stateParams.pubType);
+		$http({method: "GET", url: "/api/postSearch", params: {pubType: $stateParams.pubType}, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
 				if (result.currentSession===false) {
 					$window.location.href="index.html";
@@ -277,10 +350,10 @@ touchbase.controller('publishController', function ($scope, $http, $window, $mdD
 	};
 
     $scope.alert = '';
-  	$scope.postGit = function(ev) {
+  	$scope.makePost = function(ev) {
     	$mdDialog.show({
 	      	controller: DialogController,
-	      	templateUrl: 'html/postGit.html',
+	      	templateUrl: 'html/makePost.html',
 	      	parent: angular.element(document.body),
 	      	targetEvent: ev
     	})
@@ -297,7 +370,7 @@ touchbase.controller('publishController', function ($scope, $http, $window, $mdD
 
 });
 
-function DialogController($scope, $http, $mdDialog) {
+function DialogController($scope, $http, $mdDialog, $stateParams) {
   $scope.hide = function() {
     $mdDialog.hide();
   };
@@ -307,10 +380,25 @@ function DialogController($scope, $http, $mdDialog) {
   $scope.answer = function(answer) {
     $mdDialog.hide(answer);
   };
-  $scope.publishTry = function(someObject, pubType) {
+  $scope.publishTry = function(someObject) {
+  		/*console.log($scope.dataModel.pubTypes);
+		var findImage = function (pubType) {
+			Object.keys($scope.dataModel.pubTypes).forEach(function (obj) {
+			    if (obj.type === pubType) {
+			    	return obj.imagePath;
+			    }
+			    // use val
+			});
+		};*/
 		var postTry = someObject;
-		console.log(someObject);
-		postTry.pubType = pubType;
+		console.log($stateParams.pubType);
+		postTry.pubType = $stateParams.pubType;
+		postTry.imagePath = $stateParams.imagePath;
+		// postTry.imagePath = findImage($stateParams.pubType);
+		if (!postTry.imagePath) {
+			postTry.imagePath = 'Touchbase_red.png';
+		}
+		console.log(postTry);
 		$http({method: "POST", url: "/api/publishPost", data: postTry, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
 			.success(function(result) {
 				if (result.currentSession===false) {
@@ -322,7 +410,7 @@ function DialogController($scope, $http, $mdDialog) {
 				console.log("ERROR : " + result);
 			});
 	};
-}
+};
 
 touchbase.controller('searchController', function ($scope, $http, $window, $q, $mdDialog) {
 

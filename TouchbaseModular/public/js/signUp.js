@@ -45,7 +45,7 @@ signUp.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
 });
 
-signUp.run(function ($rootScope) {
+/*signUp.run(function ($rootScope) {
 	$rootScope.dataModel = {
     	"projectName": "Touchbase",
 		"arrayAttributes" : ["expertise","hobbies"],
@@ -62,6 +62,17 @@ signUp.run(function ($rootScope) {
 		],
 		"pubTypes": ["Github", "Couchbase in the News"]
     };
+});*/
+
+signUp.run(function ($q, $rootScope, $http, $urlRouter) {
+    
+    $http({method: "GET", url: "/api/getConfig"})
+  		.success(function(result) {
+  			$rootScope.dataModel = result;
+  		})
+  		.error(function(result) {
+  			console.log(error);
+  		});
 });
 
 signUp.controller('loginController', function ($scope, $http, $window, $timeout) {

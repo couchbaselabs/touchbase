@@ -2,7 +2,8 @@ var User        = require("../models/usermodel");
 var Picture     = require("../models/picturemodel");
 var Publish     = require("../models/publishmodel");
 var Session     = require("../models/sessionmodel");
-var Statistics  = require("../models/statisticsmodel")
+var Statistics  = require("../models/statisticsmodel");
+var configData  = require("../config.json").dataModel;
 var uuid        = require("uuid");
 var multer      = require("multer");
 var async       = require("async");
@@ -36,6 +37,10 @@ var appRouter = function(app) {
             res.send(result);
         });
     });
+
+    app.get("/api/getConfig", function(req, res) {
+        res.json(configData); 
+    });
     
     app.post("/api/loginAuth", function(req, res, next) {
         if(!req.body.email) {
@@ -54,7 +59,7 @@ var appRouter = function(app) {
             if (x.length === 0) {
                 return res.status(400).send('The username entered does not exist');   
             }
-            if(!User.validatePassword(req.body.password, user[0].users.login.password)) {
+            if(!User.validatePassword(req.body.password, user[0].users.password)) {
                 return res.status(400).send("The password entered is invalid");
             }
             if (!user[0].users.login.emailVerified) {

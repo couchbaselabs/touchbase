@@ -113,14 +113,14 @@
               </div>
             </md-list-item>
             <md-divider></md-divider>
-          <div ng-repeat="pubType in dataModel.pubTypes">
+          <div ng-repeat="kind in dataModel.pubTypes">
             <md-list-item>
-              <div ng-click="toggleSidenav('left');" ui-sref="{{pubType}}" ui-sref-active = "active">
+              <div ng-click="toggleSidenav('left');" ui-sref="posts({pubType: kind.type, imagePath: kind.imagePath})" ui-sref-active = "active">
                 <md-item-content md-ink-ripple layout="row" layout-align="start center">
                   <div class="inset">
-                    <i class="left quote icon"></i>
+                    <i class="{{kind.icon}} icon"></i>
                   </div>
-                  <div class="inset">{{pubType}}
+                  <div class="inset">{{kind.type}}
                   </div>
                 </md-item-content>
               </div>

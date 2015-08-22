@@ -9,6 +9,7 @@ var Email 				= require("./emailmodel");
 
 function Session() {};
 
+// not currently in use, was an idea for redirecting to home page. Could be used to parse host.
 Session.pathToLogin = function (req) {
 	console.log(req.originalUrl);
 	console.log(req.headers.host);
@@ -30,6 +31,8 @@ Session.pathToLogin = function (req) {
 	return exitString;
 };
 
+// creates session, and inserts the document with 1 hour expiry in the users bucket, and includes corresponding userID. 
+// used in '/api/loginAuth'.
 Session.create = function(userID, callback) {
 	var sessionModel = {
 		type: "session",
@@ -47,6 +50,9 @@ Session.create = function(userID, callback) {
     });
 };
 
+// authenticates the sessionID sent from the front-end. 
+// adds the user ID to 'req' if authentication is successful.
+// used in all protected routes.
 Session.auth = function (req, res, next) {
 	console.log('req.body: ' + JSON.stringify(req.body));
 	console.log('req.files: ' + JSON.stringify(req.files));
@@ -86,23 +92,9 @@ Session.auth = function (req, res, next) {
 	});
 };
 
-// interim solution until figure out auth with Nic
-Session.findUser = function (sessionID, callback) {
-	var findUser = N1qlQuery.fromString('SELECT userID FROM `'+userBucketName+'` WHERE sessionID=$1 AND type=\"session\"');
-	userBucket.query(findUser,[sessionID], function (error, result) {
-		if(error) {
-			callback(error, null);
-			return;
-		}
-		if (!result[0]) {
-			res.send({currentSession: false});
-			return;
-		}
-		console.log(result[0]);
-		callback(null, result[0].userID);
-	})
-};
-
+// inserts verification document with 1 day expiration into the 'users' bucket, with according userID.
+// then sends the email generated in 'Email.create' using the Sendgrid API with Nodemailer. 
+// used in '/api/registerUser'.
 Session.makeVerification = function (pathInfo, userDoc, callback) {
 	var verifyModel = {
 		type: "verify",
@@ -143,6 +135,8 @@ Session.makeVerification = function (pathInfo, userDoc, callback) {
     });
 };
 
+// used to verify email by searching for the verify document and changing 'login.emailVerified' boolean attribute in corresponding user doc.
+// used in '/api/verify/:verificationID'
 Session.verify = function(verifyID, callback) {
 	var findValidation = N1qlQuery.fromString('SELECT * FROM '+userBucketName+' USE KEYS($1)');
 	userBucket.query(findValidation, [verifyID], function (error, result) {
@@ -177,9 +171,5 @@ Session.verify = function(verifyID, callback) {
 		});
 	});
 };
-
-
-
-// potential Session.delete for forceful login
 
 module.exports = Session;
