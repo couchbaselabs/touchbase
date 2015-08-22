@@ -112,8 +112,9 @@
 			    	<img class="activator circular" ng-src="{{person.users.picSRC}}" width="150" border="3">
 			    <div class="card-content waves-effect waves-block waves-light">
 			      <span class="card-title grey-text text-darken-4">{{person.users[dataModel.primaryAttribute]}}</span>
-			      <p>{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
-			      <p><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>
+			      	<div ng-repeat="attribute in dataModel.dropdownAttributes" ng-if="person.users.dropdownAttributes[attribute.varname]">
+				       <p><strong>{{person.users.dropdownAttributes[attribute.varname]}} </strong></p>
+				   	</div>
 			      <p><a ng-href="mailto:{{person.users.login.email}}?subject=Hello!">{{person.users.login.email}}</a></p>
 			    </div>
 			</div>
@@ -122,13 +123,13 @@
 				      <div class="card-title grey-text text-darken-4">{{person.users[dataModel.primaryAttribute]}}</div>
 				      <br/>
 				      <div ng-repeat="attribute in dataModel.stringAttributes" ng-if="person.users.stringAttributes[attribute]">
-				      	<strong>{{attribute}} :  </strong>{{person.users.stringAttributes[attribute]}}
+				      	<p><strong>{{attribute}} :  </strong>{{person.users.stringAttributes[attribute]}}</p>
 				      </div>
 				      <div ng-repeat="attribute in dataModel.arrayAttributes" ng-if="person.users.arrayAttributes[attribute]">
-				      	<strong>{{attribute}} :  </strong>{{person.users.arrayAttributes[attribute]}}
+				      	<p><strong>{{attribute}} :  </strong>{{person.users.arrayAttributes[attribute]}}</p>
 				      </div>
 				      <div ng-repeat="attribute in dataModel.dropdownAttributes" ng-if="person.users.dropdownAttributes[attribute.varname]">
-				      	<strong>{{attribute.varname}} :  </strong>{{person.users.dropdownAttributes[attribute.varname]}}
+				      	<p><strong>{{attribute.varname}} :  </strong>{{person.users.dropdownAttributes[attribute.varname]}}</p>
 				      </div>
 				      <!--<p ng-if="person.users.dropdownAttributes.division || person.users.dropdownAttributes.baseOffice">{{person.users.dropdownAttributes.division}}  {{person.users.dropdownAttributes.baseOffice}}</p>
 				      <p ><strong>{{person.users.stringAttributes.jobTitle}}</strong></p>

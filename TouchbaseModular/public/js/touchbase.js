@@ -103,9 +103,8 @@ touchbase.config(function ($locationProvider, $httpProvider, $stateProvider, $ur
 		})
 
 		.state('posts', {
-			url: '/posts/{pubType}',
-			templateUrl: 'html/all-posts-partial.html',
-			params: {'imagePath': null}
+			url: '/posts/{pubType}/{imagePath}',
+			templateUrl: 'html/all-posts-partial.html'
 		})
 
 		.state('statistics', {
