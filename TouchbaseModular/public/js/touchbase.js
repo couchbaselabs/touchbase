@@ -245,7 +245,9 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 				}
 				console.log(result);
 				for (i=0; i<result.length; i++) {
-					result[i].users_publishments.timeDisp = moment(result[i].users_publishments.time).fromNow();
+					if (result) {
+						result[i].users_publishments.timeDisp = moment(result[i].users_publishments.time).fromNow();
+					}
 				}
 				$scope.publishData.output=result;
 				$scope.postLoading = false;
@@ -339,7 +341,10 @@ touchbase.controller('publishController', function ($scope, $http, $window, $mdD
 				}
 				console.log(result);
 				for (i=0; i<result.length; i++) {
-					result[i].users_publishments.timeDisp = moment(result[i].users_publishments.time).fromNow();
+					console.log(result[i]);
+					if (result[i].users_publishments) {
+						result[i].users_publishments.timeDisp = moment(result[i].users_publishments.time).fromNow();
+					}
 				}
 				$scope.loading = false;
 				$scope.publishData.output=result;

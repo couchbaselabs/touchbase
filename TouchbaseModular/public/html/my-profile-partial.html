@@ -76,12 +76,7 @@
         </span>
         <br/>
         <div class=" activator text center waves-effect waves-block waves-light">
-          <div ng-if="post.users_publishments.pubType === 'github'">
-            <img class="activator img-circle" src="icons/GitHub-Mark-120px-plus.png" width="75"></img>
-          </div>
-          <div ng-if="post.users_publishments.pubType === 'couchNews'">
-            <img class="activator img-circle" src="icons/couchbase-logo.png" width="75"></img>
-          </div>
+            <img class="activator img-circle" src="icons/{{post.users_publishments.imagePath}}" width="75"></img>
             <div class="card-content waves-effect waves-block waves-light">
               <span class="card-title activator grey-text text-darken-4">{{post.users_publishments.title}}</span>
               <br/>

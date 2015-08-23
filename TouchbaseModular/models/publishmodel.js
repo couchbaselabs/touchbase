@@ -14,7 +14,6 @@ Publish.create = function(params, callback) {
 		pubType: params.pubType,
 		publishID: (uuid.v4() + "_pub_" + params.pubType),
 		title: params.title,
-		author: params.author,
 		authorID: params.authorID,
 		hyperlink: params.webpage,
 		blurb: params.blurb,

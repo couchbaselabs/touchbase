@@ -8,7 +8,7 @@
     	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
 	<div ng-repeat="post in publishData.output | filter:searchText ">
- 		<div class="col-sm-4">
+ 		<div class="col-sm-4" ng-if="post.users_publishments">
 	 		<div class="card small">
 	 			<span class= "text right">
 	 				<i class="plus icon activator"></i>

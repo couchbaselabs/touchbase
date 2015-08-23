@@ -342,10 +342,10 @@ User.advancedSearch = function(params, callback) {
 	*/
 	// var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice + " " + userID);
 	if (params.loginAuth) {
-		advancedQuery+= "ORDER BY stringAttributes.name";
+		advancedQuery+= ("ORDER BY "+primaryAttribute);
 	}
 	else {
-		advancedQuery += "AND login.emailVerified=true ORDER BY stringAttributes.name";
+		advancedQuery += ("AND login.emailVerified=true ORDER BY "+primaryAttribute);
 	}
 	var advancedQueryN1ql = N1qlQuery.fromString(advancedQuery);
 	console.log(advancedQueryN1ql);

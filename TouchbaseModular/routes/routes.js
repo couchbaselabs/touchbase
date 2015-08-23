@@ -89,7 +89,6 @@ var appRouter = function(app) {
                 return res.status(400).send(error);
             }
             console.log(userDocs[0]);
-            req.body.author = userDocs[0].users.stringAttributes.name;
             req.body.authorID = userDocs[0].users.uuid;
             console.log(req.body);
             Publish.create(req.body, function(err, result) {
@@ -109,8 +108,38 @@ var appRouter = function(app) {
             if (error) {
                 return res.status(400).send(error);
             }
-            console.log(result);
-            res.json(result);
+            async.each(result, function (person, callback) {
+                var someObj = {userID: person.users_publishments.authorID};
+                User.advancedSearch(someObj, function (error, result) {
+                    if (error) {
+                        callback(error);
+                    }
+                    else {
+                        console.log('PERSON INIT : ' + person);
+                        console.log(result);
+                        if (!result[0]) {
+                            person.users_publishments = null;
+                            console.log('user deleted, post ignored');
+                            callback();
+                        }
+                        else {
+                            person.users_publishments.author = result[0].users[primaryAttribute];
+                            console.log(person);
+                            callback();
+                        }
+                    }
+                });
+            }, function(err) {
+                if (err) {
+                    console.log(error);
+                }
+                else {
+                    console.log('final result: ' + JSON.stringify(result));
+                    res.json(result);
+                }
+            });
+            //console.log(result);
+            //res.json(result);
         });
     });
 
