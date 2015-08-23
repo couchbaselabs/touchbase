@@ -7,7 +7,7 @@
     </div>
     <h5 class="text-center"><font color="white">{{dataModel.projectName}} | Login</font> </h5>
     <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z4">
-        <md-content class="md-padding">
+        <div class="md-padding" style="background:white">
             <div flex-sm="100" flex-gt-sm="80" layout-sm="column">
                 <form name="contactForm" data-ng-submit="loginAuth(formData)">
                     <md-input-container>
@@ -27,12 +27,12 @@
                                aria-label="Save Project">Login</md-button>
                 </form>
             </div>
-        </md-content>
+        </div>
       </div>
       <br/>
           <div class="text-center">
                   <p><font color="white">New to us?</font/></p>
-                  <p><md-button class="md-raised md-default" ui-sref="register"><font color="md-primary">Sign Up</font></md-button></p>
+                  <p><md-button class="md-raised md-default" ui-sref="register"><font color="{{dataModel.colorHex}}">Sign Up</font></md-button></p>
           </div>
       </div>
     </div>

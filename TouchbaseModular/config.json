@@ -12,7 +12,7 @@
     },
     "dataModel": {
     	"projectName": "Touchbase",
-    	"colorHex": "",
+    	"colorHex": "#4DD0E1",
     	"primaryAttribute": "Name",
 		"arrayAttributes" : ["Expertise","Hobbies"],
 		"stringAttributes": ["Job Title", "Skype"],

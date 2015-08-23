@@ -31,10 +31,12 @@ signUp.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 		})
 
 		$mdThemingProvider.theme('red')
-        	.primaryPalette('red', {
-            'default': '800' }) // by default use shade 900 from the grey palette for primary intentions
+        	.primaryPalette('cyan', {
+            'default': '300' }) // by default use shade 900 from the grey palette for primary intentions
         	.accentPalette('amber',  {
         	'default': '600' })
+        	.backgroundPalette('cyan', {
+        	'default': '300' })
         	.warnPalette('red');
              // by default use shade 900 from the grey palette for primary intentions
 		/*$mdThemingProvider.theme('default')

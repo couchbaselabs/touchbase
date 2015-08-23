@@ -21,9 +21,6 @@
 		background-color: grey;
 		color: white;
 		}
-
-
-
 		#containment {
   			position: relative;
   			z-index: 100;
@@ -65,7 +62,7 @@
 		      <label><i class="search icon"></i>Search</label>
 		      <input ng-model="searchText" type="text" ng-change="intelligentCount(searchText)" data-toggle="dropdown">
 		    </md-input-container>
-			<span class = "btn-floating btn-large md-primary" ng-click="getAllUsers()" style="white-space:nowrap;" id="contained-button">
+			<span class = "btn-floating btn-large" ng-click="getAllUsers()" style="white-space:nowrap; background:{{dataModel.colorHex}};" id="contained-button">
 	        	<i class="users icon"></i>
 	     	</span>
 	     	<!--<div class="floating dropdown button">

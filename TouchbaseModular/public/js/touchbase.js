@@ -116,9 +116,9 @@ touchbase.config(function ($locationProvider, $httpProvider, $stateProvider, $ur
 
 	$urlRouterProvider.otherwise('/myProfile');
 
-	$mdThemingProvider.theme('red')
-    	.primaryPalette('red', {
-        'default': '800' }) // by default use shade 900 from the grey palette for primary intentions
+	$mdThemingProvider.theme('new')
+    	.primaryPalette('cyan', {
+        'default': '300' }) // by default use shade 900 from the grey palette for primary intentions
     	.accentPalette('amber',  {
     	'default': '600' })
     	.warnPalette('red');
@@ -126,7 +126,7 @@ touchbase.config(function ($locationProvider, $httpProvider, $stateProvider, $ur
 		.primaryPalette('red')
 		
 		.dark();*/
-	$mdThemingProvider.setDefaultTheme('red');
+	$mdThemingProvider.setDefaultTheme('new');
 
 });
 

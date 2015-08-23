@@ -1,6 +1,6 @@
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.1/angular-material.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
      <!-- Angular Material Dependencies -->
@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.1/angular-material.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -68,7 +68,7 @@
       </div>
     </md-toolbar>
     <div layout="row" flex>
-        <md-sidenav style="background:#C62828; z-index:1200;" layout="column" class="md-sidenav-left md-whiteframe-z2 md-default-theme" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+        <md-sidenav style="background:{{dataModel.colorHex}}; z-index:1200;" layout="column" class="md-sidenav-left md-whiteframe-z2 md-default-theme" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
         <header class="nav-header text-center">
             <br/>
             <img src="icons/touchbaseLogo.png" width="70"alt="">

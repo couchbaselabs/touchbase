@@ -293,18 +293,21 @@ User.advancedSearch = function(params, callback) {
 	}
 	for (i=0; i<stringAttributes.length;i++) {
 		if (params[stringAttributes[i]]) {
-			advancedQuery += ("AND LOWER(stringAttributes."+stringAttributes[i]+") LIKE LOWER (\"%" + params[stringAttributes[i]] + "%\") ");
+			advancedQuery += ("AND LOWER(stringAttributes.`"+stringAttributes[i]+"`) LIKE LOWER (\"%" + params[stringAttributes[i]] + "%\") ");
 		}
 	}
 	for (j=0; j<arrayAttributes.length; j++) {
 		if (params[arrayAttributes[j]]) {
-			advancedQuery += ("AND ANY blah IN " + userBucketName + ".arrayAttributes." + arrayAttributes[j] + " SATISFIES LOWER(blah) LIKE LOWER(\"%" + params[arrayAttributes[j]] + "%\") END ");
+			advancedQuery += ("AND ANY blah IN " + userBucketName + ".arrayAttributes.`" + arrayAttributes[j] + "` SATISFIES LOWER(blah) LIKE LOWER(\"%" + params[arrayAttributes[j]] + "%\") END ");
 		}
 	}
 	for (k=0; k<dropdownAttributes.length; k++) {
 		if (params[dropdownAttributes[k]]) {
-			advancedQuery += ("AND dropdownAttributes."+dropdownAttributes[k]+" = \"" + params[dropdownAttributes[k]] + "\" ");
+			advancedQuery += ("AND dropdownAttributes.`"+dropdownAttributes[k].varname+"` = \"" + params[dropdownAttributes[k].varname] + "\" ");
 		}
+	}
+	if (params[primaryAttribute]) {
+		advancedQuery += ("AND LOWER(`"+primaryAttribute+"`) LIKE LOWER(\"%"+params[primaryAttribute]+"%\") ");
 	}
 	// create the parts of the file you need, using a for loop in the script, and use += to add them to advancedQuery
 	/*if (params.administrator) {
@@ -371,7 +374,7 @@ User.intelligentCount = function(params, callback) {
 			intelliQuery += 'UNION ALL ';
 		}
 		if (arrayName) {
-			intelliQuery += ('SELECT COUNT(*) as count, \"'+arrayName+'\" AS field FROM '+userBucketName+' where ANY blah IN '+ userBucketName + '.arrayAttributes.' + arrayName + ' SATISFIES LOWER(blah) LIKE LOWER(\"%'+params.searchTerm+'%\") END AND login.emailVerified=true ');
+			intelliQuery += ('SELECT COUNT(*) as count, \"'+arrayName+'\" AS field FROM '+userBucketName+' where ANY blah IN '+ userBucketName + '.arrayAttributes.`' + arrayName + '` SATISFIES LOWER(blah) LIKE LOWER(\"%'+params.searchTerm+'%\") END AND login.emailVerified=true ');
 		}
 	}
 	var stringName = '';
@@ -381,19 +384,21 @@ User.intelligentCount = function(params, callback) {
 			intelliQuery += 'UNION ALL ';
 		}
 		if (stringName) {
-			intelliQuery+= ('SELECT COUNT(*) as count, \"'+stringName+'\" AS field FROM '+userBucketName+' where LOWER(stringAttributes.'+stringName+') LIKE LOWER(\"%'+params.searchTerm+'%\") AND login.emailVerified=true ');
+			intelliQuery+= ('SELECT COUNT(*) as count, \"'+stringName+'\" AS field FROM '+userBucketName+' where LOWER(stringAttributes.`'+stringName+'`) LIKE LOWER(\"%'+params.searchTerm+'%\") AND login.emailVerified=true ');
 		}
 	}
 	var dropdownName = '';
 	for (k=0; k<dropdownAttributes.length; k++) {
-		dropdownName = dropdownAttributes[k];
+		dropdownName = dropdownAttributes[k].varname;
 		if (k>0 || intelliQuery.length != -1) {
 			intelliQuery += 'UNION ALL ';
 		}
 		if (dropdownName) {
-			intelliQuery+= ('SELECT COUNT(*) as count, \"'+dropdownName+'\" AS field FROM '+userBucketName+' where dropdownAttributes.'+dropdownName+' = \"'+params.searchTerm+'\" AND login.emailVerified=true ');
+			intelliQuery+= ('SELECT COUNT(*) as count, \"'+dropdownName+'\" AS field FROM '+userBucketName+' where dropdownAttributes.`'+dropdownName+'` = \"'+params.searchTerm+'\" AND login.emailVerified=true ');
 		}
 	}
+	intelliQuery += ('UNION ALL SELECT COUNT(*) AS count, \"'+primaryAttribute+'\" AS field FROM '+userBucketName+' WHERE LOWER(`'+primaryAttribute+'`) LIKE LOWER(\"%'+params.searchTerm+'%\") AND login.emailVerified=true ');
+	intelliQuery += ('UNION ALL SELECT COUNT(*) AS count, \"email\" AS field FROM '+userBucketName+' WHERE LOWER(login.email) LIKE LOWER(\"%'+params.searchTerm+'%\") AND login.emailVerified=true ');
 	intelliQuery += ' ORDER BY count DESC, field';
 	var intelliQueryN1ql = N1qlQuery.fromString(intelliQuery);
 	console.log(intelliQueryN1ql);

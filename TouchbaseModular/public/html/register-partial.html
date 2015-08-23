@@ -7,7 +7,7 @@
     </div>
     <h5 class="text-center"> <font color="white">{{dataModel.projectName}} | Register</font> </h5>
     <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z4">
-        <md-content class="md-padding">
+        <div class="md-padding" style="background:white">
             <div flex-sm="100" flex-gt-sm="80" layout-sm="column">
                 <form name="contactForm" data-ng-submit="registerUser(registerData)">
                   <div layout layout-sm="column">
@@ -75,14 +75,14 @@
                 
                 <!--<md-select ng-model="size" placeholder="Size" class="ng-valid md-default-theme ng-touched ng-dirty ng-valid-parse" tabindex="0" aria-disabled="false" role="combobox" aria-expanded="false" id="select_99" aria-invalid="false" aria-label="Size"><md-select-label class="md-select-label" id="select_label_96"><span>medium (14-inch)</span><span class="md-select-icon" aria-hidden="true"></span></md-select-label></md-select>-->
             </div>
-        </md-content>
+        </div>
       </div>
       <br/>
       <span><font color="white">{{registerData}}</font></span>
+      </div>
       <div class="text center">
-                  <p><font color="white">Already Registered?</font></p>
-                  <md-button class="md-raised md-default" ui-sref="login"><font color="md-primary">Login</font></md-button>
-                </div>
+        <p><font color="white">Already Registered?</font></p>
+        <p><md-button class="md-raised md-default" ui-sref="login"><font color="{{dataModel.colorHex}}">Login</font></md-button></p>
       </div>
     </div>
   </div>
