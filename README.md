@@ -11,24 +11,6 @@ Simply navigate to the directory in your shell where you want to keep the projec
 
 This will now create the folder in that directory, and you can enter the folder, and then one level deeper into 'TouchbaseModular'. Here is where you will need to navigate when doing anything specific to your project.
 
-### Bucket Setup
-First off, download Couchbase Server 4.0 from http://www.couchbase.com/preview/couchbase-server-4-0.
-All the install instructions provided should make this simple and painless.
-
-Now, to create the 3 buckets for this project, there is a little more setup. 
-  1. Go to the IP address of your server ('localhost' if it is running on the device you are on) and go to port 8091. 
-  2. You will get a prompt to create a bucket named 'default'. Simply give it the minimum size needed and it can be deleted easily, as we will not require this bucket (you can use it if you like, just not needed for Touchbase).  
-  3. From here you can create these 3 buckets simply and easily using the 'Create Bucket' button. These buckets will be called **users** and **users_pictures** and **users_publishments**. Changing these bucketnames is possible in the "config.json" file.
-  4. Allot around 100 mb each to these buckets for initial testing, and closer to 300mb to use the **users_pictures** bucket.
-
-Now get into your CBQ shell, and run these three commands:
-*  **CREATE PRIMARY INDEX ON users**
-*  **CREATE PRIMARY INDEX ON users_pictures**
-*  **CREATE PRIMARY INDEX ON users_publishments**
-
-If you changed your bucket names in 'config.json, change them accordingly for these commands.
-An experimental API endpoint is still in the works to create all setup indexes simply by accessing the endpoint.
-
 ### Node.js Setup
 There are a few ways of installing Node.js:
 * Use a package manager. Instructions can be found at https://github.com/joyent/node/wiki/installing-node.js-via-package-manager.
@@ -90,6 +72,32 @@ The Sendgrid Web API was used along with the Nodemailer package to send email ve
 
 The Nodemailer Sengrid API method was used to ensure that the emails do not go to users' trash bins, and it also allows statistics about the emails to be tracked directly from the Sendgrid dashboard.
 Enter your Sendgrid username and password to the 'config.json' file after you create your account. This will allow for all emails to be sent safely through one's account. These changes will be reflected in the 'sessionmodel.js' file in the 'Session.makeVerification' function.
+
+### Bucket Setup
+First off, download Couchbase Server 4.0 from http://www.couchbase.com/preview/couchbase-server-4-0.
+All the install instructions provided should make this simple and painless.
+
+Now, to create the 3 buckets for this project, there is a little more setup. 
+  1.  Redirect your webpage to **http://IPofYourMachine:8091** (use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on).
+  2. You will get a prompt to create a bucket named 'default'. Simply give it the minimum size needed and it can be deleted easily, as we will not require this bucket (you can use it if you like, just not needed for Touchbase).  
+  3. From here you can create these 3 buckets simply and easily using the 'Create Bucket' button. These buckets will be called **users** and **users_pictures** and **users_publishments**. Changing these bucketnames is possible in the "config.json" file.
+  4. Allot around 100 mb each to these buckets for initial testing, and closer to 300mb to use the **users_pictures** bucket.
+
+There are 2 ways to go set up the buckets with indexes depending on how you feel is better for you.
+
+1. Get into your CBQ shell, and run these three commands:
+  *  **CREATE PRIMARY INDEX ON users**
+  *  **CREATE PRIMARY INDEX ON users_pictures**
+  *  **CREATE PRIMARY INDEX ON users_publishments**
+
+  If you changed your bucket names in 'config.json, change them accordingly for these commands.
+
+2. Set up your primary indexes, as well as some basic indexes for user searches using an API endpoint. 
+  * Complete the **Running the App** section.
+  * Redirect your webpage to **http://IPofYourMachine:3000/api/createPrimaryIndexes** (use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on).
+  * You should see 'Primary Indexes Created' after some time, at which point the setup is complete.
+  * It may be good to restart your node.js instance using Ctrl + C and then running the command to start the app once more.
+You should now be all prepared for the app to use your back-end appropriately.
 
 ### Running the app
 ***This is project-specific. Navigate to your project directory to run these commands in your command line. If you don't have the project downloaded, check 'Getting the Project'***
