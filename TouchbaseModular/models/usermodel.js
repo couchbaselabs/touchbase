@@ -269,7 +269,11 @@ User.addLoginTime = function(userID, callback) {
 User.advancedSearch = function(params, callback) {
 	/*var email, name, administrator, hobbies, expertise, division, title, baseOffice, userID;
 	name = administrator = hobbies = expertise = division = title = baseOffice = userID =""; */
-	var advancedQuery = ('SELECT * FROM ' + userBucketName + ' WHERE login.type="user" ');
+	var advancedQuery = ('SELECT stringAttributes, arrayAttributes, dropdownAttributes, login, uuid ,'+primaryAttribute+' ');
+	if (params.loginAuth) {
+		advancedQuery += ', `password` ';
+	}
+	advancedQuery += ('FROM ' + userBucketName + ' WHERE login.type="user" ');
 	/*var stringToArray = function(anyString) {
 			var tempArray=anyString.split(",");
 			var resultArray=[];

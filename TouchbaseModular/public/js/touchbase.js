@@ -7,82 +7,6 @@ var dropdownAttributes	= ["baseOffice", "division"];
 var $stateProviderRef = null;
 var $urlRouterProviderRef = null;
 
-
-/*aModule.config(['$locationProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider',
-    function($locationProvider, $stateProvider, $urlRouterProvider, $httpProvider) {
-
-      // XSRF token naming
-      $httpProvider.defaults.xsrfHeaderName = 'x-dt-csrf-header';
-      $httpProvider.defaults.xsrfCookieName = 'X-CSRF-TOKEN';
-
-      //$httpProvider.interceptors.push('httpInterceptor');
-      
-      $stateProvider
-        .state('home', {
-          url: "/home",
-          templateUrl: 'tpl.html',
-        })
-      $stateProvider
-        .state('authenticated', {
-          template: '<ui-view />',
-        })
-      $stateProvider
-        .state('login', {
-          url: '/login',
-          templateUrl: 'html/XXX/loginForm.html',
-          controller: 'AController'
-        })
-        .state('sAgree', {
-          url: '/serviceAgreement',
-          templateUrl: 'html/xxx/s.html',
-          controller: 'SController'
-        });
-      $urlRouterProvider.deferIntercept();
-
-      $urlRouterProvider.otherwise('/login');
-
-      $locationProvider.html5Mode({
-        enabled: false
-      });
-      $stateProviderRef = $stateProvider;
-      $urlRouterProviderRef = $urlRouterProvider;
-      
-}]); */
-
-
-/*touchbase.provider ("setApp", function () {
-	this.$get = function($http) {
-		$http({method: "GET", url: "/api/setConfig"})
-			.success(function(result) {
-				return {value: result.dataModel};
-			})
-			.error(function(result) {
-				console.log(result);
-			});
-	}
-});*/
-
-/*touchbase.run(function ($rootScope, $state, $stateParams) {
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
-	$rootScope.dataModel = {
-    	"projectName": "Touchbase",
-		"arrayAttributes" : ["expertise","hobbies"],
-		"stringAttributes": ["jobTitle", "skype"],
-		"dropdownAttributes": [
-			{
-				"varname": "baseOffice",
-				"options": ["Mountain View","San Francisco","Bangalore","Manchester","Other - Remote"]
-			},
-			{
-				"varname": "division",
-				"options": ["Engineering","Sales","Marketing","Support","Other Staff"]
-			}
-		],
-		"pubTypes": ["Github", "Couchbase in the News"]
-    };
-});*/
-
 touchbase.config(function ($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider) {
 	
 	$stateProvider
@@ -139,39 +63,6 @@ touchbase.run(function ($q, $rootScope, $http, $urlRouter) {
   		.error(function(result) {
   			console.log(error);
   		});
-
-    /*var $state = $rootScope.$state;
-    var makeVar = function(string) {
-    	string.replace(/ /g, "-");
-    	return string;
-    };
-    
-    $http({method: "GET", url: "/api/getConfig"})
-      .success(function(data) {
-      	$rootScope = data;
-        angular.forEach(data.pubTypes, function(value, key) {
-          
-          var newStateName = makeVar(value.type);
-          var getExistingState = $state.get(newStateName);
-
-          if(getExistingState !== null){
-            return; 
-          }
-          
-          var state = {
-            "url": "/posts/{newStateName}",
-            "templateUrl": 'html/all-couchNews-partial.html'
-          };
-
-          $stateProviderRef.state(newStateName, state);
-        });
-        // Configures $urlRouter's listener *after* your custom listener
-
-        $urlRouter.sync();
-        $urlRouter.listen();
-        
-      });
-  	}*/
 });
 
 touchbase.controller('AppCtrl', function ($scope, $mdSidenav){
@@ -194,7 +85,7 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 					$window.location.href="index.html";
 				}
 				console.log(result[0]);
-				$scope.myData= result[0].users;
+				$scope.myData= result[0];
 				Object.keys($scope.myData.arrayAttributes).forEach(function (key) {
 				    $scope.myData.arrayAttributes[key] = arrayToString($scope.myData.arrayAttributes[key]);
 				    // use val
@@ -213,6 +104,7 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 			    $scope.myData.arrayAttributes[key] = arrayToString($scope.myData.arrayAttributes[key]);
 			    // use val
 			});*/
+			$state.reload();
 		}
 		if (bool === false) {
 			$scope.update = false;

@@ -84,7 +84,7 @@ signUp.controller('loginController', function ($scope, $http, $window, $timeout)
 	$scope.noError = true;
 
 	$scope.loginAuth = function (someObject) {
-		someObject.loginAuth = true;
+		// someObject.loginAuth = true;
 		// this will require a name and password in the object to check login
 		$http({method: "POST", url: "/api/loginAuth", data: someObject})
 			.success(function(result) {

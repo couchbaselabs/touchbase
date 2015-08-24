@@ -51,6 +51,7 @@ var appRouter = function(app) {
         if(!req.body.password) {
             return next(JSON.stringify({"status": "error", "message": "A password must be provided"}));
         }
+        req.body.loginAuth = true;
         User.advancedSearch(req.body, function(error, user) {
             if(error) {
                 return res.status(400).send(error);
@@ -61,17 +62,17 @@ var appRouter = function(app) {
             if (x.length === 0) {
                 return res.status(400).send('The username entered does not exist');   
             }
-            if(!User.validatePassword(req.body.password, user[0].users.password)) {
+            if(!User.validatePassword(req.body.password, user[0].password)) {
                 return res.status(400).send("The password entered is invalid");
             }
-            if (!user[0].users.login.emailVerified) {
+            if (!user[0].login.emailVerified) {
                 return res.status(400).send("The username (email) entered is not yet verified, please verify before logging in.");
             }
-            User.addLoginTime(user[0].users.uuid, function(error, result) {
+            User.addLoginTime(user[0].uuid, function(error, result) {
                 if(error) {
                     return res.status(400).send(error);
                 }
-                Session.create(user[0].users.uuid, function(error, result) {
+                Session.create(user[0].uuid, function(error, result) {
                     if(error) {
                     return res.status(400).send(error);
                     }
@@ -89,7 +90,7 @@ var appRouter = function(app) {
                 return res.status(400).send(error);
             }
             console.log(userDocs[0]);
-            req.body.authorID = userDocs[0].users.uuid;
+            req.body.authorID = userDocs[0].uuid;
             console.log(req.body);
             Publish.create(req.body, function(err, result) {
                 if (err) {
@@ -123,7 +124,8 @@ var appRouter = function(app) {
                             callback();
                         }
                         else {
-                            person.users_publishments.author = result[0].users[primaryAttribute];
+                            console.log('result : ' + JSON.stringify(result[0]));
+                            person.users_publishments.author = result[0][primaryAttribute];
                             console.log(person);
                             callback();
                         }
@@ -299,12 +301,12 @@ var appRouter = function(app) {
                 return (JSON.stringify({"status": "error", "message": "Sorry, there are no results for your search."}));
             }*/
             async.each(result, function(person, callback) {
-                Picture.receive(person.users, function (err, resp) {
+                Picture.receive(person, function (err, resp) {
                     if (error) {
                         callback(error);
                     }
                     else  {
-                        person.users.picSRC = resp.value;
+                        person.picSRC = resp.value;
                         callback();
                     }
                 });
@@ -329,7 +331,7 @@ var appRouter = function(app) {
                         console.log('RESULT : ' + result[y]);
                         // console.log('RESULT0 : ' + result[0]);
                         console.log(y);
-                        result[y].users.picSRC = resp.value;
+                        result[y].picSRC = resp.value;
                         console.log(typeof resp.value);
                         console.log('resp.value: ' + resp.value);
                         //if (y === (result.length-1)) {

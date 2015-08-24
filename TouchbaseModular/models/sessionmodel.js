@@ -140,7 +140,7 @@ Session.makeVerification = function (pathInfo, userDoc, callback) {
 // used to verify email by searching for the verify document and changing 'login.emailVerified' boolean attribute in corresponding user doc.
 // used in '/api/verify/:verificationID'
 Session.verify = function(verifyID, callback) {
-	var findValidation = N1qlQuery.fromString('SELECT * FROM '+userBucketName+' USE KEYS($1)');
+	var findValidation = N1qlQuery.fromString('SELECT userID FROM '+userBucketName+' USE KEYS($1)');
 	userBucket.query(findValidation, [verifyID], function (error, result) {
 		if (error) {
     		callback(error, null);
@@ -151,7 +151,7 @@ Session.verify = function(verifyID, callback) {
     		callback(null, 'email already verified/verification expired, please login again');
     		return;
     	}
-    	var userID = result[0].users.userID;
+    	var userID = result[0].userID;
     	var updateUserValidation = N1qlQuery.fromString('UPDATE '+userBucketName+' USE KEYS($1) SET login.emailVerified=true');
     	console.log(updateUserValidation);
     	userBucket.query(updateUserValidation, [userID], function (err, update) {
