@@ -8,29 +8,29 @@
     	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
 	<div ng-repeat="post in publishData.output | filter:searchText ">
- 		<div class="col-sm-4" ng-if="post.users_publishments">
+ 		<div class="col-sm-4" ng-if="post.author">
 	 		<div class="card small">
 	 			<span class= "text right">
 	 				<i class="plus icon activator"></i>
 	 			</span>
 	 			<br/>
 	 			<div class=" activator text center waves-effect waves-block waves-light">
-	 			<img class="activator img-circle" ng-src="icons/{{post.users_publishments.imagePath}}" width="75"></img>
+	 			<img class="activator img-circle" ng-src="icons/{{post.imagePath}}" width="75"></img>
 				    <div class="card-content waves-effect waves-block waves-light">
-				      <span class="card-title activator grey-text text-darken-4">{{post.users_publishments.title}}</span>
+				      <span class="card-title activator grey-text text-darken-4">{{post.title}}</span>
 				      <br/>
 				      <br/>
-				      <p><strong>{{post.users_publishments.author}}</strong></p>
-				      <p>{{post.users_publishments.timeDisp}}</p>
-				      <p><a ng-href="{{post.users_publishments.hyperlink}}"><i class="external icon"></i> {{post.users_publishments.title}}</a></p>
+				      <p><strong>{{post.author}}</strong></p>
+				      <p>{{post.timeDisp}}</p>
+				      <p><a ng-href="{{post.hyperlink}}"><i class="external icon"></i> {{post.title}}</a></p>
 				    </div>
 				</div>
 			    <div class="card-reveal">
 	 			  <div class="text-center">
-				      <div class="card-title grey-text text-darken-4">{{post.users_publishments.title}} </div>
+				      <div class="card-title grey-text text-darken-4">{{post.title}} </div>
 	 			  </div>
 				      <br/>
-				      <p>{{post.users_publishments.blurb}}</p>
+				      <p>{{post.blurb}}</p>
 				 </div>
 		    </div>
 		</div>

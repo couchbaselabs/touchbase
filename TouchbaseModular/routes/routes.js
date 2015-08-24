@@ -110,7 +110,7 @@ var appRouter = function(app) {
                 return res.status(400).send(error);
             }
             async.each(result, function (person, callback) {
-                var someObj = {userID: person.users_publishments.authorID};
+                var someObj = {userID: person.authorID};
                 User.advancedSearch(someObj, function (error, result) {
                     if (error) {
                         callback(error);
@@ -119,13 +119,12 @@ var appRouter = function(app) {
                         console.log('PERSON INIT : ' + person);
                         console.log(result);
                         if (!result[0]) {
-                            person.users_publishments = null;
                             console.log('user deleted, post ignored');
                             callback();
                         }
                         else {
                             console.log('result : ' + JSON.stringify(result[0]));
-                            person.users_publishments.author = result[0][primaryAttribute];
+                            person.author = result[0][primaryAttribute];
                             console.log(person);
                             callback();
                         }
@@ -317,35 +316,6 @@ var appRouter = function(app) {
                 }
                 res.json(result);
             });
-            /*
-            var picFinish = false;
-            var pulled = 0;
-            for(y=0; y<result.length; y++) {
-                //(function(y) {
-                Picture.receive(result[y].users, function (err, resp) {
-                    if (error) {
-                        console.log(err);
-                        return res.status(400).send(err);
-                    }
-                    else {
-                        console.log('RESULT : ' + result[y]);
-                        // console.log('RESULT0 : ' + result[0]);
-                        console.log(y);
-                        result[y].picSRC = resp.value;
-                        console.log(typeof resp.value);
-                        console.log('resp.value: ' + resp.value);
-                        //if (y === (result.length-1)) {
-                        if (++pulled == result.length) {
-                            var picFinish = true;
-                        }
-                        if (picFinish) {
-                            res.json(result);
-                        }
-                        ++pulled;
-                    }
-                });
-                //})(y);
-            } */
         });
     });
 

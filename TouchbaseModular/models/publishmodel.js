@@ -32,7 +32,7 @@ Publish.create = function(params, callback) {
 };
 
 Publish.search = function(params, callback) {
-	var pubQuery = "SELECT * FROM "+publishBucketName+" WHERE type='post' ";
+	var pubQuery = "SELECT time, title, authorID, pubType, hyperlink, blurb, imagePath FROM "+publishBucketName+" WHERE type='post' ";
 	if (params.pubType) {
 		pubQuery+= ("AND pubType = \""+params.pubType+"\" ");
 	}

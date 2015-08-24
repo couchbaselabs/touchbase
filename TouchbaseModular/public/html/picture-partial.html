@@ -215,12 +215,12 @@
       <img src="icons/touchbaseLogo.png" width="40">
     </div>
     <h5 class="text-center"> <font color="white">Touchbase | Picture Upload</font> </h5>
-    <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z2">
-        <md-content class="md-padding">
+    <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z2" >
+        <md-content class="md-padding" style="background-color:white;">
           <br/>
           <form name="uploadForm" id = "uploadForm" action="/api/uploadAttempt" method="post" enctype="multipart/form-data">
             <div class="text-center">
-              <div id="upload" style="background-color:#C62828" class="button raised" md-ink-ripple><i class="inverted crop icon"></i><font color="white">SELECT PIC</font></div>
+              <div id="upload" style="background-color:{{dataModel.colorHex}}" class="button raised" md-ink-ripple><i class="inverted crop icon"></i><font color="white">SELECT PIC</font></div>
               <br/>
             Limit 7.5MB
             </div>
