@@ -1,5 +1,6 @@
-<html lang="en">
+<html lang="en" ng-app="touchbase">
   <head>
+    <title>{{dataModel.projectName}}</title>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.1/angular-material.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -56,7 +57,7 @@
 
     </style>
   </head>
-  <body layout="column" ng-app="touchbase" ng-controller="AppCtrl">
+  <body layout="column" ng-controller="AppCtrl">
     <md-toolbar hide-gt-md layout="row">
       <div class="md-toolbar-tools">
         <md-button ng-click="toggleSidenav('left')" class="md-icon-button">

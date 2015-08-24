@@ -435,7 +435,7 @@ touchbase.controller('searchController', function ($scope, $http, $window, $q, $
 touchbase.controller('signOutController', function ($scope, $http, $window) {
 
 	$scope.signOut = function () {
-		var r = confirm("Are you sure you want to logout of Touchbase?");
+		var r = confirm("Are you sure you want to logout of "+$scope.dataModel.projectName+"?");
 		if (r == true) {
 			localStorage.clear();
 			$window.location.href = 'index.html';
