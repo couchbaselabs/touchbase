@@ -109,18 +109,18 @@ Once you have a working version of Couchbase Server, go to **http://IPofYourMach
   4. Allot around 100 mb each to these buckets for initial testing, and closer to 300mb to use the **users_pictures** bucket. If you used only one or two buckets, just increase the amount of RAM for the bucket that is storing the pictures.
 
 There are 2 ways to go set up the buckets with indexes, one being far simpler than the other.
-1. Set up your primary indexes, as well as some basic indexes for user searches using a simple API endpoint. 
+
+1. **Simple :** Set up your primary indexes, as well as some basic indexes for user searches using a simple API endpoint. 
   * Complete the **Running the App** section.
   * Redirect your webpage to **http://IPofYourMachine:3000/api/createPrimaryIndexes**. Use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on. Also if you changed your port in 'config.json', replace 3000 with that port number.
   * You should see 'Primary Indexes Created' after some time, at which point the setup is complete.
   * It may be good to restart your node.js instance using Ctrl + C and then running the command to start the app once more.
 You should now be all prepared for the app to use your back-end appropriately.
-2. If you really, truly want to do this manually, go into your CBQ shell, and run these three commands:
-  *  **CREATE PRIMARY INDEX ON users**
-  *  **CREATE PRIMARY INDEX ON users_pictures**
-  *  **CREATE PRIMARY INDEX ON users_publishments**
 
-If you changed your bucket names in 'config.json', change them accordingly for these commands.
+2. **Manual :** If you really, truly want to do this manually, go into your CBQ shell, and run these three commands. If you changed your bucket names in 'config.json', change them accordingly for these commands.
+  *  ````CREATE PRIMARY INDEX ON users````
+  *  ````CREATE PRIMARY INDEX ON users_pictures````
+  *  ````CREATE PRIMARY INDEX ON users_publishments````
 
 ### Running the app
 ***This is project-specific. Navigate to your project directory to run these commands in your command line. If you don't have the project downloaded, check 'Getting the Project'.***
