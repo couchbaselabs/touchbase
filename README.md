@@ -4,6 +4,17 @@
 
 An opensource NoSQL social network platform using Couchbase Server 4.0 (featuring N1QL), as well as Express, Angular and Node (the JavaScript web stack). The UI is created primarily using Angular Material Design, as well as parts of Bootstrap, Semantic UI and Materialize CSS.
 
+### Prerequisites
+For the contents of this README, it is assumed that you have the following items setup.
+
+1. System-specific prerequisites for node-gyp at https://github.com/nodejs/node-gyp
+2. A working Couchbase Server 4.0 instance (enough free RAM for at least one bucket)
+3. A Sendgrid Web API account
+4. Node.js & NPM (both should be newer versions)
+5. GraphicsMagick
+
+If you lack any one of these things, proper installation and setup can be seen in <a href="PREREQUISITES.md">PREREQUISITES.md</a>.
+
 ### Getting the Project
 The simplest way to get Touchbase is simply to clone it to wherever you choose. Keep track of this directory, as you will have to navigate to it in the future. The clone link can be seen in the bottom right corner of the home page for Touchbase. 
 
@@ -11,18 +22,10 @@ Simply navigate to the directory in your shell where you want to keep the projec
 
 ````$ git clone https://github.com/couchbaselabs/touchbase.git````
 
-This will now create the folder in that directory, and you can enter the folder, and then one level deeper into 'TouchbaseModular'. Here is where you will need to navigate when doing anything specific to your project.
-
-### Node.js Setup
-There are a few ways of installing Node.js:
-* Use a package manager. Instructions can be found at https://github.com/joyent/node/wiki/installing-node.js-via-package-manager.
-* This can also be done using a standard browser installation at https://nodejs.org/download/
-
-Node.js should come automatically with NPM (node package manager), but if not this can be downloaded as a separate installation.
-The instructions for this can be seen in the package manager link provided above.
+This will now create the folder in that directory, and you can enter the folder, and then one level deeper into 'TouchbaseModular' (**touchbase/TouchbaseModular**). Here is where you will need to navigate when doing anything specific to your project.
 
 ### Installing Node Modules and Bower Components
-***This is project-specific. Navigate to your project directory to run these commands in your command line. If you don't have the project downloaded, check 'Getting the Project'***
+***This is project-specific. Navigate to your project directory to run these commands in your command line. If you don't have the project downloaded, check 'Getting the Project'.***
 
 ######NPM
 Once NPM (node package manager) is properly available, run one simple command:
@@ -46,34 +49,10 @@ After installing bower, run this command:
 This will now install all the components specified in the 'bower.json' file that were included in the project.
 All of these components will be downloaded into the 'bower_components' folder and can also be accessed through 'require' statements, or ````<script src="filepath">```` tags in HTML to access the necessary files.
 
-### Installing GraphicsMagick
-GraphicsMagick is used by Touchbase to allow images to be altered as the user sees fit. In the current implementation of the application, the image is cropped, scaled down, then reduced in quality and then sent to be uploaded to Couchbase.
-If you looked into the 'package.json' file, you may see that we downloaded 'gm' which is the node module for GraphicsMagick. 
-Therefore, it may seem odd that we still have to install GraphicsMagick. 
-The reason for this is simply that the node module 'gm' simply accesses GraphicsMagick binaries that the system has in a simple way for Node.js. 
-We still have to download these binaries, and this will vary by OS.
-
-###### Mac OSX
-The simplest way for Mac is to use homebrew and execute a simple command:
-
-````$ brew install graphicsMagick````
-
-If you do not have homebrew, simply go to http://brew.sh and install it.
-
-###### CentOS
-Using CentOS to download GraphicsMagick can be a bit difficult, however there is a simple 'gist' that has the commands necessary to install it using 'yum' commands. It assumes that your machine has 'yum' as this should come stock with all CentOS machines. The 'gist' can be found at https://gist.github.com/paul91/9008409
-
-###### Other Linux
-Instructions to install with other Linux systems (could also be done with OSX/CentOS) could be found at http://www.graphicsmagick.org/INSTALL-unix.html. 
-
-###### Windows
-Instructions to install with Windows could be found at http://www.graphicsmagick.org/INSTALL-windows.html.
-
-### Sendgrid API
-The Sendgrid Web API was used along with the Nodemailer package to send email verification to all users. Please create an account at https://sendgrid.com/free?mc=SendGrid%20Documentation. 
-
+### Sendgrid API Setup
 The Nodemailer Sengrid API method was used to ensure that the emails do not go to users' trash bins, and it also allows statistics about the emails to be tracked directly from the Sendgrid dashboard.
-Enter your Sendgrid username and password to the 'config.json' file after you create your account. This will allow for all emails to be sent safely through one's account. These changes will be reflected in the 'sessionmodel.js' file in the 'Session.makeVerification' function.
+
+Enter your Sendgrid username and password to the 'config.json' file after you successfully create your account. This will ensure that all emails are sent safely through one's account. These changes will be reflected in the 'sessionmodel.js' file in the 'Session.makeVerification' function.
 
 ### Customizing your application
 
@@ -123,40 +102,37 @@ Changing the colors and various logos for the application is an important part o
 Your branding and color customization is now complete!
 
 ### Bucket Setup
-First off, download Couchbase Server 4.0 from http://www.couchbase.com/preview/couchbase-server-4-0.
-All the install instructions provided should make this simple and painless.
 
-Now, to create the 3 buckets for this project, there is a little more setup. 
-  1.  Redirect your webpage to **http://IPofYourMachine:8091** (use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on).
-  2. You will get a prompt to create a bucket named 'default'. Simply give it the minimum size needed and it can be deleted easily, as we will not require this bucket (you can use it if you like, just not needed for Touchbase).  
-  3. From here you can create these 3 buckets simply and easily using the 'Create Bucket' button. These buckets will be called **users** and **users_pictures** and **users_publishments**. Changing these bucketnames is possible in the "config.json" file.
-  4. Allot around 100 mb each to these buckets for initial testing, and closer to 300mb to use the **users_pictures** bucket.
+Once you have a working version of Couchbase Server, go to **http://IPofYourMachine:8091**. Use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on. Then complete the following steps.
+ 1. Login, and then navigate to the **'Data Buckets'** tab at the top of the screen.
+ 2. From here you can create these 3 buckets simply and easily using the 'Create Bucket' button. These buckets will be called **users** and **users_pictures** and **users_publishments**. Changing these bucketnames is possible in the 'config.json' file. If you changed 'config.json' to use only one bucket, or two buckets, simply create those one or two buckets.
+  4. Allot around 100 mb each to these buckets for initial testing, and closer to 300mb to use the **users_pictures** bucket. If you used only one or two buckets, just increase the amount of RAM for the bucket that is storing the pictures.
 
-There are 2 ways to go set up the buckets with indexes depending on how you feel is better for you.
-
-1. Get into your CBQ shell, and run these three commands:
+There are 2 ways to go set up the buckets with indexes, one being far simpler than the other.
+1. Set up your primary indexes, as well as some basic indexes for user searches using a simple API endpoint. 
+  * Complete the **Running the App** section.
+  * Redirect your webpage to **http://IPofYourMachine:3000/api/createPrimaryIndexes**. Use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on. Also if you changed your port in 'config.json', replace 3000 with that port number.
+  * You should see 'Primary Indexes Created' after some time, at which point the setup is complete.
+  * It may be good to restart your node.js instance using Ctrl + C and then running the command to start the app once more.
+You should now be all prepared for the app to use your back-end appropriately.
+2. If you really, truly want to do this manually, go into your CBQ shell, and run these three commands:
   *  **CREATE PRIMARY INDEX ON users**
   *  **CREATE PRIMARY INDEX ON users_pictures**
   *  **CREATE PRIMARY INDEX ON users_publishments**
 
-  If you changed your bucket names in 'config.json', change them accordingly for these commands.
-
-2. Set up your primary indexes, as well as some basic indexes for user searches using an API endpoint. 
-  * Complete the **Running the App** section.
-  * Redirect your webpage to **http://IPofYourMachine:3000/api/createPrimaryIndexes** (use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on).
-  * You should see 'Primary Indexes Created' after some time, at which point the setup is complete.
-  * It may be good to restart your node.js instance using Ctrl + C and then running the command to start the app once more.
-You should now be all prepared for the app to use your back-end appropriately.
+If you changed your bucket names in 'config.json', change them accordingly for these commands.
 
 ### Running the app
-***This is project-specific. Navigate to your project directory to run these commands in your command line. If you don't have the project downloaded, check 'Getting the Project'***
+***This is project-specific. Navigate to your project directory to run these commands in your command line. If you don't have the project downloaded, check 'Getting the Project'.***
 
 Most setup is complete at this point. First, navigate into 'TouchbaseModular'.
 
 Once in this folder, use the command ````$ node app.js```` (or nodemon if you prefer), to run the project.
 
 The console will now have a message saying "View Touchbase at localhost:3000" (maybe a different port depending on 'config.json' file).
-Redirect your browser to this location, and view the project! Congratulations on your custom app :)
+Redirect your browser to this location, and view the project! 
+If you have not yet created your indexes, go ahead and redirect to **http://IPofYourMachine:3000/api/createPrimaryIndexes** as mentioned in **Bucket Setup**.
+Congratulations on your custom app :)
 
 ### Post Launch
 ###### Logs
