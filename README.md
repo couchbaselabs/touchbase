@@ -1,5 +1,6 @@
-# Touchbase                 <img src="TouchbaseModular/icons/Touchbase_red.png" align="center" width="75">
+<p align="center"><img src="TouchbaseModular/icons/Touchbase_red.png" width="100"/></p>
 
+#Touchbase
 **Created By:** Pranav Mayuram
 
 An opensource NoSQL social network platform using Couchbase Server 4.0 (featuring N1QL), as well as Express, Angular and Node (the JavaScript web stack). The UI is created primarily using Angular Material Design, as well as parts of Bootstrap, Semantic UI and Materialize CSS.
@@ -16,9 +17,9 @@ For the contents of this README, it is assumed that you have the following items
 If you lack any one of these things, proper installation and setup can be seen in <a href="PREREQUISITES.md">PREREQUISITES.md</a>.
 
 ### Getting the Project
-The simplest way to get Touchbase is simply to clone it to wherever you choose. Keep track of this directory, as you will have to navigate to it in the future. The clone link can be seen in the bottom right corner of the home page for Touchbase. 
+The simplest way to get Touchbase is simply to clone it to wherever you choose. Keep track of the directory where you clone the Touchbase repo, as you will have to navigate to it in the future.
 
-Simply navigate to the directory in your shell where you want to keep the project folder and run: 
+Simply navigate to the directory where you want to keep Touchbase (Documents, Desktop, etc.) in your command line (Terminal) where you want to keep the project folder and run the following command: 
 
 ````$ git clone https://github.com/couchbaselabs/touchbase.git````
 
@@ -32,7 +33,7 @@ Once NPM (node package manager) is properly available, run one simple command:
 
 ````$ npm install````
 
-Then, this will install all modules that were specified for the project in the 'package.json' file.
+Then, this will install all modules that were specified for the project in the 'package.json' file. You may need to use **sudo** before the command to do it as a root/administrator.
 All of these modules will be put into the 'node_modules' folder and then be accessed in the back-end javascript files using 'require' statements, or ````<script src="filepath">```` tags in HTML to access the necessary files.
 
 ######Bower
@@ -103,7 +104,7 @@ Your branding and color customization is now complete!
 
 ### Bucket Setup
 
-Once you have a working version of Couchbase Server, go to **http://IPofYourMachine:8091**. Use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on. Then complete the following steps.
+Once you have a working version of Couchbase Server, go to **http://IPofYourMachine:8091**. Use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on. **Make sure that you have Couchbase Server running**. On Mac, this is done simply by clicking Couchbase Server in your Launchpad. You will see the Couchbase logo in your dock near the wifi label in the top right hand side of your screen. Then complete the following steps.
  1. Login, and then navigate to the **'Data Buckets'** tab at the top of the screen.
  2. From here you can create these 3 buckets simply and easily using the 'Create Bucket' button. These buckets will be called **users** and **users_pictures** and **users_publishments**. Changing these bucketnames is possible in the 'config.json' file. If you changed 'config.json' to use only one bucket, or two buckets, simply create those one or two buckets.
   4. Allot around 100 mb each to these buckets for initial testing, and closer to 300mb to use the **users_pictures** bucket. If you used only one or two buckets, just increase the amount of RAM for the bucket that is storing the pictures.
