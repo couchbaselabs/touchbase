@@ -7,6 +7,7 @@ var nodemailer			= require("nodemailer");
 var sgTransport 		= require('nodemailer-sendgrid-transport');
 var Email 				= require("./emailmodel");
 var sendGridInfo		= require("../config.json").SendGrid;
+var configData  		= require("../config.json").dataModel;
 console.log('sendGridInfo: ' + sendGridInfo);
 
 function Session() {};
@@ -112,9 +113,9 @@ Session.makeVerification = function (pathInfo, userDoc, callback) {
 	};
 	var client = nodemailer.createTransport(sgTransport(options));
 	var email = {
-	  	from: 'Touchbase <touchbase-noreply@couchbase.com>',
+	  	from: configData.projectName+' <'+configData.projectName+'-noreply@couchbase.com>',
 	  	to: userDoc.login.email,
-	  	subject: 'Verify Your Touchbase Account',
+	  	subject: 'Verify Your '+configData.projectName+' Account',
 	  	html: Email.create(pathInfo, verifyModel)
 	};
 	userBucket.insert(verifyModel.sessionID, verifyModel, {expiry: verifyModel.expiry}, function (error, result) {
