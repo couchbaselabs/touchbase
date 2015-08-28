@@ -101,11 +101,11 @@ signUp.controller('loginController', function ($scope, $http, $window, $timeout)
 	};
 
 	$scope.checkEmail = function (someString) {
-		var endsWith = function (str, suffix) {
+		/*var endsWith = function (str, suffix) {
             return str.indexOf(suffix, str.length - suffix.length) !== -1;
-        }
-		if (!someString || !(endsWith(someString, 'couchbase.com'))) {
-			$scope.errors.emailError = "Please enter a valid couchbase.com email address.";
+        }*/
+		if (!someString /*|| !(endsWith(someString, 'couchbase.com'))*/) {
+			$scope.errors.emailError = "Please enter a valid email address.";
 		}
 		else {
 			$scope.errors.emailError = "";
@@ -141,11 +141,11 @@ signUp.controller('registerController', function ($scope, $http, $window, $state
 	};
 
 	$scope.checkEmail = function (someString) {
-		var endsWith = function (str, suffix) {
+		/*var endsWith = function (str, suffix) {
             return str.indexOf(suffix, str.length - suffix.length) !== -1;
-        }
-		if (!someString || !(endsWith(someString, 'couchbase.com'))) {
-			$scope.errors.emailError = "Please enter a valid couchbase.com email address.";
+        }*/
+		if (!someString /*|| !(endsWith(someString, 'couchbase.com'))*/) {
+			$scope.errors.emailError = "Please enter a valid email address.";
 		}
 		else {
 			emailSearch(someString, 'email');

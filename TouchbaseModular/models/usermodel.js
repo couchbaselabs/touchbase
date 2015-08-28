@@ -75,13 +75,6 @@ User.create = function(params, callback) {
 	if (!params.stringAttributes) {
 		params.stringAttributes = {};
 	}
-	/*if (!params.arrayAttributes.hobbies) {
-		params.arrayAttributes.hobbies = "";
-	}
-	if (!params.arrayAttributes.expertise) {
-		params.arrayAttributes.expertise="";
-	}*/
-	// uuid, login, & timeTracker will remain constant; only the attributes can be changed
     var userDoc = {
     	// should add a type here, ex. type: "user"
     	uuid: uuid.v4(),
@@ -269,7 +262,7 @@ User.addLoginTime = function(userID, callback) {
 User.advancedSearch = function(params, callback) {
 	/*var email, name, administrator, hobbies, expertise, division, title, baseOffice, userID;
 	name = administrator = hobbies = expertise = division = title = baseOffice = userID =""; */
-	var advancedQuery = ('SELECT stringAttributes, arrayAttributes, dropdownAttributes, login, uuid ,'+primaryAttribute+' ');
+	var advancedQuery = ('SELECT stringAttributes, arrayAttributes, dropdownAttributes, login, uuid , `'+primaryAttribute+'` ');
 	if (params.loginAuth) {
 		advancedQuery += ', `password` ';
 	}
@@ -348,8 +341,8 @@ User.advancedSearch = function(params, callback) {
 	}
 	*/
 	// var advancedQuery = N1qlQuery.fromString("SELECT * FROM " + userBucketName + " " + email + " " + name + " " + administrator + " " +  hobbies + " " + expertise + " " + division + " " + title + " " + baseOffice + " " + userID);
-	if (params.loginAuth) {
-		advancedQuery+= ("ORDER BY "+primaryAttribute);
+	if (params.loginAuth || params.register) {
+		advancedQuery+= ("ORDER BY `"+primaryAttribute+"`");
 	}
 	else {
 		advancedQuery += ("AND login.emailVerified=true ORDER BY "+primaryAttribute);
