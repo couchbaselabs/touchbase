@@ -46,10 +46,7 @@ touchbase.config(function ($locationProvider, $httpProvider, $stateProvider, $ur
     	.accentPalette('amber',  {
     	'default': '600' })
     	.warnPalette('red');
-	/*$mdThemingProvider.theme('default')
-		.primaryPalette('red')
-		
-		.dark();*/
+
 	$mdThemingProvider.setDefaultTheme('new');
 
 });
@@ -97,20 +94,18 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
 			});
 	};
 
-	$scope.changeUpdate = function(bool) {
-		if (bool === true) {
+	$scope.changeUpdate = function(something) {
+		if (something === true) {
 			$scope.update = true;
-			/*Object.keys($scope.myData.arrayAttributes).forEach(function (key) {
-			    $scope.myData.arrayAttributes[key] = arrayToString($scope.myData.arrayAttributes[key]);
-			    // use val
-			});*/
-			$state.reload();
 		}
-		if (bool === false) {
+		if (something === false) {
+			$scope.update = false;
+		}
+		if (something === 'cancelled') {
 			$scope.update = false;
 			$state.reload();
 		}
-	}
+	};
 
 	$scope.updateMyProfile = function(myData) {
 		myData.picSRC = "";

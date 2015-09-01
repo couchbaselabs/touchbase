@@ -882,7 +882,7 @@ Email.create = function(pathInfo, verifyModel) {
 	strVar += "                    <tbody><tr>";
 	strVar += "                      <td class=\"padded\" style=\"padding: 0;vertical-align: top;padding-left: 60px;padding-right: 60px;word-break: break-word;word-wrap: break-word\">";
 	strVar += "                        ";
-	strVar += "            <h1 style=\"Margin-top: 0;color: """+configData.colorHex+";font-weight: 400;font-size: 36px;Margin-bottom: 21px;text-align: center;font-family: Tahoma,sans-serif;line-height: 44px\">"+configData.projectName+" | Verify<\/h1>";
+	strVar += "            <h1 style=\"Margin-top: 0;color:"+configData.colorHex+";font-weight: 400;font-size: 36px;Margin-bottom: 21px;text-align: center;font-family: Tahoma,sans-serif;line-height: 44px\">"+configData.projectName+" | Verify<\/h1>";
 	strVar += "          ";
 	strVar += "                      <\/td>";
 	strVar += "                    <\/tr>";

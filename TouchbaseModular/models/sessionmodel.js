@@ -8,7 +8,7 @@ var sgTransport 		= require('nodemailer-sendgrid-transport');
 var Email 				= require("./emailmodel");
 var sendGridInfo		= require("../config.json").SendGrid;
 var configData  		= require("../config.json").dataModel;
-console.log('sendGridInfo: ' + sendGridInfo);
+console.log('sendGridInfo: ' + JSON.stringify(sendGridInfo));
 
 function Session() {};
 

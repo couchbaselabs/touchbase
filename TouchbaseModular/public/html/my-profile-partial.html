@@ -55,7 +55,7 @@
         <md-button class="md-accent" ng-if="!update" ng-click="changeUpdate(true)">Edit Profile</md-button>
       </div>
       <div class="md-actions" layout="row">
-        <md-button class="md-accent" ng-if="update" ng-click="changeUpdate(false)">Cancel</md-button>
+        <md-button class="md-accent" ng-if="update" ng-click="changeUpdate('cancelled')">Cancel</md-button>
         <span flex></span>
         <md-button class="md-primary" ng-if="update" ng-click="updateMyProfile(myData)">Update Profile</md-button>
       </div>

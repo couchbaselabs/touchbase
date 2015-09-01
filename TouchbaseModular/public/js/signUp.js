@@ -30,7 +30,7 @@ signUp.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 			templateUrl: 'html/verify-partial.html'
 		})
 
-		$mdThemingProvider.theme('red')
+		$mdThemingProvider.theme('new')
         	.primaryPalette('cyan', {
             	'default': '300' }) // by default use shade 900 from the grey palette for primary intentions
         	.accentPalette('amber',  {
@@ -38,12 +38,8 @@ signUp.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         	.backgroundPalette('cyan', {
         		'default': '300' })
         	.warnPalette('red');
-             // by default use shade 900 from the grey palette for primary intentions
-		/*$mdThemingProvider.theme('default')
-    		.primaryPalette('red')
-    		
-    		.dark();*/
-    	$mdThemingProvider.setDefaultTheme('red');
+        	
+    	$mdThemingProvider.setDefaultTheme('new');
 
 });
 
@@ -155,7 +151,7 @@ signUp.controller('registerController', function ($scope, $http, $window, $state
 	$scope.passStrength = function (someString) {
 		var passCheck = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
         if (!passCheck.test(someString)) {
-            $scope.errors.passwordError = "Password must contain 1 lower case character, 1 upper case character, 1 number and at least 6 total characters";
+            $scope.errors.passwordError = "Requires (a-z), (A-Z), (1-9), < 6 total characters";
         }
         else {
         	$scope.errors.passwordError = "";

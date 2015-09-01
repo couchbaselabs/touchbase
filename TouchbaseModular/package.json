@@ -1,6 +1,6 @@
 {
   "name": "Couch411",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Social Network Template using Couchbase and *EAN stack",
   "main": "app.js",
   "author": "Pranav Mayuram",
