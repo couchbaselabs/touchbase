@@ -21,8 +21,6 @@
     "nodemailer": "^1.4.0",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^1.4.0",
-    "semantic-ui-grid": "~2.0.7",
-    "semantic-ui-icon": "~2.0.7",
     "uuid": "^2.0.1"
   }
 }

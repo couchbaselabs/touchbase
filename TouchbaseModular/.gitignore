@@ -2,4 +2,5 @@ node_modules
 bower_components
 uploads
 .DS_Store
-.pem
+key.pem
+cert.pem

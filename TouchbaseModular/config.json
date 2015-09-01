@@ -7,8 +7,8 @@
         "TouchbasePort": 3000
     },
     "SendGrid": {
-    	"username" : "pranavm",
-    	"password" : "helloW0rld"
+    	"username" : "",
+    	"password" : ""
     },
     "dataModel": {
     	"projectName": "Touchbase",
