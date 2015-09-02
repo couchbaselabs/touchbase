@@ -1,46 +1,46 @@
 <div ng-controller="publishController" ng-init="getAllPosts()">
-	<md-input-container >
+    <md-input-container >
       <!-- Use floating label instead of placeholder -->
       <label><i class="search icon"></i>Search</label>
       <input ng-model="searchText" type="text">
     </md-input-container>
     <div layout="row" layout-sm="column" layout-align="space-around" ng-show="loading">
-    	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
-	<div ng-repeat="post in publishData.output | filter:searchText ">
- 		<div class="col-sm-4" ng-if="post.author">
-	 		<div class="card small">
-	 			<span class= "text right">
-	 				<i class="plus icon activator"></i>
-	 			</span>
-	 			<br/>
-	 			<div class=" activator text center waves-effect waves-block waves-light">
-	 			<img class="activator img-circle" ng-src="icons/{{post.imagePath}}" width="75"></img>
-				    <div class="card-content waves-effect waves-block waves-light">
-				      <span class="card-title activator grey-text text-darken-4">{{post.title}}</span>
-				      <br/>
-				      <br/>
-				      <p><strong>{{post.author}}</strong></p>
-				      <p>{{post.timeDisp}}</p>
-				      <p><a ng-href="{{post.hyperlink}}"><i class="external icon"></i> {{post.title}}</a></p>
-				    </div>
-				</div>
-			    <div class="card-reveal">
-	 			  <div class="text-center">
-				      <div class="card-title grey-text text-darken-4">{{post.title}} </div>
-	 			  </div>
-				      <br/>
-				      <p>{{post.blurb}}</p>
-				 </div>
-		    </div>
-		</div>
-	</div>
-	<div class="footer-copyright">
-		<div class="fixed-action-btn">
-			<span class = "btn-floating btn-large" style="background:{{dataModel.colorHex}}" ng-click="makePost($event)">
-	        	<i class="write icon"></i>
-	     	<span>
-		</div>
-	</div>
-	
+    <div ng-repeat="post in publishData.output | filter:searchText ">
+        <div class="col-sm-4" ng-if="post.author">
+            <div class="card small">
+                <span class= "text right">
+                    <i class="plus icon activator"></i>
+                </span>
+                <br/>
+                <div class=" activator text center waves-effect waves-block waves-light">
+                <img class="activator img-circle" ng-src="icons/{{post.imagePath}}" width="75"></img>
+                    <div class="card-content waves-effect waves-block waves-light">
+                      <span class="card-title activator grey-text text-darken-4">{{post.title}}</span>
+                      <br/>
+                      <br/>
+                      <p><strong>{{post.author}}</strong></p>
+                      <p>{{post.timeDisp}}</p>
+                      <p><a ng-href="{{post.hyperlink}}"><i class="external icon"></i> {{post.title}}</a></p>
+                    </div>
+                </div>
+                <div class="card-reveal">
+                  <div class="text-center">
+                      <div class="card-title grey-text text-darken-4">{{post.title}} </div>
+                  </div>
+                      <br/>
+                      <p>{{post.blurb}}</p>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="fixed-action-btn">
+            <span class = "btn-floating btn-large" style="background:{{dataModel.colorHex}}" ng-click="makePost($event)">
+                <i class="write icon"></i>
+            <span>
+        </div>
+    </div>
+    
 </div>

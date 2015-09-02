@@ -226,21 +226,6 @@ var appRouter = function(app) {
 
     app.post("/api/updateUser", Session.auth, function (req, res, next) {
         console.log(req.body);
-        if(!req.body[primaryAttribute]) {
-            return next(JSON.stringify({"status": "error", "message": "A name must be provided"}));
-        }
-        if(!req.body.login.email) {
-            return next(JSON.stringify({"status": "error", "message": "An email must be provided"}));
-        }
-        var endsWith = function (str, suffix) {
-            return str.indexOf(suffix, str.length - suffix.length) !== -1;
-        };
-        /*if (!endsWith(req.body.login.email, 'couchbase.com')) {
-            return next(JSON.stringify({"status": "error", "message": "Email must end with \"couchbase.com\""}));   
-        }*/
-        if(!req.body.password) {
-            return next(JSON.stringify({"status": "error", "message": "A password must be provided"}));
-        }
         User.newUpdate(req.body, function(error, result) {
             if(error) {
                 return res.status(400).send(error);
