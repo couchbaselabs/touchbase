@@ -32,7 +32,7 @@ Publish.create = function(params, callback) {
 };
 
 Publish.search = function(params, callback) {
-    var pubQuery = "SELECT time, title, authorID, pubType, hyperlink, blurb, imagePath FROM "+publishBucketName+" WHERE type='post' ";
+    var pubQuery = "SELECT time, publishID, title, authorID, pubType, hyperlink, blurb, imagePath FROM "+publishBucketName+" WHERE type='post' ";
     if (params.pubType) {
         pubQuery+= ("AND pubType = \""+params.pubType+"\" ");
     }
@@ -62,6 +62,7 @@ Publish.remove = function(params, callback) {
     console.log(params);
     var deleteQuery = N1qlQuery.fromString('DELETE FROM '+publishBucketName+' USE KEYS ($1)');
     console.log(deleteQuery);
+    console.log("pubID: " + params.publishID);
     publishBucket.query(deleteQuery, [params.publishID], function(err, result) {
         if (err) {
             console.log(err);

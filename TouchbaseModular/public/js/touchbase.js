@@ -153,6 +153,7 @@ touchbase.controller('profileupdateController', function ($scope, $http, $window
                         $window.location.href="index.html";
                     }
                     console.log('success post deleted: '+result);
+                    $state.reload();
                 })
                 .error(function(result) {
                     console.log(result);
@@ -251,28 +252,25 @@ touchbase.controller('publishController', function ($scope, $http, $window, $mdD
         })
     };
 
-    $scope.postNews = function(ev) {
-        $mdDialog.show({
-            controller: DialogController,
-            templateUrl: 'html/postNews.html',
-            parent: angular.element(document.body),
-            targetEvent: ev
-        })
-    };
-
 });
 
-function DialogController($scope, $http, $mdDialog, $stateParams) {
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
-  $scope.publishTry = function(someObject) {
+function DialogController($scope, $http, $mdDialog, $stateParams, $state) {
+    $scope.hide = function() {
+        $mdDialog.hide();
+        $state.reload();
+    };
+    var hide = function() {
+        $mdDialog.hide();
+        $state.reload();
+    };
+    $scope.cancel = function() {
+        $mdDialog.cancel();
+        $state.reload();
+    };
+    $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+    };
+    $scope.publishTry = function(someObject) {
         /*console.log($scope.dataModel.pubTypes);
         var findImage = function (pubType) {
             Object.keys($scope.dataModel.pubTypes).forEach(function (obj) {
@@ -282,6 +280,24 @@ function DialogController($scope, $http, $mdDialog, $stateParams) {
                 // use val
             });
         };*/
+        var tempTitle = someObject.title;
+        if (!tempTitle) {
+            $scope.titleError = "Required & < 15";
+        }
+        else {
+           $scope.titleError = ""; 
+        }
+        var tempBlurb = someObject.blurb;
+        if (!tempBlurb) {
+            $scope.blurbError = "Required & < 400";
+        }
+        else {
+            $scope.blurbError = "";
+        }
+        if ($scope.titleError || $scope.blurbError) {
+            console.log('USER POST ERROR: field lengths, try again.');
+            return;
+        }
         var postTry = someObject;
         console.log($stateParams.pubType);
         postTry.pubType = $stateParams.pubType;
@@ -290,17 +306,17 @@ function DialogController($scope, $http, $mdDialog, $stateParams) {
         if (!postTry.imagePath) {
             postTry.imagePath = 'Touchbase_red.png';
         }
-        console.log(postTry);
         $http({method: "POST", url: "/api/publishPost", data: postTry, headers:{'Authorization':'Bearer '+localStorage.sessionID}})
             .success(function(result) {
                 if (result.currentSession===false) {
                     $window.location.href="index.html";
                 }
-                console.log(result);
+                // $mdDialog.hide();
             })
             .error(function(result) {
                 console.log("ERROR : " + result);
             });
+        $scope.hide();
     };
 };
 
