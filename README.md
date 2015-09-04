@@ -3,7 +3,23 @@
 #Touchbase
 **Created By:** Pranav Mayuram
 
-An opensource NoSQL social network platform using Couchbase Server 4.0 (featuring N1QL), as well as Express, Angular and Node (the JavaScript web stack). The UI is created primarily using Angular Material Design, as well as parts of Bootstrap, Semantic UI and Materialize CSS.
+An opensource NoSQL social network platform using Couchbase Server 4.0 (featuring N1QL), as well as Express, Angular and Node (the JavaScript web stack). The UI is created primarily using Angular Material Design, as well as parts of Bootstrap, Semantic UI and Materialize CSS. A preview of one use-case for the product can be seen below. These images are for a network built using Touchbase, made to be used as an internal social network for Couchbase employees.
+
+<p align="center"><img src="Documentation/READMEScreen.png" with="100%"/></p>
+
+Using the setup specified in this README, you will be able to create your own customized social network with a multitude of features. These include:
+
+* **Login and Registration**
+* **Email Verification**
+* **Session-based user authentication for security**
+* **Searchable user profiles**
+* **Profile pictures uploads with cropping**
+* **Statistics page with login graphing over time**
+* **Ability to customize one's personal profile**
+* **Searchable user posts, separated by type**
+* **Beautiful Material Design**
+
+Many of these features can be further customized by any developer using the 'config.json' file. For example, the purpose of the social network is up to you, and the user fields that users are asked for can also be customized accordingly. The same applies for the different types of posts you would like to have in your network. Ability to change the color scheme and branding are also explained thoroughly in this README. 
 
 ### Prerequisites
 For the contents of this README, it is assumed that you have the following items setup.
@@ -89,16 +105,17 @@ These are considered different kinds of posts as well, and this can be reflected
 ###### Color/Logo Customization
 Changing the colors and various logos for the application is an important part of creating an identity for the social network. There are a few basic steps to this.
 
-1. **Logo :** 
+1. **Logo :** If you are told there is already an image with this name, go ahead and 'Replace', or delete the existing image and replace it with your own.
   * Go into the 'icons' folder, and drag in your logo for your application, and rename it to **touchbaseLogo.png**. The logo will now reflect your changes.
+  * To change the default profile picture, go into the 'icons' folder, drag in the image you want, and rename it to **default_picture.png**.
   * To change the favicon (icon that is shown on the top of a tab, along with HTML page title).  This can be generated at http://www.favicon-generator.org/. The icon that is generated should then be placed in the 'public' folder with the name 'favicon.ico'.
 2. **Color :** 
   * First off, go to https://www.google.com/design/spec/style/color.html#color-color-palette. Find a color you like in the different swatches.
   * Then navigate to 'public/js'. Open the 'signUp.js' file and the 'touchbase.js' file. 
-  * Change the '.primaryPalette' and '.backgroundPalette' attributes in 'signUp.js' and make the color in quotes to the color of the swatch you chose, then the number should be the number of the specific shade you chose. 
-  * Do the same changes to just '.primaryPalette' in the 'touchbase.js' file. 
+  * Go to the '.primaryPalette' and '.backgroundPalette' attributes within the '$mdThemingProvider' service in 'signUp.js'. Then change the color in quotes to the color of the swatch you chose (ex. 'teal'). **Make sure the color name is lowercase!** (ex. 'teal' NOT 'Teal' OR 'TEAL'). Then the number below the color name should be the number of the specific shade you chose (number without '#', ex. '900' or 'a100'). 
+  * Make same changes to just '.primaryPalette' in the 'touchbase.js' file. 
   * You could also change the '.accentPalette' attribute in the same way (for both files), though this just changes the colors of a few buttons in the application.
-  * Finally, take the hex value given for the specific shade of the color you chose on the Google Material Design Colors website. Change the 'colorHex' attribute in the 'config.json' file to this hex value.
+  * Finally, take the hex value given (the one with the '#') for the specific shade of the color you chose on the Google Material Design Colors website. Change the 'colorHex' attribute in the 'config.json' file to this hex value.
 
 Your branding and color customization is now complete!
 
@@ -108,6 +125,7 @@ Once you have a working version of Couchbase Server, go to **http://IPofYourMach
  1. Login, and then navigate to the **'Data Buckets'** tab at the top of the screen.
  2. From here you can create these 3 buckets simply and easily using the 'Create Bucket' button. These buckets will be called **users** and **users_pictures** and **users_publishments**. Changing these bucketnames is possible in the 'config.json' file. If you changed 'config.json' to use only one bucket, or two buckets, simply create those one or two buckets.
   4. Allot around 100 mb each to these buckets for initial testing, and closer to 300mb to use the **users_pictures** bucket. If you used only one or two buckets, just increase the amount of RAM for the bucket that is storing the pictures.
+  5. After you select the amount of RAM you want for each bucket, ignore all other options, scroll down and hit **Create Bucket**.
 
 There are 2 ways to go set up the buckets with indexes, one being far simpler than the other.
 
