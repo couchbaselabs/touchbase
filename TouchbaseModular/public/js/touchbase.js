@@ -40,9 +40,10 @@ touchbase.config(function ($locationProvider, $httpProvider, $stateProvider, $ur
 
     $urlRouterProvider.otherwise('/myProfile');
 
+    // MAKE SURE TO ENTER COLORS LOWERCASE ex. 'teal' NOT 'Teal' OR 'TEAL'.
     $mdThemingProvider.theme('new')
-        .primaryPalette('cyan', {
-        'default': '300' }) // by default use shade 900 from the grey palette for primary intentions
+        .primaryPalette('red', {
+        'default': '800' }) // by default use shade 900 from the grey palette for primary intentions
         .accentPalette('amber',  {
         'default': '600' })
         .warnPalette('red');
