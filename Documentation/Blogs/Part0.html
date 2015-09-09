@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<body>
+	<h2>Part 0: Creating a Data Model</h2>
+
+	<p>Before getting started on building Touchbase, it is important to lay out the structure for how our data will be stored. In the most basic form, there are really three different things we will need to store.</p>
+
+	<ol>
+		<li><strong>User Document: </strong> Stores all information about a given user.</li>
+		<li><strong>Posts: </strong> All posts created by users must be stored with information needed for display.</li>
+		<li><strong>Images: </strong> All user profile images must be stored as binary data (base64 in this case).</li>
+	</ol>
+
+	<h4>USER DOCUMENT</h4>
+
+	<p> First, we&#39;ll start with the user document. This document is simply stored with a UUID (Universally Unique Identifier), since the document ID isn&#39;t really important, as much as the actual contents. We also want to make sure that none of the document IDs are going to be the same, so this will algorithmically ensure an extremely low probability of that happening. Also, let's say we stored each of the user documents using the user's email as the document ID, if a user wanted to change their email, it would be impossible, because you would now need to change the document&#39;s ID. Instead, if we use a UUID, we can just find the user, and change their &#39;email&#39; attribute using a N1QL UPDATE statement. Below, you will see the &#39;uuid&#39; attribute, which is also going to be our document ID.</p>
+
+  <h4>Example User Document</h4>
+	<!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #f8f8f2">{</span>
+  <span style="color: #f92672">&quot;Name&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Pranav Mayuram&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;arrayAttributes&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #f92672">&quot;Expertise&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[</span>
+      <span style="color: #e6db74">&quot;Touchbase&quot;</span>
+    <span style="color: #f8f8f2">],</span>
+    <span style="color: #f92672">&quot;Hobbies&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[]</span>
+  <span style="color: #f8f8f2">},</span>
+  <span style="color: #f92672">&quot;dropdownAttributes&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #f92672">&quot;Base Office&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Manchester&quot;</span><span style="color: #f8f8f2">,</span>
+    <span style="color: #f92672">&quot;Division&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Engineering&quot;</span>
+  <span style="color: #f8f8f2">},</span>
+  <span style="color: #f92672">&quot;login&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #f92672">&quot;administrator&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #66d9ef">false</span><span style="color: #f8f8f2">,</span>
+    <span style="color: #f92672">&quot;email&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;pranav.mayuram@couchbase.com&quot;</span><span style="color: #f8f8f2">,</span>
+    <span style="color: #f92672">&quot;emailVerified&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #66d9ef">true</span><span style="color: #f8f8f2">,</span>
+    <span style="color: #f92672">&quot;hasPicture&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #66d9ef">true</span><span style="color: #f8f8f2">,</span>
+    <span style="color: #f92672">&quot;type&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;user&quot;</span>
+  <span style="color: #f8f8f2">},</span>
+  <span style="color: #f92672">&quot;password&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;ef03ea3cf181e70caa03d5a0561f4471222d2793&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;picSRC&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;stringAttributes&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #f92672">&quot;Job Title&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;N1QL Intern&quot;</span><span style="color: #f8f8f2">,</span>
+    <span style="color: #f92672">&quot;Skype&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;pranav.mayuram1&quot;</span>
+  <span style="color: #f8f8f2">},</span>
+  <span style="color: #f92672">&quot;timeTracker&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #f92672">&quot;loginTimes&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[</span>
+      <span style="color: #e6db74">&quot;2015-08-24T20:44:38.133Z&quot;</span><span style="color: #f8f8f2">,</span>
+      <span style="color: #e6db74">&quot;2015-08-22T21:37:13.294Z&quot;</span>
+    <span style="color: #f8f8f2">],</span>
+    <span style="color: #f92672">&quot;registerTime&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;2015-08-22T21:37:13.294Z&quot;</span><span style="color: #f8f8f2">,</span>
+    <span style="color: #f92672">&quot;updateTimes&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[]</span>
+  <span style="color: #f8f8f2">},</span>
+  <span style="color: #f92672">&quot;uuid&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;b48e2033-4c7b-48d9-b45a-3854500e8e61&quot;</span>
+<span style="color: #f8f8f2">}</span>
+</pre></div>
+
+
+	<p>This user document is linked to the rest of the documents in different ways, but the most important thing is to keep all the information that the user inputs with registration. These can be broken down into three different kinds of information, which would be: <strong>&#39;array attributes&#39;</strong>, <strong>&#39;string attributes&#39;</strong>, and <strong>&#39;drop down attributes&#39;</strong>. These are typically the three ways in which a user would input information, and the application would change how they are treated accordingly. The attributes can be changed accordingly in the <strong>config.json</strong> file, so that the user is asked for different information. This may not be considered the most intuitive approach to a data model, but it streamlines the application development significantly. The <strong> config.json </strong> document can be seen below, showing how the data could be customized by a developer (user will be asked for different information), but still be treated the same by the application. The customization of these attributes would occur in the &#39;dataModel&#39; object.</p>
+
+  <h4>config.json</h4>
+  <!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #f8f8f2">{</span>
+    <span style="color: #f92672">&quot;couchbase&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">{</span>
+        <span style="color: #f92672">&quot;server&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;127.0.0.1:8091&quot;</span><span style="color: #f8f8f2">,</span>
+        <span style="color: #f92672">&quot;userBucket&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;users&quot;</span><span style="color: #f8f8f2">,</span>
+        <span style="color: #f92672">&quot;pictureBucket&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;users_pictures&quot;</span><span style="color: #f8f8f2">,</span>
+        <span style="color: #f92672">&quot;publishBucket&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;users_publishments&quot;</span><span style="color: #f8f8f2">,</span>
+        <span style="color: #f92672">&quot;TouchbasePort&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #ae81ff">3000</span>
+    <span style="color: #f8f8f2">},</span>
+    <span style="color: #f92672">&quot;SendGrid&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">{</span>
+      <span style="color: #f92672">&quot;username&quot;</span> <span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;&quot;</span><span style="color: #f8f8f2">,</span>
+      <span style="color: #f92672">&quot;password&quot;</span> <span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;&quot;</span>
+    <span style="color: #f8f8f2">},</span>
+    <span style="color: #f92672">&quot;dataModel&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">{</span>
+      <span style="color: #f92672">&quot;projectName&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Touchbase&quot;</span><span style="color: #f8f8f2">,</span>
+      <span style="color: #f92672">&quot;colorHex&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;#4DD0E1&quot;</span><span style="color: #f8f8f2">,</span>
+      <span style="color: #f92672">&quot;primaryAttribute&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Name&quot;</span><span style="color: #f8f8f2">,</span>
+    <span style="color: #f92672">&quot;arrayAttributes&quot;</span> <span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[</span><span style="color: #e6db74">&quot;Expertise&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #e6db74">&quot;Hobbies&quot;</span><span style="color: #f8f8f2">],</span>
+    <span style="color: #f92672">&quot;stringAttributes&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[</span><span style="color: #e6db74">&quot;Job Title&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;Skype&quot;</span><span style="color: #f8f8f2">],</span>
+    <span style="color: #f92672">&quot;dropdownAttributes&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[</span>
+      <span style="color: #f8f8f2">{</span>
+        <span style="color: #f92672">&quot;varname&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Base Office&quot;</span><span style="color: #f8f8f2">,</span>
+        <span style="color: #f92672">&quot;options&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[</span><span style="color: #e6db74">&quot;Mountain View&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #e6db74">&quot;San Francisco&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #e6db74">&quot;Bangalore&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #e6db74">&quot;Manchester&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #e6db74">&quot;Other - Remote&quot;</span><span style="color: #f8f8f2">]</span>
+      <span style="color: #f8f8f2">},</span>
+      <span style="color: #f8f8f2">{</span>
+        <span style="color: #f92672">&quot;varname&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Division&quot;</span><span style="color: #f8f8f2">,</span>
+        <span style="color: #f92672">&quot;options&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[</span><span style="color: #e6db74">&quot;Engineering&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #e6db74">&quot;Sales&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #e6db74">&quot;Marketing&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #e6db74">&quot;Support&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #e6db74">&quot;Other Staff&quot;</span><span style="color: #f8f8f2">]</span>
+      <span style="color: #f8f8f2">}</span>
+    <span style="color: #f8f8f2">],</span>
+    <span style="color: #f92672">&quot;pubTypes&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[</span>
+      <span style="color: #f8f8f2">{</span>
+        <span style="color: #f92672">&quot;type&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Github Projects&quot;</span><span style="color: #f8f8f2">,</span>
+        <span style="color: #f92672">&quot;imagePath&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;GitHub-Mark-120px-plus.png&quot;</span><span style="color: #f8f8f2">,</span>
+        <span style="color: #f92672">&quot;icon&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;github&quot;</span>
+      <span style="color: #f8f8f2">},</span>
+      <span style="color: #f8f8f2">{</span>
+        <span style="color: #f92672">&quot;type&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Couchbase in the News&quot;</span><span style="color: #f8f8f2">,</span>
+        <span style="color: #f92672">&quot;imagePath&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;couchbase-logo.png&quot;</span><span style="color: #f8f8f2">,</span>
+        <span style="color: #f92672">&quot;icon&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;newspaper&quot;</span>
+      <span style="color: #f8f8f2">}</span>
+    <span style="color: #f8f8f2">]</span>
+    <span style="color: #f8f8f2">}</span>
+  <span style="color: #f8f8f2">}</span>
+  </pre></div>
+
+	<h4>POST DOCUMENT</h4>
+
+	<p>Next, we&#39;ll have to store posts. These are simple JSON documents as well, and they will keep information we need about each post. These are stored as UUIDs as well, with <strong>&#39;_pub_&lt;pubType&gt;&#39;</strong> appended.</p>
+
+  <h4>Example Post Document</h4>
+	<!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #f8f8f2">{</span>
+  <span style="color: #f92672">&quot;authorID&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;b48e2033-4c7b-48d9-b45a-3854500e8e61&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;blurb&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Social networking project built with a flexible back-end that allows full customization. Designed using Couchbase, Node.js, Express on back-end. Front-end designed using Angular.js,  Angular Material Design, as well as parts of Bootstrap, Semantic UI, and Materialize CSS. Created by Pranav Mayuram.&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;hyperlink&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;https://github.com/couchbaselabs/touchbase&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;imagePath&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;GitHub-Mark-120px-plus.png&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;pubType&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Github Projects&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;publishID&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;06990d4f-d743-43c2-95f5-2d8e27dfcbc5_pub_Github Projects&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;time&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;2015-08-25T03:55:19.468Z&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;title&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Touchbase&quot;</span><span style="color: #f8f8f2">,</span>
+  <span style="color: #f92672">&quot;type&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;post&quot;</span>
+<span style="color: #f8f8f2">}</span>
+</pre></div>
+
+
+	<p>Each posts has three major parts: title, link and blurb. This contains almost everything that is necessary in a post, but there are other simple things we will store on the back-end, which the user will not directly input.</p>
+
+	<p>First off, we will use the user&#39;s ID and store it with the post. We will also store the time at which the post is made. There is also a <strong>&#39;pubType&#39;</strong> attribute, which is the type of publication that was made, and this is taken from where the post was made on the front-end.</p>
+
+	<p>For example, if we made the post in the <strong>&#39;Github Projects&#39;</strong> section, the <strong>&#39;pubType&#39;</strong> that was stored would be <strong>&#39;Github Projects&#39;</strong>. There would also be an <strong>&#39;imagePath&#39;</strong> associated with this <strong>&#39;pubType&#39;</strong> in the <strong>config.json</strong> document, which would get the corresponding image for this <strong>&#39;pubType&#39;</strong> from the <strong>icons</strong> folder.</p>
+
+  <p>When we are pulling the documents, we will use a certain function to manipulate these documents and send them to the front-end as we deem fit. In the current implementation, a N1QL query is executed to find each document that is of the &#39;pubType&#39; that the user's screen is on (ex. if user is on &#39;Github Projects&#39;, only docs with a &#39;pubType&#39; of &#39;Github Project&#39; will be pulled). Then the documents will be ordered by the time they were posted, so that the newest ones are first. For an in-depth look at this, look into <a href="">Part 6</a> of the blog series.</p>
+
+	<h4>PICTURE DOCUMENT</h4>
+
+	<p>Finally, we&#39;ll have to store images. Currently this is done using <strong>&#39;Multer&#39;</strong>, a Node.js Middleware. This is explained in more detail in <a href="">part 4</a> of the blog series. One important feature of image storage is that we will need to associate this image with the user document for the same user. The way this is currently done is through the picture's document ID, where the document ID is stored with the same ID as the user document with <strong>&#39;_picMulterNode&#39;</strong> appended to the ID.</p>
+
+  <h4>Picture Document ID</h4>
+	<!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #e6db74">&#39;b48e2033-4c7b-48d9-b45a-3854500e8e61_picMulterNode&#39;</span>
+  </pre></div>
+
+  <h4>CONCLUSION</h4>
+
+  <p><strong>Future Blogs :</strong> This blog series will be focused around the back-end aspect of this application, especially since it follows REST principles. The explanations will focus around Node.js code using the Express framework, however, some HTML and Angular.js code will be shown when necessary to the REST API implementation. To see the full code, with front-end included, go to https://github.com/couchbaselabs/touchbase. For the front-end, this makes use of Angular.js, HTML5, Angular UI Router, Angular Material Design, and more. All of the Angular.js code can be seen in <strong>TouchbaseModular/public/js</strong>. HTML can be seen in <strong>TouchbaseModular/public</strong> within <strong>index.html</strong> (uses <strong>signUp.js</strong>) and <strong>nav.html</strong> (uses <strong>touchbase.js</strong>). All of the Angular UI Router HTML partials can be seen in <strong>TouchbaseModular/public/html</strong>. More in-depth design documentation can also be seen in the <strong>Documentation</strong> folder.</p>
+
+  <p>This completes our data model blog, and I hope it was useful to you all. If you have any questions, concerns or feedback, please drop a comment below.</p> 
+
+</body>
