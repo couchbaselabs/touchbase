@@ -253,7 +253,7 @@
 
 	<p>At the end of all of this picture uploading, there also has to be a way to receive each user&#39;s profile picture. For this, we use the <strong>&#39;Picture.receive&#39;</strong> function. This is called in the <strong>&#39;/api/advancedSearch&#39;</strong> API in <strong>routes/routes.js</strong> because this API has to find every user and their profile picture to display on the front-end. The <strong>&#39;Picture.receive&#39;</strong> function takes in a user's document. It first checks that the &#39;login.hasPicture&#39; is true. If not, it simply applies the default picture to the user. If the attribute is true, it then takes the user&#39;s &#39;uuid&#39; attribute and then appends &#39;_picMulterNode&#39; to this and then does an SDK get to find the user's image, and retrieve it. It then returns the base64 string. The function can be seen above.</p>
 
-	<p>That concludes the picture uploading part of the Touchbase tutorial. I hope that was helpful, but either way, please drop a comment below with any comments, feedback or criticism. Thanks for reading!</p>
+	<p>That concludes the picture uploading part of the Touchbase tutorial. I hope that was helpful, but either way, please drop a comment below with any feedback or criticism. Thanks for reading!</p>
 
 </body>
 </html>
