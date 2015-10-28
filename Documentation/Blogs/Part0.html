@@ -5,7 +5,7 @@
 
   <p>Before I get started, I want to explain what Touchbase is, and how this blog series could help its readers. Touchbase is a social network platform built with N1QL from Couchbase 4.0, and Node.js (Express). It can be customized using a <strong>config.json</strong> file, and the purpose of it is to explain how to execute different N1QL queries, and show the power of the SQL-like query language in a web application setting. Touchbase shows off N1QL queries from simple inserts to date queries to complex search queries. The repo can be seen <a href="https://github.com/couchbaselabs/touchbase">here</a> with a full explanation of setup. The blog series will focus on how this application was made, and it will primarily be stratified by the different REST APIs that were built using Node.js. These will include methods of verifying a user with session models, email verification, searching for a user or their attributes, making posts, uploading images and more. A social network lays out a broad range of use cases for a query language, and hopefully this will help explain how you can integrate Couchbase Server 4.0 into your *EAN stack application, and do it by example.</p>
 
-  <p>These blogs should show the simplicity with which N1QL can be integrated into your application. I came into Couchbase as a summer intern with absolutely no web experience prior to the creation of Touchbase. Using Couchbase has been a pleasure since then, with my main hurdle being the fact that there had not been many developers who had integrated Couchbase with their Node.js applications. This blog series is hopefully a first step in creating a community of developers who can share their experience with Node.js and N1QL, and make the dev process easier. Even if this is your first experience with Node.js, Couchbase can absolutely prove as a superior alternative for a stack that has been historically built upon MongoDB.</p>
+  <p>These blogs should show the simplicity with which N1QL can be integrated into your application. I came into Couchbase as a summer intern with absolutely no web experience prior to the creation of Touchbase. Using Couchbase has been a pleasure since then, with my main hurdle being the fact that there had not been many developers who had integrated Couchbase with their Node.js applications. This blog series is hopefully a first step in creating a community of developers who can share their experience with Node.js and N1QL, and make the dev process easier. Even if this is your first experience with Node.js, Couchbase can prove as a superior alternative for a stack that has been historically built upon MongoDB.</p>
 
 	<p>Before getting started on building Touchbase, it is important to lay out the structure for how our data will be stored. In the most basic form, there are really three different things we will need to store.</p>
 
@@ -15,9 +15,11 @@
 		<li><strong>Images: </strong> All user profile images must be stored as binary data (base64 in this case).</li>
 	</ol>
 
+  <br/>
+
 	<h4>USER DOCUMENT</h4>
 
-	<p> First, we&#39;ll start with the user document. This document is simply stored with a UUID (Universally Unique Identifier), since the document ID isn&#39;t really important, as much as the actual contents. We also want to make sure that none of the document IDs are going to be the same, so this will algorithmically ensure an extremely low probability of that happening. Also, let's say we stored each of the user documents using the user's email as the document ID, if a user wanted to change their email, it would be impossible, because you would now need to change the document&#39;s ID. Instead, if we use a UUID, we can just find the user, and change their &#39;email&#39; attribute using a N1QL UPDATE statement. Below, you will see the &#39;uuid&#39; attribute, which is also going to be our document ID.</p>
+	<p> First, we&#39;ll start with the user document. This document is simply stored under a UUID (Universally Unique Identifier). The reason for this is that the document ID shouldn't tell us anything about the user; all of that should come from the document&#39;s contents. For example, let's say we stored each of the user documents using the user's email address as the document ID. If a user wanted to change their email, it would be a huge ordeal, because you would now need to store their current document, then store it again under a new document ID and delete the old document. By implementing a UUID, we can find the user and change their &#39;email&#39; attribute in their document using a N1QL UPDATE statement. This explains why something independent of the document&#39;s contents should be used. We also want to make sure that none of the document IDs are going to be the same, so this will algorithmically ensure that duplicate document IDs are virtually impossible. Below, you will see the &#39;uuid&#39; attribute, which is used as the document ID.</p>
 
   <h4>Example User Document</h4>
 	<!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #f8f8f2">{</span>
@@ -29,7 +31,7 @@
     <span style="color: #f92672">&quot;Hobbies&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">[]</span>
   <span style="color: #f8f8f2">},</span>
   <span style="color: #f92672">&quot;dropdownAttributes&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">{</span>
-    <span style="color: #f92672">&quot;Base Office&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Manchester&quot;</span><span style="color: #f8f8f2">,</span>
+    <span style="color: #f92672">&quot;Base Office&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Mountain View&quot;</span><span style="color: #f8f8f2">,</span>
     <span style="color: #f92672">&quot;Division&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;Engineering&quot;</span>
   <span style="color: #f8f8f2">},</span>
   <span style="color: #f92672">&quot;login&quot;</span><span style="color: #f8f8f2">:</span> <span style="color: #f8f8f2">{</span>
@@ -58,7 +60,7 @@
 </pre></div>
 
 
-	<p>This user document is linked to the rest of the documents in different ways, but the most important thing is to keep all the information that the user inputs with registration. These can be broken down into three different kinds of information, which would be: <strong>&#39;array attributes&#39;</strong>, <strong>&#39;string attributes&#39;</strong>, and <strong>&#39;drop down attributes&#39;</strong>. These are typically the three ways in which a user would input information, and the application would change how they are treated accordingly. The attributes can be changed accordingly in the <strong>config.json</strong> file, so that the user is asked for different information. This may not be considered the most intuitive approach to a data model, but it streamlines the application development significantly. The <strong> config.json </strong> document can be seen below, showing how the data could be customized by a developer (user will be asked for different information), but still be treated the same by the application. The customization of these attributes would occur in the &#39;dataModel&#39; object.</p>
+	<p>This user document is linked to the rest of the documents in different ways, but the most important function of this document is to keep all the information that the user inputs during registration. The information a user inputs for registration can be broken down into three different types: <strong>&#39;array attributes&#39;</strong>, <strong>&#39;string attributes&#39;</strong>, and <strong>&#39;drop down attributes&#39;</strong>. These are typically the three ways in which a user would input information, and the application treats each differently. The attributes that are stored can be changed accordingly in the <strong>config.json</strong> file, so that the user is asked for different information. This may not be considered the most intuitive approach to a data model, but it streamlines the application development significantly. The <strong> config.json </strong> document can be seen below, showing how the data could be customized by a developer (user will be asked for different information), but still be treated the same by the application. The customization of these attributes would occur in the &#39;dataModel&#39; object.</p>
 
   <h4>config.json</h4>
   <!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #f8f8f2">{</span>
@@ -105,6 +107,8 @@
   <span style="color: #f8f8f2">}</span>
   </pre></div>
 
+  <br/>
+
 	<h4>POST DOCUMENT</h4>
 
 	<p>Next, we&#39;ll have to store posts. These are simple JSON documents as well, and they will keep information we need about each post. These are stored as UUIDs as well, with <strong>&#39;_pub_&lt;pubType&gt;&#39;</strong> appended.</p>
@@ -130,19 +134,25 @@
 
 	<p>For example, if we made the post in the <strong>&#39;Github Projects&#39;</strong> section, the <strong>&#39;pubType&#39;</strong> that was stored would be <strong>&#39;Github Projects&#39;</strong>. There would also be an <strong>&#39;imagePath&#39;</strong> associated with this <strong>&#39;pubType&#39;</strong> in the <strong>config.json</strong> document, which would get the corresponding image for this <strong>&#39;pubType&#39;</strong> from the <strong>icons</strong> folder.</p>
 
-  <p>When we are pulling the documents, we will use a certain function to manipulate these documents and send them to the front-end as we deem fit. In the current implementation, a N1QL query is executed to find each document that is of the &#39;pubType&#39; that the user's screen is on (ex. if user is on &#39;Github Projects&#39;, only docs with a &#39;pubType&#39; of &#39;Github Project&#39; will be pulled). Then the documents will be ordered by the time they were posted, so that the newest ones are first. There will be an in-depth look at this later in the blog series.</p>
+  <p>Finally, when we are pulling the post documents, we will use a function to manipulate these documents and send them to the front-end as we see fit. In the current implementation, a N1QL query is executed to find each document that is of the &#39;pubType&#39; that the user's screen is on (ex. if user is on &#39;Github Projects&#39;, only docs with a &#39;pubType&#39; of &#39;Github Project&#39; will be pulled). Then the documents will be ordered by the time they were posted, so that the newest ones are first. You may have also noticed that we only stored the &#39;userID&#39;, not the author's name. This function will also do a lookup for the name according to the &#39;user ID&#39;, in case the user changes their name on the network. There will be an in-depth look at the post storage and retrieval later in the blog series.</p>
+
+  <br/>
 
 	<h4>PICTURE DOCUMENT</h4>
 
-	<p>Finally, we&#39;ll have to store images. Currently this is done using <strong>&#39;Multer&#39;</strong>, a Node.js Middleware. This will also be explained in more detail later in the blog series. One important feature of image storage is that we will need to associate this image with the user document for the same user. The way this is currently done is through the picture's document ID, where the document ID is stored with the same ID as the user document with <strong>&#39;_picMulterNode&#39;</strong> appended to the ID.</p>
+	<p>Finally, we&#39;ll have to store images. In Touchbase, this is done using <strong>&#39;Multer&#39;</strong>, a Node.js Middleware. This will also be explained in more detail later in the blog series. One important feature of image storage is that we will need to associate this image with the according user document. This is done using the picture's document ID. The document ID for the image is stored with the same ID as the user document with <strong>&#39;_picMulterNode&#39;</strong> appended to the ID.</p>
 
   <h4>Picture Document ID</h4>
 	<!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #e6db74">&#39;b48e2033-4c7b-48d9-b45a-3854500e8e61_picMulterNode&#39;</span>
   </pre></div>
 
+  <br/>
+
   <h4>CONCLUSION</h4>
 
-  <p><strong>Future Blogs :</strong> This blog series will be focused around the back-end aspect of this application, especially since it follows REST principles. The explanations will focus around Node.js code using the Express framework, however, some HTML and Angular.js code will be shown when necessary to the REST API implementation. To see the full code, with front-end included, go to https://github.com/couchbaselabs/touchbase. For the front-end, this makes use of Angular.js, HTML5, Angular UI Router, Angular Material Design, and more. All of the Angular.js code can be seen in <strong>TouchbaseModular/public/js</strong>. HTML can be seen in <strong>TouchbaseModular/public</strong> within <strong>index.html</strong> (uses <strong>signUp.js</strong>) and <strong>nav.html</strong> (uses <strong>touchbase.js</strong>). All of the Angular UI Router HTML partials can be seen in <strong>TouchbaseModular/public/html</strong>. More in-depth design documentation can also be seen in the <strong>Documentation</strong> folder.</p>
+  <p><strong>Future Blogs :</strong> This blog series will be focused around the back-end aspect of this application, especially since it follows REST principles. The explanations will focus around Node.js code using the Express framework, however, some HTML and Angular.js code will be shown when necessary to the REST API implementation. To see the full code, with front-end included, go to <a href="https://github.com/couchbaselabs/touchbase">https://github.com/couchbaselabs/touchbase</a>.</p> 
+
+  <p>For the front-end, Touchbase makes use of Angular.js, HTML5, Angular UI Router, Angular Material Design, and more. All of the Angular.js code can be seen in <strong>TouchbaseModular/public/js</strong>. HTML can be seen in <strong>TouchbaseModular/public</strong> within <strong>index.html</strong> (uses <strong>signUp.js</strong>) and <strong>nav.html</strong> (uses <strong>touchbase.js</strong>). All of the Angular UI Router HTML partials can be seen in <strong>TouchbaseModular/public/html</strong>. More in-depth design documentation can also be seen in the <strong>Documentation</strong> folder.</p>
 
   <p>This completes our data model blog, and I hope it was useful to you all. If you have any questions, concerns or feedback, please drop a comment below.</p> 
 
