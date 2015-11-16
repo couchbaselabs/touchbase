@@ -3,64 +3,58 @@
 <body>
 	<h2>Part 2: Email Verification</h2>
 
-	<h4>Necessary Materials</h4>
+	<p>In this third installment of building Touchbase, I will go in depth about creating an email verification system using Couchbase, nodemailer, and the Sendgrid Web API. The first thing you will need to do is download a couple of node modules.</p>
+
+	<p>The first two installments, <a href="http://blog.couchbase.com/2015/october/touchbase-part-0-creating-a-data-model">Part 0</a> and <a href="http://blog.couchbase.com/2015/october/exploring-couchbase-and-n1ql-through-touchbase-using-node.js-and-angular.js-%E2%80%93-part-1-creating-a-user-document">Part 1</a>, cover the data model and user document creation, respectively.</p>
+
+	<h4>Platform Requirements</h4>
 	<ul>
 		<li>Node.js</li>
 		<li>Express.js</li>
-		<li>Sengrid API account</li>
-		<li>HTML email generator OR desire to learn HTML emails</li>
+		<li>A Sendgrid API account</li>
+		<li>HTML email generator OR hand composed HTML email</li>
 	</ul>
 
 	<h4>Node Modules used</h4>
 	<ul>
-		<li>Couchbase Node.js SDK/N1QL</li>
-		<li>body-parser</li>
-		<li>uuid</li>
-		<li>nodemailer</li>
-		<li>nodemailer-sendgrid-transport</li>
+		<li>Couchbase Node.js SDK/N1QL (access to Couchbase)</li>
+		<li>body-parser (convert JSON strings to JSON obj)</li>
+		<li>uuid (to generate verification doc ID)</li>
+		<li>nodemailer (send emails from our email confirm API)</li>
+		<li>nodemailer-sendgrid-transport (send nodemailer emails through Sendgrid)</li>
 	</ul>
 	<br/>
 
-	<p>For the second part of building Touchbase, I will go in depth about creating an email verification system using Couchbase, nodemailer, and the Sendgrid Web API. The first thing you will need to do is download a couple of node modules.</p>
-
-	<p>First do:</p>
-
+	<p>First, to bring in the node modules, do:</p>
+	
 	<pre><code>$ npm install nodemailer --save </code></pre>
 	<p>Then:</p>
 	<pre><code>$ npm install nodemailer-sendgrid-transport --save</code></pre>
 
-	<br/>
+	<p>If you&#39;re not familiar with Node, npm simply installs modules for you. The <strong>&#39;--save&#39;</strong> ending will add these modules to your <strong>package.json</strong> file. From the Touchbase github repo, you will see that these are already in the <strong>package.json</strong> file.</p>
 
-	<!-- HTML generated using hilite.me <div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #f92672">$</span> <span style="color: #f8f8f2">npm</span> <span style="color: #f8f8f2">install</span> <span style="color: #f8f8f2">nodemailer save</span>
-	</pre></div>-->
+	<p>First, create a Sendgrid account to use their <a href="https://sendgrid.com/free">free web API</a>. I will assume you have this, and continue on. After that, you will need to do some simple setup of the Sendgrid API to actually send emails using Sendgrid and nodemailer. The explanation of using these two services together is in <a href="https://sendgrid.com/blog/sending-email-nodemailer-sendgrid/">Sendgrid's blog</a> and I will go further using that code snippet. My usage of this in the <strong>models/sessionmodel.js</strong> file in a function called <strong>&#39;Session.makeVerification&#39;</strong>. The endpoint where this function is called can be found in <strong>routes/routes.js</strong> as <strong>&#39;/api/registerUser&#39;</strong>, which I talked about at length <a href="http://blog.couchbase.com/2015/october/exploring-couchbase-and-n1ql-through-touchbase-using-node.js-and-angular.js-%E2%80%93-part-1-creating-a-user-document">in my last blog</a>. This function is called at the end of that route to generate a verification email, which the user must click before logging into their account, to avoid abuse of the service.</p>
 
-	<!-- HTML generated using hilite.me <div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #f92672">$</span> <span style="color: #f8f8f2">npm</span> <span style="color: #f8f8f2">install</span> <span style="color: #f8f8f2">nodemailer-sendgrid-transport save</span>
-	</pre></div>-->
-
-	<p>If you&#39;re not familiar with node, npm simply installs modules for you. The <strong>&#39;--save&#39;</strong> ending will add these modules to your <strong>package.json</strong> file. If you are referring to the Touchbase github, you will see that these are already in the <strong>package.json</strong> file.</p>
-
-	<p>The first thing you will have to do is create a Sendgrid account to use their free version of the web API which you will find <a href="https://sendgrid.com/free">here</a>. I will assume you have this, and continue on. After that, you will need to do some simple setup of the Sendgrid API to actually send emails using Sendgrid and nodemailer. The explanation of using these two services together can be seen <a href="https://sendgrid.com/blog/sending-email-nodemailer-sendgrid/">here</a> and I will go further in depth using that code snippet. You can see my usage of this in the <strong>models/sessionmodel.js</strong> file in a function called <strong>&#39;Session.makeVerification&#39;</strong>. The endpoint where this function is called can be found in <strong>routes/routes.js</strong> as <strong>&#39;/api/registerUser&#39;</strong>, which I talked about at length in my last tutorial <a href="http://blog.couchbase.com/2015/october/exploring-couchbase-and-n1ql-through-touchbase-using-node.js-and-angular.js-%E2%80%93-part-1-creating-a-user-document">here</a>. This function is called at the end of that route to generate a verification email, which the user must click before logging into their account. This is to avoid anyone misrepresenting another person. </p>
-
-	<p>If you noticed earlier, in the <strong>models/usermodel.js</strong> file, in the <strong>&#39;User.create&#39;</strong> function there was a field in the sub-object &#39;login&#39; called &#39;emailVerified&#39;. The importance of this, is that our verification route will change this attribute of the user to true, to ensure that they can login if their email has been verified. We will get to how this is done in a second.</p>
+	<p>In the <strong>models/usermodel.js</strong> file, the <strong>&#39;User.create&#39;</strong> function has a boolean field in the sub-object &#39;login&#39; called &#39;emailVerified&#39;. The importance of this, is that our verification route will change this attribute of the user to true, allowing them to login if their email has been verified.</p>
 
 	<h4>&#39;Session.makeVerification&#39; function</h4>
 	<script src="https://gist.github.com/pranavmayuram/94731f4fa31cdecf5923.js"></script>
 
 	<p>Then we call the <strong>Email.create</strong> model. If you look into the <strong>models/emailmodel.js</strong> file, you will see an example of how this is done. This simply makes use of an <a href="http://www.accessify.com/tools-and-wizards/developer-tools/html-javascript-convertor/">HTML to Javascript string converter</a> which generates a Javascript string that is converted into an HTML email in the Sendgrid API.</p>
 
-	<p>In our <strong>&#39;Session.makeVerification&#39;</strong> function, we do some basic setup for nodemailer and the Sendgrid API. We put in the options, as well as an API username and password which were setup when you created your Sendgrid account. The reason I chose to use the Sendgrid API and not use a personal email with Nodemailer is that Sendgrid will allow tracking of all the emails, and make sure that they are delivered in time, and see which emails fail, etc. It will also ensure that none of the emails fall into spam bins, promotion filters, etc. In this way, the emails will be sent securely, and can also be aliased with any email address we desire. In this case I use &#39;touchbase-noreply@couchbase.com&#39; which is not an official email, but will clearly show that the email is sent from Touchbase to the user. This can be done very similarly without the user of the Sendgrid API as well. Check <a href="https://github.com/andris9/Nodemailer">here</a> to see more detailed explanation of how nodemailer is typically used without Sendgrid.</p>
+	<p>In our <strong>&#39;Session.makeVerification&#39;</strong> function, we do some basic setup for the nodemailer and Sendgrid APIs. Put in the options, as well as an API username and password which were setup when you created your Sendgrid account. I chose to use the Sendgrid API and not a personal email account with Nodemailer because Sendgrid allows tracking of all emails, and ensures that they are delivered in time. It will also ensure that none of the emails fall into spam bins, promotion filters, etc. In this way, the emails will be sent securely, and can also be aliased with any email address we desire. In this case I use &#39;touchbase-noreply@couchbase.com&#39; which is not an official email, but will clearly show that the email is sent from Touchbase to the user. This can be done <a href="https://github.com/andris9/Nodemailer">without the user of the Sendgrid API</a> as well.</p>
 
-	<p>The next part of <strong>&#39;Session.makeVerification&#39;</strong> takes us to <strong>&#39;Email.create&#39;</strong> to build the HTML template for the emails we will send to users, which calls a function in <strong>models/emailmodel.js</strong>. If you look closely at the file, this function takes an HTML email file and turns it into a Javascript string to be used. The way to generate HTML emails is a little different than regular HTML files, so you can refer to this great mailchimp article <a href="https://blog.mailchimp.com/guide-to-creating-custom-mailchimp-email-templates/">here</a>, or any of the countless email template generators that exist. I then used an HTML to Javascript string generator to return the string in the <strong>&#39;Email.create&#39;</strong> function, which is used as the HTML for the nodemailer email. As you may notice in this function, I pass the req from the <strong>&#39;Session.makeVerification&#39;</strong> function to this function, so that it can generate the URL that was used to access the page. I use that, such that if someone was to change the domain for the site, or the IP address that they were testing on, it would consistently generate the right URL for the verification email. The place where this URL is changed is the &#39;href&#39; for the HTML page&#39;s &#39;Verify&#39; button, so that when they click the link, it sends them to the URL of their verification ID at <strong>&#39;/api/verify/:verificationID&#39;</strong>. You can see this API in the <strong>routes/routes.js</strong> file.</p>
+	<p>The next part of <strong>&#39;Session.makeVerification&#39;</strong> takes us to <strong>&#39;Email.create&#39;</strong> to build the HTML template for the emails we will send to users, which calls a function in <strong>models/emailmodel.js</strong>. If you look closely, this function takes an HTML email file and turns it into a Javascript string. Generating HTML emails is a little different than HTML files, as explained in <a href="https://blog.mailchimp.com/guide-to-creating-custom-mailchimp-email-templates/">this great mailchimp article </a>. I then used an HTML to Javascript string generator to return the string in the <strong>&#39;Email.create&#39;</strong> function, which is used as the HTML for the nodemailer email. I pass the req object from the <strong>&#39;Session.makeVerification&#39;</strong> function to this function, so that it can generate the URL that was used to access the page. This way, if someone was to change the domain for the site, or the IP address that they were testing on, it would consistently generate the right URL for the verification email. The place where this URL is changed is the &#39;href&#39; for the HTML page&#39;s &#39;Verify&#39; button, so that when they click the link, it sends them to the URL of their verification ID at <strong>&#39;/api/verify/:verificationID&#39;</strong>. You can see this API in the <strong>routes/routes.js</strong> file.</p>
 
 	<h4>&#39;/api/verify/:verificationID&#39; API</h4>
 	<script src="https://gist.github.com/pranavmayuram/545fc36282d17dce59d9.js"></script>
 
-	<p>This function will finally send the email verification, and then the user will be required to verify the email before they can access their account. This is done at the endpoint mentioned above, the code for which is below. The user&#39;s email verification button will link them to this page, where the API will then take the verification ID as a parameter, using the <strong>&#39;:verificationID&#39;</strong> portion of the endpoint as <strong>&#39;req.params.verificationID&#39;</strong>. The endpoint will then send this to a function called <strong>&#39;Session.verify&#39;</strong> in <strong>models/sessionmodel.js</strong>. This function takes this verificationID, and checks that it exists. It then changes the status of the according user&#39;s user document by taking the userID from the verification document it just searched for, and sets its &#39;login.emailVerified&#39; attribute to true. This then allows the user to login. Finally, it deletes the verification document completing the registration process. After the user is sent to the <strong>&#39;api/verify/:verificationID&#39;</strong> endpoint by way of their email, they are redirected to the login page, where they can now login successfully.</p>
+	<p>Via this funciton, we finally send the email verification, so the user will be required to verify the email before they can access their account. The user&#39;s email verification button will link them to the <strong>&#39;api/verify/:verificationID&#39;</strong> page, where the API will then take the verification ID, as <strong>&#39;req.params.verificationID&#39;</strong>. It will then send this to a function called <strong>&#39;Session.verify&#39;</strong> in <strong>models/sessionmodel.js</strong>. This function takes this verificationID, and checks that it exists. It then changes the status of the associated user&#39;s user document, and sets its &#39;login.emailVerified&#39; attribute to true, allowing the user to login. Finally, it deletes the verification document completing the registration process and setting up the application to let the user login.
 
 	<h4>&#39;Session.verify&#39; function</h4>
 	<script src="https://gist.github.com/pranavmayuram/22bdd9bbedb0920e88d5.js"></script>
 
-	<p>This completes our email verification blog, and I hope it was useful to you all. If you have any questions, concerns or feedback, please drop a comment below. </p>
+	<p>To summarize, we covered how Touchbase generates documents for the email verification process, generates the HTML mail to the user and then updates the user profile once verification has been completed. If you have any questions or feedback, please comment below. </p>
 
 
 </body>
