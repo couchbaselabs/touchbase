@@ -25,10 +25,10 @@ Many of these features can be further customized by any developer using the 'con
 For the contents of this README, it is assumed that you have the following items setup.
 
 1. System-specific prerequisites for node-gyp at https://github.com/nodejs/node-gyp
-2. A working Couchbase Server 4.0 instance (enough free RAM for at least one bucket)
+2. A working Couchbase Server 4.0 cluster, single node will do for exploring with enough free RAM for at least one bucket
 3. A Sendgrid Web API account
-4. Node.js & NPM (both should be newer versions)
-5. GraphicsMagick
+4. Node.js & NPM (node >= 3.3 with npm >= 3.3 should do)
+5. GraphicsMagick (`brew install graphicsmagick` on Mac OS X)
 
 If you lack any one of these things, proper installation and setup can be seen in <a href="PREREQUISITES.md">PREREQUISITES.md</a>.
 
@@ -67,7 +67,7 @@ This will now install all the components specified in the 'bower.json' file that
 All of these components will be downloaded into the 'bower_components' folder and can also be accessed through 'require' statements, or ````<script src="filepath">```` tags in HTML to access the necessary files.
 
 ### Sendgrid API Setup
-The Nodemailer Sengrid API method was used to ensure that the emails do not go to users' trash bins, and it also allows statistics about the emails to be tracked directly from the Sendgrid dashboard.
+The Nodemailer Sengrid API method was used to ensure that the emails do not go to users' spam folders, and it also allows statistics about the emails to be tracked directly from the Sendgrid dashboard.
 
 Enter your Sendgrid username and password to the 'config.json' file after you successfully create your account. This will ensure that all emails are sent safely through one's account. These changes will be reflected in the 'sessionmodel.js' file in the 'Session.makeVerification' function.
 
@@ -88,13 +88,12 @@ For this, you must be looking at your **config.json** file to create a fully cus
 ###### Bucket Customization
 To simply customize the bucket names, one can just change the names in the 'config.json' document and then adjust the names of their bucket names in the **Bucket Setup** section. 
 
-It is also possible to overlap the buckets and put all of the data in one bucket. This is an important feature, since frequent users of Couchbase Server may be flirting with the 10 bucket limit set by Couchbase, so consolidating all the data in one bucket can be necessary. If one would like to do this, it may be advisable to increase the RAM quota allowed for the bucket, so that it can accomodate all the data.
+It is also possible to overlap the buckets and put all of the data in one bucket. This is an important feature, since current releases of Couchbase support only . If one would like to do this, it may be advisable to increase the RAM quota allowed for the bucket, so that it can accomodate all the data.
 
 ###### Post Customization
 For Touchbase, handling different kinds of posts means putting them in different sections of the website. 
 For example, if one wanted to put a set of company news articles in one section, they may have a section like 'Couchbase in the News'. 
-If they also wanted to have an area for company github projects, there may be a separate section called 'Github Projects'. T
-his is how the data is stratified.
+If they also wanted to have an area for company github projects, there may be a separate section called 'Github Projects'. This is how the data is stratified.
 
 These are considered different kinds of posts as well, and this can be reflected when one looks at the 'My Posts' section in the 'My Profile' section after they make a few posts. Creating proper customization takes a few separate steps.
 
@@ -121,7 +120,7 @@ Your branding and color customization is now complete!
 
 ### Bucket Setup
 
-Once you have a working version of Couchbase Server, go to **http://IPofYourMachine:8091**. Use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on. **Make sure that you have Couchbase Server running**. On Mac, this is done simply by clicking Couchbase Server in your Launchpad. You will see the Couchbase logo in your dock near the wifi label in the top right hand side of your screen. Then complete the following steps.
+Once you have a working version of Couchbase Server, go to **http://IpOfyourMachine:8091**, such as localhost if running locally. **Make sure that you have Couchbase Server running**. On Mac, this is done simply by clicking Couchbase Server in Launchpad. You will see the Couchbase logo in your dock near the wifi label in the top right hand side of the menu bar. Then complete the following steps.
  1. Login, and then navigate to the **'Data Buckets'** tab at the top of the screen.
  2. From here you can create these 3 buckets simply and easily using the 'Create Bucket' button. These buckets will be called **users** and **users_pictures** and **users_publishments**. Changing these bucketnames is possible in the 'config.json' file. If you changed 'config.json' to use only one bucket, or two buckets, simply create those one or two buckets.
   4. Allot around 100 mb each to these buckets for initial testing, and closer to 300mb to use the **users_pictures** bucket. If you used only one or two buckets, just increase the amount of RAM for the bucket that is storing the pictures.
@@ -131,12 +130,12 @@ There are 2 ways to go set up the buckets with indexes, one being far simpler th
 
 1. **Simple :** Set up your primary indexes, as well as some basic indexes for user searches using a simple API endpoint. 
   * Complete the **Running the App** section.
-  * Redirect your webpage to **http://IPofYourMachine:3000/api/createPrimaryIndexes**. Use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on. Also if you changed your port in 'config.json', replace 3000 with that port number.
+  * Redirect your webpage to **http://IPofYourMachine:3000/api/createPrimaryIndexes** assuming you're running the application in the same place you're running Couchbase Server. Use localhost for IPofYourMachine if the Couchbase Server instance is running on the same machine that you are currently on. Also if you changed your port in 'config.json', replace 3000 with that port number.
   * You should see 'Primary Indexes Created' after some time, at which point the setup is complete.
   * It may be good to restart your node.js instance using Ctrl + C and then running the command to start the app once more.
 You should now be all prepared for the app to use your back-end appropriately.
 
-2. **Manual :** If you really, truly want to do this manually, go into your CBQ shell, and run these three commands. If you changed your bucket names in 'config.json', change them accordingly for these commands.
+2. **Manual :** If you really, truly want to do this manually, go into the [cbq shell][1], and run these three commands. If you changed your bucket names in 'config.json', change them accordingly for these commands.
   *  ````CREATE PRIMARY INDEX ON users````
   *  ````CREATE PRIMARY INDEX ON users_pictures````
   *  ````CREATE PRIMARY INDEX ON users_publishments````
@@ -162,8 +161,11 @@ The process of using 'https' protocol is rather simple using a self-signed cert,
 
 ### Conclusion
 
-Hopefully you find this application helpful, especially the use of N1QL and Couchbase Server 4.0 with Node.js. Please file any errors/questions here, and they will be answered as soon as possible!
+Hopefully you find this application helpful, especially the use of N1QL and Couchbase Server 4.0 with Node.js. Please file any errors/questions on the [github project][2], and they will be answered as soon as possible.
 
 ### License
 
 <a href="LICENSE.md">MIT ©</a>
+
+[1]: http://developer.couchbase.com/documentation/server/4.0/n1ql/n1ql-intro/cbq.html
+[2]: http://github.com/couchbaselabs/touchbase/
