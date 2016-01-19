@@ -88,7 +88,7 @@ For this, you must be looking at your **config.json** file to create a fully cus
 ###### Bucket Customization
 To simply customize the bucket names, one can just change the names in the 'config.json' document and then adjust the names of their bucket names in the **Bucket Setup** section. 
 
-It is also possible to overlap the buckets and put all of the data in one bucket. This is an important feature, since current releases of Couchbase support only . If one would like to do this, it may be advisable to increase the RAM quota allowed for the bucket, so that it can accomodate all the data.
+It is also possible to overlap the buckets and put all of the data in one bucket. This is an important feature, since current releases of Couchbase support a maximum of 10 buckets. If one would like to do this, it may be advisable to increase the RAM quota allowed for the bucket, so that it can accomodate all the data.
 
 ###### Post Customization
 For Touchbase, handling different kinds of posts means putting them in different sections of the website. 
