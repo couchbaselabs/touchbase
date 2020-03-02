@@ -14,7 +14,7 @@
     "http": "0.0.0",
     "https": "^1.0.0",
     "moment": "^2.10.6",
-    "morgan": "~1.2.2",
+    "morgan": "~1.9.1",
     "multer": "~0.1.8",
     "node-forge": "^0.6.30",
     "nodemailer": "^1.4.0",
